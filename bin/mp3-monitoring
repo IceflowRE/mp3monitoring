@@ -1,0 +1,6 @@
+#!/usr/bin/env python
+
+import mp3monitoring.Core
+
+if __name__ == '__main__':
+    mp3monitoring.Core.start()
