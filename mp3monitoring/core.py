@@ -3,8 +3,8 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
-from mp3monitoring import Tools
-from mp3monitoring import StaticData
+from mp3monitoring import tools
+from mp3monitoring import static_data
 
 
 def _init(source_dir, target_dir):
@@ -29,13 +29,13 @@ def _init(source_dir, target_dir):
         print('Something went wrong: ' + traceback.format_exc(ex.__traceback__))
         sys.exit(1)
 
-    home = StaticData.SAVE_FILE.parent
+    home = static_data.SAVE_FILE.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
-        if not StaticData.SAVE_FILE.exists():
-            with StaticData.SAVE_FILE.open('w', encoding='utf-8') as writer:
-                writer.write(StaticData.VERSION + '\n')
+        if not static_data.SAVE_FILE.exists():
+            with static_data.SAVE_FILE.open('w', encoding='utf-8') as writer:
+                writer.write(static_data.VERSION + '\n')
     except PermissionError:
         print('Cant write to config folder ' + str(home) + '. Make sure you have write permissions.')
 
@@ -49,7 +49,7 @@ def start():
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
-    parser.add_argument('-v', '--version', action='version', version=(StaticData.VERSION))
+    parser.add_argument('-v', '--version', action='version', version=(static_data.VERSION))
     parser.add_argument('-s', dest='source_dir', default='./', required=True,
                         help='source directry which will be monitored (default: %(default)s)')
     parser.add_argument('-t', dest='target_dir', default='./mp3', required=True,
@@ -67,7 +67,7 @@ def start():
 
     try:
         print('Load save file.')
-        mod_time_dict = Tools.load_config_data()
+        mod_time_dict = tools.load_config_data()
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
@@ -78,8 +78,8 @@ def start():
     else:
         last_mod_time = 0
 
-    last_mod_time = Tools.monitoring(source_dir, target_dir, last_mod_time=last_mod_time, pause_s=args.pause_s)
+    last_mod_time = tools.monitoring(source_dir, target_dir, last_mod_time=last_mod_time, pause_s=args.pause_s)
     print('Quit program.')
     mod_time_dict[str(source_dir.resolve())] = last_mod_time
     print('Save save file.')
-    Tools.save_config_data(mod_time_dict)
+    tools.save_config_data(mod_time_dict)

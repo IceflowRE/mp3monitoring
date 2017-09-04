@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 # http://bugs.python.org/issue10945
 import codecs
 
-from mp3monitoring import StaticData
+from mp3monitoring import static_data
 
 try:
     codecs.lookup('mbcs')
@@ -16,8 +16,8 @@ except LookupError:
     codecs.register(func)
 
 setup(
-    name=StaticData.NAME,
-    version=StaticData.VERSION,
+    name=static_data.NAME,
+    version=static_data.VERSION,
     description='Monitors a folder and copies mp3s to another folder.',
     author='Iceflower S',
     author_email='iceflower@gmx.de',
