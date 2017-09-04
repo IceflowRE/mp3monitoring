@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from setuptools import find_packages, setup
-
 # Work around mbcs bug in distutils.
 # http://bugs.python.org/issue10945
 import codecs
+
+from setuptools import find_packages, setup
 
 from mp3monitoring import static_data
 
@@ -19,8 +19,8 @@ setup(
     name=static_data.NAME,
     version=static_data.VERSION,
     description='Monitors a folder and copies mp3s to another folder.',
-    author='Iceflower S',
-    author_email='iceflower@gmx.de',
+    author=static_data.AUTHOR,
+    author_email=static_data.AUTHOR_EMAIL,
     license='GPLv3',
     classifiers=[
         'Programming Language :: Python :: 3.6',
@@ -38,7 +38,7 @@ setup(
         'tqdm',
     ],
     package_data={
-        'License': ['LICENSE'],
+        'License': ['LICENSE.md'],
         'ReadMe': ['README.md'],
     },
     zip_safe=True,
