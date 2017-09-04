@@ -4,10 +4,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 from mp3monitoring import Tools
-
-VERSION = '1.0.0'
-NAME = 'MP3 Monitoring'
-SAVE_FILE = Path.home().joinpath('.' + NAME.replace(' ', '_')).joinpath('last_mod_times.sav')
+from mp3monitoring import StaticData
 
 
 def _init(source_dir, target_dir):
@@ -32,13 +29,13 @@ def _init(source_dir, target_dir):
         print('Something went wrong: ' + traceback.format_exc(ex.__traceback__))
         sys.exit(1)
 
-    home = SAVE_FILE.parent
+    home = StaticData.SAVE_FILE.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
-        if not SAVE_FILE.exists():
-            with SAVE_FILE.open('w', encoding='utf-8') as writer:
-                writer.write(VERSION + '\n')
+        if not StaticData.SAVE_FILE.exists():
+            with StaticData.SAVE_FILE.open('w', encoding='utf-8') as writer:
+                writer.write(StaticData.VERSION + '\n')
     except PermissionError:
         print('Cant write to config folder ' + str(home) + '. Make sure you have write permissions.')
 
@@ -52,7 +49,7 @@ def start():
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
-    parser.add_argument('-v', '--version', action='version', version=(VERSION))
+    parser.add_argument('-v', '--version', action='version', version=(StaticData.VERSION))
     parser.add_argument('-s', dest='source_dir', default='./', required=True,
                         help='source directry which will be monitored (default: %(default)s)')
     parser.add_argument('-t', dest='target_dir', default='./mp3', required=True,

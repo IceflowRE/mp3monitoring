@@ -6,7 +6,7 @@ from pathlib import Path
 import mutagen.mp3
 from tqdm import tqdm
 
-from mp3monitoring import Core
+from mp3monitoring import StaticData
 
 
 def is_mp3(file_path: str):
@@ -78,7 +78,7 @@ def load_config_data():
     :return: modification dict, dict[file, mod_time]
     """
     save_dict = {}
-    with Core.SAVE_FILE.open('r', encoding='utf-8') as reader:
+    with StaticData.SAVE_FILE.open('r', encoding='utf-8') as reader:
         lines = reader.readlines()
         lines = [line.rstrip() for line in lines]
         it = iter(lines)
@@ -96,8 +96,8 @@ def save_config_data(mod_time_dict):
     Saves the modification times to the save file.
     :param mod_time_dict: modification times
     """
-    with Core.SAVE_FILE.open('w', encoding='utf-8') as writer:
-        writer.write(Core.VERSION + '\n')
+    with StaticData.SAVE_FILE.open('w', encoding='utf-8') as writer:
+        writer.write(StaticData.VERSION + '\n')
         for file, mod_time in mod_time_dict.items():
             writer.write(file + '\n' + str(mod_time) + '\n')
 
