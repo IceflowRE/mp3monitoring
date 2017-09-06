@@ -36,6 +36,7 @@ setup(
     install_requires=[
         'mutagen',
         'tqdm',
+        'PyQt5',
     ],
     package_data={
         'License': ['LICENSE.md'],

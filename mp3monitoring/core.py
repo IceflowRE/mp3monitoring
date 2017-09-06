@@ -3,8 +3,12 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
-from mp3monitoring import tools
-from mp3monitoring import static_data
+from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
+import static_data
+import tools
+from gui.entry_gui import MainWindow
 
 
 def _init(source_dir, target_dir):
@@ -83,3 +87,12 @@ def start():
     mod_time_dict[str(source_dir.resolve())] = last_mod_time
     print('Save save file.')
     tools.save_config_data(mod_time_dict)
+
+
+def gui():
+    app = QApplication([])
+    main_window = QMainWindow(None, Qt.Window)
+    MainWindow(main_window)  # init
+
+    main_window.show()
+    sys.exit(app.exec_())

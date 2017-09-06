@@ -6,7 +6,7 @@ from pathlib import Path
 import mutagen.mp3
 from tqdm import tqdm
 
-from mp3monitoring import static_data
+import static_data
 
 
 def is_mp3(file_path: str):
