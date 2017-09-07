@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import static_data
 import tools
-from gui.entry_gui import MainWindow
+from gui.main import MainWindow
 
 
 def _init(source_dir, target_dir):

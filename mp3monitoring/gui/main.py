@@ -1,7 +1,7 @@
 from gui.menu_items.menu_item_file import MenuItemFile
 from gui.menu_items.menu_item_help import MenuItemHelp
 from gui.menu_items.menu_item_settings import MenuItemExtras
-from gui.ui.main_window import Ui_MainWindow
+from gui.ui.main import Ui_MainWindow
 
 
 class MainWindow(Ui_MainWindow):
