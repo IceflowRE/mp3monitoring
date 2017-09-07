@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import static_data
 import tools
+from gui.about import AboutWindow
 from gui.main import MainWindow
 
 
@@ -91,8 +92,6 @@ def start():
 
 def gui():
     app = QApplication([])
-    main_window = QMainWindow(None, Qt.Window)
-    MainWindow(main_window)  # init
-
+    main_window = MainWindow()
     main_window.show()
     sys.exit(app.exec_())

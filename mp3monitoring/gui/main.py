@@ -1,17 +1,18 @@
-from gui.menu_items.menu_item_file import MenuItemFile
-from gui.menu_items.menu_item_help import MenuItemHelp
-from gui.menu_items.menu_item_settings import MenuItemExtras
+from PyQt5.QtWidgets import QMainWindow
+
+import gui.menu_items as menu
+from gui.menu_items import file, settings, help
 from gui.ui.main import Ui_MainWindow
 
 
-class MainWindow(Ui_MainWindow):
-    def __init__(self, window):
-        Ui_MainWindow.__init__(self)
-        self.setupUi(window)
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super(MainWindow, self).__init__()
+        self.setupUi(self)
 
-        self.menuItemFile = MenuItemFile(self)  # init
-        self.menuItemExtras = MenuItemExtras(self)  # init
-        self.menuItemHelp = MenuItemHelp(self)  # init
+        menu.file.set_item_actions(self)
+        menu.settings.set_item_actions(self)
+        menu.help.set_item_actions(self)
 
         #self.update_offline_profile_content()
 

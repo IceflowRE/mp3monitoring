@@ -3,26 +3,23 @@ from PyQt5.QtWidgets import QFileDialog
 from gui import dialogs
 
 
-class MenuItemFile:
-    def __init__(self, parent):
-        self.parent = parent
-        self.set_item_actions()
+def set_item_actions(parent):
+    # File -> Add...
+    parent.action_add.triggered.connect(handle_file_add)
+    # File -> Exit
+    parent.action_exit.triggered.connect(handle_file_exit)
 
-    def set_item_actions(self):
-        # File -> Add...
-        self.parent.action_add.triggered.connect(self.handle_file_add)
-        # File -> Exit
-        self.parent.action_exit.triggered.connect(self.handle_file_exit)
 
-    def handle_file_add(self):
-        """
-        Can load ONLY offline profiles at the moment.
-        :return:
-        """
-        directory = QFileDialog.getExistingDirectory(None, 'Select directory', options=QFileDialog.ShowDirsOnly)
+def handle_file_add():
+    """
+    Can load ONLY offline profiles at the moment.
+    :return:
+    """
+    directory = QFileDialog.getExistingDirectory(None, 'Select directory', options=QFileDialog.ShowDirsOnly)
 
-    def handle_file_exit(self):
-        dialogs.information_dialog('Not implemented yet.', 'Exit is not implemented yet.')
+
+def handle_file_exit():
+    dialogs.information_dialog('Not implemented yet.', 'Exit is not implemented yet.')
 
 """
 reply = Dialogs.question_dialog('File changed...', 'Do you want to save the file?')
