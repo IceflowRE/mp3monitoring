@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import mutagen.mp3
 
 import static_data
@@ -43,7 +45,8 @@ def load_config_data():
         next(it)  # skip version value, not used until now
         for line in it:
             try:
-                save_dict[line] = int(float(next(it)))
+                # resolve, due to fixing possibly manually changed values
+                save_dict[str(Path(line).resolve())] = float(next(it))
             except StopIteration:
                 print('Save file is corrupted. Could not load everything.')
     return save_dict
