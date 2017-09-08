@@ -3,13 +3,13 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
+import dynamic
 from PyQt5.QtWidgets import QApplication
 
-import static_data
 import tools
+from data import static
 from gui.main import MainWindow
 from monitor import Monitor
-
 
 job_dict = {}
 time_dict = {}
@@ -20,13 +20,13 @@ def _init():
     Initialization save directory.
     """
     global time_dict
-    home = static_data.SAVE_FILE.parent
+    home = dynamic.SAVE_FILE.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
-        if not static_data.SAVE_FILE.exists():
-            with static_data.SAVE_FILE.open('w', encoding='utf-8') as writer:
-                writer.write(static_data.VERSION + '\n')
+        if not dynamic.SAVE_FILE.exists():
+            with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
+                writer.write(static.VERSION + '\n')
     except PermissionError:
         print('Cant write to config folder ' + str(home) + '. Make sure you have write permissions.')
 
@@ -104,7 +104,7 @@ def start():
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
-    parser.add_argument('-v', '--version', action='version', version=static_data.VERSION)
+    parser.add_argument('-v', '--version', action='version', version=static.VERSION)
     parser.add_argument('-d', '--directory', dest='dir_list', nargs=2, action='append', required=True,
                         help='source and target directory which will be monitored (default: %(default)s)')
     parser.add_argument('--no_save', dest='no_save', default=False, action='store_true',

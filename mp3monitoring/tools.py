@@ -1,8 +1,9 @@
 from pathlib import Path
 
+import dynamic
 import mutagen.mp3
 
-import static_data
+from data import static
 
 
 def is_mp3(file_path: str):
@@ -38,7 +39,7 @@ def load_config_data():
     :return: modification dict, dict[file, mod_time]
     """
     save_dict = {}
-    with static_data.SAVE_FILE.open('r', encoding='utf-8') as reader:
+    with dynamic.SAVE_FILE.open('r', encoding='utf-8') as reader:
         lines = reader.readlines()
         lines = [line.rstrip() for line in lines]
         it = iter(lines)
@@ -57,7 +58,7 @@ def save_config_data(mod_time_dict):
     Saves the modification times to the save file.
     :param mod_time_dict: modification times
     """
-    with static_data.SAVE_FILE.open('w', encoding='utf-8') as writer:
-        writer.write(static_data.VERSION + '\n')
+    with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
+        writer.write(static.VERSION + '\n')
         for file, mod_time in mod_time_dict.items():
             writer.write(file + '\n' + str(mod_time) + '\n')
