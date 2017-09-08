@@ -1,6 +1,6 @@
 from pathlib import Path
 
-import dynamic
+from data import dynamic
 import mutagen.mp3
 
 from data import static

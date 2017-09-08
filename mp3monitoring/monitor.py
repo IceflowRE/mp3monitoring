@@ -44,9 +44,13 @@ class Monitor(Thread):
                         self.copy_files_as_mp3(mp3_files)
                 self.last_mod_time = new_mod_time
                 self.status = 'Sleeping'
-                time.sleep(self.pause_s)
+                for i in range(self.pause_s):
+                    time.sleep(1)
+                    if not self.active:
+                        break
         except KeyboardInterrupt:
             pass
+        self.status = 'Stopped'
         return self.last_mod_time
 
     def get_all_mp3(self, files):

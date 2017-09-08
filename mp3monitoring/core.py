@@ -3,8 +3,7 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
-import dynamic
-from PyQt5.QtWidgets import QApplication
+from data import dynamic
 
 import tools
 from data import static
@@ -38,6 +37,52 @@ def _init():
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
         sys.exit(1)
+
+
+def start():
+    """
+    Entry point into program.
+    """
+    global time_dict, job_dict
+    if sys.version_info[0] < 3 or sys.version_info[1] < 6:
+        sys.exit('Only Python 3.6 or greater is supported. You are using:' + sys.version)
+
+    parser = ArgumentParser(prog='mp3-monitoring',
+                            description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
+    parser.add_argument('-v', '--version', action='version', version=static.VERSION)
+    parser.add_argument('-d', '--directory', dest='dir_list', nargs=2, action='append', required=True,
+                        help='source and target directory which will be monitored (default: %(default)s)')
+    parser.add_argument('--no_save', dest='no_save', default=False, action='store_true',
+                        help='ignore the last modification time from save file (default: %(default)s)')
+    parser.add_argument('--pause', dest='pause_s', default=10, type=int,
+                        help='pause after one check in seconds (default: %(default)s)')
+    parser.add_argument('--gui', dest='gui', default=False, action='store_true',
+                        help='open the gui (default: %(default)s)')
+
+    # init
+    args = parser.parse_args()
+    _init()
+
+    # configure threads
+    create_jobs(job_dict, time_dict, args.dir_list, args.no_save, args.pause_s)  # job_dict will be modified
+    # start threads
+    for thread in job_dict.values():
+        thread.start()
+
+    if args.gui:
+        gui()
+
+    for thread in job_dict.values():
+        thread.join()
+    shutdown()
+
+
+def import_pyqt():
+    try:
+        import PyQt5
+        from PyQt5.QtWidgets import QApplication
+    except ImportError:
+        pass  # module doesn't exist, deal with it.
 
 
 def init_monitor_dir(source_dir, target_dir):
@@ -94,54 +139,25 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
         jobs_dict[str(source_dir.resolve())] = cur_monitor
 
 
-def start():
-    """
-    Entry point into program.
-    """
-    global time_dict, job_dict
-    if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-        sys.exit('Only Python 3.6 or greater is supported. You are using:' + sys.version)
-
-    parser = ArgumentParser(prog='mp3-monitoring',
-                            description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
-    parser.add_argument('-v', '--version', action='version', version=static.VERSION)
-    parser.add_argument('-d', '--directory', dest='dir_list', nargs=2, action='append', required=True,
-                        help='source and target directory which will be monitored (default: %(default)s)')
-    parser.add_argument('--no_save', dest='no_save', default=False, action='store_true',
-                        help='ignore the last modification time from save file (default: %(default)s)')
-    parser.add_argument('--pause', dest='pause_s', default=10, type=int,
-                        help='pause after one check in seconds (default: %(default)s)')
-    parser.add_argument('--gui', dest='gui', default=False, action='store_true',
-                        help='open the gui (default: %(default)s)')
-
-    # init
-    args = parser.parse_args()
-    _init()
-
-    # configure threads
-    create_jobs(job_dict, time_dict, args.dir_list, args.no_save, args.pause_s)  # job_dict will be modified
-    # start threads
-    for thread in job_dict.values():
-        thread.start()
-
-    if args.gui:
-        gui()
-    else:
-        for thread in job_dict.values():
-            thread.join()
-
-    shutdown()
-
-
 def gui():
+    try:
+        from PyQt5.QtWidgets import QApplication
+    except ImportError:
+        print('PyQt5 not installed, you can not use the gui.')
+        sys.exit(1)
     app = QApplication([])
     main_window = MainWindow()
     main_window.show()
-    return app.exec_()
+    sys.exit(app.exec_())
 
 
 def shutdown():
     global time_dict, job_dict
+    for job in job_dict.values():
+        job.active = False
+    # wait for ending
+    for thread in job_dict.values():
+        thread.join()
     print('Quit program.')
     # update times
     time_dict = {source_dir: thread.last_mod_time for source_dir, thread in job_dict.items()}

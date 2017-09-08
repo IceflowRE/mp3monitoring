@@ -1,13 +1,14 @@
 from PyQt5.QtWidgets import QFileDialog
 
-from gui import dialogs
+import gui.dialogs
+from gui.about import AboutWindow
 
 
 def set_item_actions(parent):
     # File -> Add...
-    parent.action_add.triggered.connect(handle_file_add)
+    parent.actionAdd.triggered.connect(handle_file_add)
     # File -> Exit
-    parent.action_exit.triggered.connect(handle_file_exit)
+    parent.actionExit.triggered.connect(handle_file_exit)
 
 
 def handle_file_add():
@@ -19,7 +20,7 @@ def handle_file_add():
 
 
 def handle_file_exit():
-    dialogs.information_dialog('Not implemented yet.', 'Exit is not implemented yet.')
+    gui.dialogs.information_dialog('Not implemented yet.', 'Exit is not implemented yet.')
 
 """
 reply = Dialogs.question_dialog('File changed...', 'Do you want to save the file?')
