@@ -3,13 +3,12 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
 
 import static_data
 import tools
-from gui.about import AboutWindow
 from gui.main import MainWindow
+from monitor import Monitor
 
 
 def _init(source_dir, target_dir):
@@ -83,9 +82,11 @@ def start():
     else:
         last_mod_time = 0
 
-    last_mod_time = tools.monitoring(source_dir, target_dir, last_mod_time=last_mod_time, pause_s=args.pause_s)
+    cur_monitor = Monitor(source_dir, target_dir, last_mod_time=last_mod_time, pause_s=args.pause_s)
+    cur_monitor.start()
+    cur_monitor.join()
     print('Quit program.')
-    mod_time_dict[str(source_dir.resolve())] = last_mod_time
+    mod_time_dict[str(source_dir.resolve())] = cur_monitor.last_mod_time
     print('Save save file.')
     tools.save_config_data(mod_time_dict)
 

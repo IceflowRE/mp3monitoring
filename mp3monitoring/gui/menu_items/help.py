@@ -24,4 +24,3 @@ def handle_help_check_updates():
 def handle_help_about(parent):
     ab = AboutWindow(parent)
     ab.show()
-    #dialogs.information_dialog('Not implemented yet.', 'About is not implemented yet.')
