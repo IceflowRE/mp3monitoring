@@ -2,12 +2,10 @@ import sys
 import traceback
 from argparse import ArgumentParser
 from pathlib import Path
-
-from data import dynamic
+from time import sleep
 
 import tools
-from data import static
-from gui.main import MainWindow
+from data import dynamic, static
 from monitor import Monitor
 
 job_dict = {}
@@ -55,7 +53,7 @@ def start():
     parser.add_argument('--no_save', dest='no_save', default=False, action='store_true',
                         help='ignore the last modification time from save file (default: %(default)s)')
     parser.add_argument('--pause', dest='pause_s', default=10, type=int,
-                        help='pause after one check in seconds (default: %(default)s)')
+                        help='pause between the checks in seconds (default: %(default)s)')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
                         help='open the gui (default: %(default)s)')
 
@@ -142,24 +140,34 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
 def gui():
     try:
         from PyQt5.QtWidgets import QApplication
+        from gui.main import MainWindow
     except ImportError:
         print('PyQt5 not installed, you can not use the gui.')
         sys.exit(1)
     app = QApplication([])
-    main_window = MainWindow()
+    main_window = MainWindow(app)
     main_window.show()
     sys.exit(app.exec_())
 
 
-def shutdown():
+def shutdown(signal=None):
+    """
+
+    :param signal: signal of the gui callback
+    :return:
+    """
     global time_dict, job_dict
     for job in job_dict.values():
         job.active = False
     # wait for ending
     for thread in job_dict.values():
         thread.join()
-    print('Quit program.')
+    if signal is not None:
+        signal.emit("Waiting to stop.")
     # update times
+    if signal is not None:
+        signal.emit("Update times.")
     time_dict = {source_dir: thread.last_mod_time for source_dir, thread in job_dict.items()}
-    print('Save save file.')
+    if signal is not None:
+        signal.emit("Save save file.")
     tools.save_config_data(time_dict)
