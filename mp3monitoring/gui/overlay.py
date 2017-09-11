@@ -8,13 +8,10 @@ class RotatingOverlay(QtWidgets.QWidget):
 
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
-        self.fill_color =  QtGui.QColor(30, 30, 30, 120)
-        self.text_color =  QtGui.QColor(255, 255, 255, 255)
+        self.fill_color = QtGui.QColor(30, 30, 30, 120)
+        self.text_color = QtGui.QColor(255, 255, 255, 255)
 
     def paintEvent(self, event):
-        # This method is, in practice, drawing the contents of
-        # your window.
-
         # get current window size
         size = self.size()
         qp = QtGui.QPainter()

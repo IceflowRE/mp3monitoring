@@ -157,17 +157,19 @@ def shutdown(signal=None):
     :return:
     """
     global time_dict, job_dict
+    if signal is not None:
+        signal.emit("Stopping monitoring threads.")
     for job in job_dict.values():
         job.active = False
     # wait for ending
     for thread in job_dict.values():
         thread.join()
-    if signal is not None:
-        signal.emit("Waiting to stop.")
+
     # update times
     if signal is not None:
         signal.emit("Update times.")
     time_dict = {source_dir: thread.last_mod_time for source_dir, thread in job_dict.items()}
+
     if signal is not None:
         signal.emit("Save save file.")
     tools.save_config_data(time_dict)
