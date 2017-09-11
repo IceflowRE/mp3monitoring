@@ -8,7 +8,7 @@ def set_item_actions(parent):
     # File -> Add...
     parent.actionAdd.triggered.connect(handle_file_add)
     # File -> Exit
-    parent.actionExit.triggered.connect(handle_file_exit)
+    parent.actionExit.triggered.connect(parent.close)
 
 
 def handle_file_add():
@@ -18,9 +18,6 @@ def handle_file_add():
     """
     directory = QFileDialog.getExistingDirectory(None, 'Select directory', options=QFileDialog.ShowDirsOnly)
 
-
-def handle_file_exit():
-    gui.dialogs.information_dialog('Not implemented yet.', 'Exit is not implemented yet.')
 
 """
 reply = Dialogs.question_dialog('File changed...', 'Do you want to save the file?')

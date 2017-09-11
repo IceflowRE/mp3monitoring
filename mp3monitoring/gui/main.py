@@ -1,34 +1,44 @@
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QMainWindow
 
-import core
 import gui.menu_items as menu
 from gui.menu_items import file, help, settings
+from gui.overlay import RotatingOverlay
+from gui.shutdown_worker import ShutdownWorker
 from gui.ui.main import Ui_MainWindow
-from gui.waiting_indicator import WaitingOverlay
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
-    def __init__(self):
+    def __init__(self, app):
         super(MainWindow, self).__init__()
         self.setupUi(self)
+
+        self.app = app
 
         menu.file.set_item_actions(self)
         menu.settings.set_item_actions(self)
         menu.help.set_item_actions(self)
 
+        # init shutdown thread
+        self.shutdown_worker = ShutdownWorker()
+        self.shutdown_thread = QThread()
+        self.shutdown_worker.status.connect(lambda msg: self.change_status_bar(msg))
+        self.shutdown_worker.finished.connect(self.app.quit)
+        self.shutdown_worker.moveToThread(self.shutdown_thread)
+        self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
+
         #self.update_offline_profile_content()
 
-    def closeEvent(self, event):  # TODO
-        self.statusBar.showMessage('Shutting down...', 5000)
+    def change_status_bar(self, msg, time=5000):
+        self.statusBar.showMessage(msg, time)
 
-        overlay = WaitingOverlay(parent=self.centralWidget)
-        overlay.resize(self.size())
+    def closeEvent(self, event, close_immediately=False):  # TODO
+        overlay = RotatingOverlay(parent=self)
+        self.gridLayout.addWidget(overlay, 0, 0, 1, 1)
         overlay.show()
-        core.shutdown()
 
-        # TODO splash screen shutdown
-        #event.accept()
+        self.shutdown_thread.start()
+
         event.ignore()
 
     def update_offline_profile_content(self):
