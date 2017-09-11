@@ -1,5 +1,8 @@
+import math
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QBrush
+from PyQt5.QtWidgets import QGridLayout, QLabel
 
 
 class RotatingOverlay(QtWidgets.QWidget):
@@ -11,23 +14,36 @@ class RotatingOverlay(QtWidgets.QWidget):
         self.fill_color = QtGui.QColor(30, 30, 30, 120)
         self.text_color = QtGui.QColor(255, 255, 255, 255)
 
+        layout = QGridLayout(self)
+        msg = QLabel("Shutting down...")
+        msg.setStyleSheet('color: white')
+        font = QtGui.QFont("Noto Sans UI", 16, QtGui.QFont.Bold)
+        msg.setFont(font)
+        layout.addWidget(msg, 0, 1)
+        layout.setAlignment(QtCore.Qt.AlignHCenter)
+
     def paintEvent(self, event):
-        # get current window size
         size = self.size()
-        qp = QtGui.QPainter()
-        qp.begin(self)
-        qp.setRenderHint(QtGui.QPainter.Antialiasing, True)
-        qp.setPen(self.fill_color)
-        qp.setBrush(self.fill_color)
-        qp.drawRect(0, 0, size.width(), size.height())
+        painter = QtGui.QPainter()
+        painter.begin(self)
+        painter.setRenderHint(QtGui.QPainter.Antialiasing, True)
 
-        font = QtGui.QFont()
-        font.setPixelSize(18)
-        font.setBold(True)
-        qp.setFont(font)
-        qp.setPen(self.text_color)
-        ow = int(size.width() / 2)
-        oh = int(size.height() / 2)
-        qp.drawText(ow, oh, "Yep, I'm a pop up.")
+        # draw background
+        painter.setPen(QtGui.QColor(255, 255, 255, 255))
+        painter.setBrush(self.fill_color)
+        painter.drawRect(0, 0, size.width(), size.height())
 
-        qp.end()
+        """
+        # draw waiting indicator
+        for i in range(6):
+            if (self.counter / 5) % 6 == i:
+                painter.setBrush(QBrush(QtGui.QColor(127 + (self.counter % 5)*32, 127, 127)))
+            else:
+                painter.setBrush(QBrush(QtGui.QColor(127, 127, 127)))
+            painter.drawEllipse(
+                self.width()/2 + 30 * math.cos(2 * math.pi * i / 6.0) - 10,
+                self.height()/2 + 30 * math.sin(2 * math.pi * i / 6.0) - 10,
+                20, 20)
+        """
+
+        painter.end()
