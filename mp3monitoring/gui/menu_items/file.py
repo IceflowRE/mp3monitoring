@@ -1,8 +1,5 @@
 from PyQt5.QtWidgets import QFileDialog
 
-import gui.dialogs
-from gui.about import AboutWindow
-
 
 def set_item_actions(parent):
     # File -> Add...

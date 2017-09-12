@@ -11,7 +11,7 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         super(AboutWindow, self).__init__(parent)
         self.setupUi(self)
         self.setWindowModality(Qt.ApplicationModal)
-        #self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
+        self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
         self.setFixedSize(self.size())
         self.closeButton.clicked.connect(self.close)
 

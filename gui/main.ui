@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,6 +12,11 @@
     <width>500</width>
     <height>300</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Noto Sans UI</family>
+   </font>
   </property>
   <property name="windowTitle">
    <string notr="true">MP3 Monitoring</string>
@@ -105,7 +113,7 @@
      <x>0</x>
      <y>0</y>
      <width>500</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

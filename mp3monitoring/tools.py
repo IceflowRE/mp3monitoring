@@ -1,9 +1,8 @@
 from pathlib import Path
 
-from data import dynamic
 import mutagen.mp3
 
-from data import static
+from data import dynamic, static
 
 
 def is_mp3(file_path: str):

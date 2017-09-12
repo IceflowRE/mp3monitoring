@@ -2,7 +2,6 @@ import sys
 import traceback
 from argparse import ArgumentParser
 from pathlib import Path
-from time import sleep
 
 import tools
 from data import dynamic, static
@@ -158,7 +157,7 @@ def shutdown(signal=None):
     """
     global time_dict, job_dict
     if signal is not None:
-        signal.emit("Stopping monitoring threads.")
+        signal.emit("Stopping monitoring threads")
     for job in job_dict.values():
         job.active = False
     # wait for ending
@@ -167,9 +166,9 @@ def shutdown(signal=None):
 
     # update times
     if signal is not None:
-        signal.emit("Update times.")
+        signal.emit("Update times")
     time_dict = {source_dir: thread.last_mod_time for source_dir, thread in job_dict.items()}
 
     if signal is not None:
-        signal.emit("Save save file.")
+        signal.emit("Save save file")
     tools.save_config_data(time_dict)
