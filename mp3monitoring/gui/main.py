@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMainWindow
 
 import gui.menu_items as menu
 from gui.menu_items import file, help, settings
-from gui.overlay import RotatingOverlay
+from gui.shutdown_overlay import ShutdownOverlay
 from gui.shutdown_worker import ShutdownWorker
 from gui.ui.main import Ui_MainWindow
 
@@ -19,6 +19,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         menu.settings.set_item_actions(self)
         menu.help.set_item_actions(self)
 
+        # shutdown overlay
+        self.overlay = ShutdownOverlay(self)
+        self.gridLayout.addWidget(self.overlay, 0, 0, 1, 1)
+        self.overlay.hide()
+
         # init shutdown thread
         self.shutdown_worker = ShutdownWorker()
         self.shutdown_thread = QThread()
@@ -27,15 +32,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_worker.moveToThread(self.shutdown_thread)
         self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
 
-        #self.update_offline_profile_content()
+        # self.update_offline_profile_content()
 
     def change_status_bar(self, msg, time=5000):
         self.statusBar.showMessage(msg, time)
 
     def closeEvent(self, event, close_immediately=False):  # TODO
-        overlay = RotatingOverlay(parent=self)
-        self.gridLayout.addWidget(overlay, 0, 0, 1, 1)
-        overlay.show()
+        self.menuBar.setEnabled(False)
+        self.overlay.show()
 
         self.shutdown_thread.start()
 

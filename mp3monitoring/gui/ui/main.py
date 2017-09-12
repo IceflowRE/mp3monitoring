@@ -12,6 +12,9 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(500, 300)
+        font = QtGui.QFont()
+        font.setFamily("Noto Sans UI")
+        MainWindow.setFont(font)
         MainWindow.setWindowTitle("MP3 Monitoring")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("../data/icon_export.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -49,7 +52,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.profileTree, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 500, 21))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 500, 23))
         self.menuBar.setObjectName("menuBar")
         self.menuFile = QtWidgets.QMenu(self.menuBar)
         self.menuFile.setObjectName("menuFile")
