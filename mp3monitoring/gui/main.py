@@ -2,6 +2,7 @@ from PyQt5.QtCore import QThread, Qt
 from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QAbstractItemView
 
 import gui.menu_items as menu
+from gui.data.data_table_model import DataTableModel
 from gui.menu_items import file, help, settings
 from gui.shutdown_overlay import ShutdownOverlay
 from gui.shutdown_worker import ShutdownWorker
@@ -33,6 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
 
         #self.dataTree.setFocusPolicy(Qt.NoFocus)
+        self.table_model = DataTableModel(['active', 'source', 'target', 'status'])
         self.update_data_table()
 
     def change_status_bar(self, msg, time=5000):
@@ -45,6 +47,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_thread.start()
 
         event.ignore()
+
+    def create_data_table(self):
+        self.dataTableView.setModel(self.table_model)
 
     def update_data_table(self):
         """

@@ -26,6 +26,13 @@ class Monitor(Thread):
         self.pbar = ""
         self.active = True
 
+    def __str__(self):
+        return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.active,
+                                                                              source=str(self.source_dir),
+                                                                              target=str(self.target_dir),
+                                                                              pause_s=str(self.pause_s),
+                                                                              status=self.status)
+
     def run(self):
         """
         Scans a source directory every pause_s seconds, for new mp3 and copies them to the target directory.

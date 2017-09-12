@@ -24,7 +24,7 @@ def _init():
             with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
                 writer.write(static.VERSION + '\n')
     except PermissionError:
-        print('Cant write to config folder ' + str(home) + '. Make sure you have write permissions.')
+        print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
 
     # load save file
     try:
@@ -42,7 +42,7 @@ def start():
     """
     global time_dict, job_dict
     if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-        sys.exit('Only Python 3.6 or greater is supported. You are using:' + sys.version)
+        sys.exit('Only Python 3.6 or greater is supported. You are using: {version}'.format(version=sys.version))
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
@@ -65,6 +65,8 @@ def start():
     # start threads
     for thread in job_dict.values():
         thread.start()
+
+    print(list(job_dict.values())[0])
 
     if args.gui:
         gui()
@@ -124,7 +126,7 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
                 target_dir=str(target_dir)))
             break
         except Exception as ex:
-            print('Something went wrong: ' + traceback.format_exc(ex.__traceback__))
+            print('Something went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
             break
 
         if no_save:
