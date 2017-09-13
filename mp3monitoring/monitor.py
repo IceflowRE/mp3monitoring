@@ -10,7 +10,7 @@ from tools import get_all_files_after_time, is_mp3
 
 
 class Monitor(Thread):
-    def __init__(self, source_dir: Path, target_dir: Path, pause_s=10, last_mod_time=0):
+    def __init__(self, source_dir: Path, target_dir: Path, active, pause_s=10, last_mod_time=0):
         """
         :param source_dir: source directory
         :param target_dir: target directory
@@ -22,9 +22,13 @@ class Monitor(Thread):
         self.source_dir = source_dir
         self.target_dir = target_dir
         self.pause_s = pause_s
+        if pause_s % 10 == 0:
+            self.sleep_time = 10
+        else:
+            self.sleep_time = 1
         self.last_mod_time = last_mod_time
         self.pbar = ""
-        self.active = True
+        self.active = active
 
     def __str__(self):
         return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.active,
@@ -52,7 +56,7 @@ class Monitor(Thread):
                 self.last_mod_time = new_mod_time
                 self.status = 'Sleeping'
                 for i in range(self.pause_s):
-                    time.sleep(1)
+                    time.sleep(self.sleep_time)
                     if not self.active:
                         break
         except KeyboardInterrupt:

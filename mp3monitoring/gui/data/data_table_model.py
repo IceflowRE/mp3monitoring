@@ -6,7 +6,7 @@ import core
 class DataTableModel(QAbstractTableModel):
     def __init__(self, header_data, parent=None):
         super(DataTableModel, self).__init__(parent)
-        self.header_data = header_data  # active, source, target, status
+        self.header_data = header_data
 
     def rowCount(self, parent=None, *args, **kwargs):
         return len(core.job_dict)
@@ -14,30 +14,50 @@ class DataTableModel(QAbstractTableModel):
     def columnCount(self, parent=None, *args, **kwargs):
         return len(self.header_data)
 
+    def headerData(self, col, orientation, role=None):
+        """
+        Header data is bold and centered.
+        :param col:
+        :param orientation:
+        :param role:
+        :return:
+        """
+        if orientation == Qt.Horizontal:
+            if role == Qt.DisplayRole:
+                return QVariant(self.header_data[col])
+            elif role == Qt.TextAlignmentRole:
+                return QVariant(Qt.AlignCenter)
+            elif role == Qt.FontRole:
+                font = self.parent().font()
+                font.setBold(True)
+                font.setPointSize(self.parent().font().pointSize() + 1)
+                return QVariant(font)
+        return QVariant()
+
     def data(self, index, role=None):
         if not index.isValid():
             return QVariant()
-        elif role != Qt.DisplayRole:
-            return QVariant()
 
         job = list(core.job_dict.values())[index.row()]
-        if index.row() == 0:
-            item = QVariant(job.active)
-        elif index.row() == 1:
-            item = QVariant(job.source)
-        elif index.row() == 2:
-            item = QVariant(job.target)
-        elif index.row() == 3:
-            item = QVariant(job.status)
-        else:
-            item = QVariant('???')
+        if role == Qt.TextAlignmentRole:
+            return QVariant(Qt.AlignCenter)
 
-        return item
+        if role == Qt.DisplayRole:
+            if index.column() == 0:
+                return QVariant(job.active)
+            if index.column() == 1:
+                return QVariant(str(job.source_dir))
+            elif index.column() == 2:
+                return QVariant(str(job.target_dir))
+            elif index.column() == 3:
+                return QVariant(job.status)
+            elif index.column() == 4:
+                return QVariant(job.pause_s)
 
-    def setData(self, index, Any, role=None):
-        pass  # TODO
-
-    def headerData(self, col, orientation, role=None):
-        if orientation == Qt.Horizontal and role == Qt.DisplayRole:
-            return QVariant(self.header_data[col])
         return QVariant()
+
+    def setData(self, index, any, role=None):
+        pass
+
+    def sort(self, p_int, order=None):
+        pass

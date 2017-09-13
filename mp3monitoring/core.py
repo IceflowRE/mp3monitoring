@@ -49,9 +49,9 @@ def start():
     parser.add_argument('-v', '--version', action='version', version=static.VERSION)
     parser.add_argument('-d', '--directory', dest='dir_list', nargs=2, action='append', required=True,
                         help='source and target directory which will be monitored (default: %(default)s)')
-    parser.add_argument('--no_save', dest='no_save', default=False, action='store_true',
+    parser.add_argument('--ignore_save', dest='no_save', default=False, action='store_true',
                         help='ignore the last modification time from save file (default: %(default)s)')
-    parser.add_argument('--pause', dest='pause_s', default=10, type=int,
+    parser.add_argument('-p', '--pause', dest='pause_s', default=10, type=int,
                         help='pause between the checks in seconds (default: %(default)s)')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
                         help='open the gui (default: %(default)s)')
@@ -64,7 +64,8 @@ def start():
     create_jobs(job_dict, time_dict, args.dir_list, args.no_save, args.pause_s)  # job_dict will be modified
     # start threads
     for thread in job_dict.values():
-        thread.start()
+        if thread.active:
+            thread.start()
 
     print(list(job_dict.values())[0])
 
@@ -134,7 +135,7 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
         else:
             last_mod_time = times_dict.get(str(source_dir.resolve()), 0)
 
-        cur_monitor = Monitor(source_dir, target_dir, last_mod_time=last_mod_time, pause_s=pause_s)
+        cur_monitor = Monitor(source_dir, target_dir, True, last_mod_time=last_mod_time, pause_s=pause_s)
         jobs_dict[str(source_dir.resolve())] = cur_monitor
 
 

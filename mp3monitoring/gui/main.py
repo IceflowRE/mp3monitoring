@@ -1,5 +1,5 @@
 from PyQt5.QtCore import QThread, Qt
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QAbstractItemView
+from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QAbstractItemView, QTableView, QHeaderView
 
 import gui.menu_items as menu
 from gui.data.data_table_model import DataTableModel
@@ -33,9 +33,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_worker.moveToThread(self.shutdown_thread)
         self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
 
-        #self.dataTree.setFocusPolicy(Qt.NoFocus)
-        self.table_model = DataTableModel(['active', 'source', 'target', 'status'])
-        self.update_data_table()
+        self.create_data_table()
+        #self.update_data_table()
 
     def change_status_bar(self, msg, time=5000):
         self.statusBar.showMessage(msg, time)
@@ -49,11 +48,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         event.ignore()
 
     def create_data_table(self):
-        self.dataTableView.setModel(self.table_model)
+        header = [' active ', ' source ', ' target ', ' status ', ' pause (s) ']
+        table_model = DataTableModel(header, self)
+        self.dataTableView.setModel(table_model)
+        self.dataTableView.setSortingEnabled(False)
+
+        h_header = self.dataTableView.horizontalHeader()
+        #h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
+        h_header.setSectionResizeMode(1, QHeaderView.Stretch)  # source dir
+        h_header.setSectionResizeMode(2, QHeaderView.Stretch)  # target dir
+        self.dataTableView.resizeColumnsToContents()
 
     def update_data_table(self):
         """
         Updates the profile view content.
         :return:
         """
-        pass
+        self.dataTableView.update()
+        self.dataTableView.resizeColumnsToContents()

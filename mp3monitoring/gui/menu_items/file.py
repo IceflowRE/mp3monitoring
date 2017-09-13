@@ -13,25 +13,5 @@ def handle_file_add():
     Can load ONLY offline profiles at the moment.
     :return:
     """
-    directory = QFileDialog.getExistingDirectory(None, 'Select directory', options=QFileDialog.ShowDirsOnly)
-
-
-"""
-reply = Dialogs.question_dialog('File changed...', 'Do you want to save the file?')
-
-if reply == QMessageBox.Yes:
-    # DataContainer.save_offline_profiles()
-    Dialogs.information_dialog('Not implemented yet.', 'Saving files is not implemented yet.')
-elif reply == QMessageBox.No:
-    pass
-elif reply == QMessageBox.Cancel:
-    return  # nothing to do
-else:
-    print('Unexpected input: ' + str(reply))
-    return
-if DataCont.load_offline_profiles_from_file(filename):
-    self.parent.update_offline_profile_content()
-    self.parent.statusBar.showMessage('Loaded: ' + filename, 5000)
-else:
-    self.parent.statusBar.showMessage('Loading failed: ' + filename, 5000)
-"""
+    source_dir = QFileDialog.getExistingDirectory(None, 'Select a source directory', options=QFileDialog.ShowDirsOnly)
+    target_dir = QFileDialog.getExistingDirectory(None, 'Select a target directory', options=QFileDialog.ShowDirsOnly)

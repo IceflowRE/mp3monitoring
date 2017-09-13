@@ -65,6 +65,6 @@ class Ui_ShutdownOverlay(object):
     def retranslateUi(self, ShutdownOverlay):
         _translate = QtCore.QCoreApplication.translate
         ShutdownOverlay.setWindowTitle(_translate("ShutdownOverlay", "Form"))
-        self.message.setText(_translate("ShutdownOverlay", "Shutting down..."))
+        self.message.setText(_translate("ShutdownOverlay", "Exiting..."))
 
 from gui.rotating_indicator import RotatingIndicator
