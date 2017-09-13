@@ -1,4 +1,5 @@
 from PyQt5.QtCore import QAbstractTableModel, QVariant, Qt
+from PyQt5.QtGui import QColor
 
 import core
 
@@ -13,6 +14,14 @@ class DataTableModel(QAbstractTableModel):
 
     def columnCount(self, parent=None, *args, **kwargs):
         return len(self.header_data)
+
+    def flags(self, index):
+        if not index.isValid():
+            return None
+        if index.column() == 0:  # active role checkable
+            return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEnabled
+        else:
+            return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
     def headerData(self, col, orientation, role=None):
         """
@@ -41,11 +50,13 @@ class DataTableModel(QAbstractTableModel):
         job = list(core.job_dict.values())[index.row()]
         if role == Qt.TextAlignmentRole:
             return QVariant(Qt.AlignCenter)
-
-        if role == Qt.DisplayRole:
+        elif role == Qt.TextColorRole:
+            if index.column() > 0 and not job.active:
+                return QVariant(QColor(135, 135, 135))
+        elif role == Qt.DisplayRole:
             if index.column() == 0:
                 return QVariant(job.active)
-            if index.column() == 1:
+            elif index.column() == 1:
                 return QVariant(str(job.source_dir))
             elif index.column() == 2:
                 return QVariant(str(job.target_dir))
