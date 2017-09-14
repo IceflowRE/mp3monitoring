@@ -10,7 +10,7 @@ from tools import get_all_files_after_time, is_mp3
 
 
 class Monitor:
-    def __init__(self, source_dir: Path, target_dir: Path, active, pause_s=10, last_mod_time=0):
+    def __init__(self, source_dir: Path, target_dir: Path, start, pause_s=10, last_mod_time=0):
         """
         :param source_dir: source directory
         :param target_dir: target directory
@@ -18,6 +18,7 @@ class Monitor:
         :param last_mod_time: last modification time
         """
         super().__init__()
+        self.stopping = not start
         self.status = 'Initialization'
         self.source_dir = source_dir
         self.target_dir = target_dir
@@ -28,19 +29,22 @@ class Monitor:
             self.sleep_time = 1
         self.last_mod_time = last_mod_time
         self.pbar = ""
-        self.active = active
         self.thread = Thread(target=self.run)
 
     def __str__(self):
-        return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.active,
+        return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.thread.isAlive(),
                                                                                source=str(self.source_dir),
                                                                                target=str(self.target_dir),
                                                                                pause_s=str(self.pause_s),
                                                                                status=self.status)
 
     def start(self):
+        self.stopping = False
         self.thread = Thread(target=self.run)
         self.thread.start()
+
+    def stop(self):
+        self.stopping = True
 
     def run(self):
         """
@@ -49,25 +53,26 @@ class Monitor:
         :return: last_mod_time
         """
         try:
-            while self.active:
+            while not self.stopping:
                 self.status = 'Check for modifications'
                 new_mod_time = time.time()
                 new_mod_files = get_all_files_after_time(self.source_dir, after_time=self.last_mod_time)
                 if new_mod_files:
+                    self.status = 'Check for mp3'
                     mp3_files = self.get_all_mp3(new_mod_files)
                     # del mp3_files
                     if mp3_files:
+                        self.status = 'Copy new mp3'
                         self.copy_files_as_mp3(mp3_files)
                 self.last_mod_time = new_mod_time
                 self.status = 'Sleeping'
                 for i in range(self.pause_s):
                     time.sleep(self.sleep_time)
-                    if not self.active:
+                    if self.stopping:  # dont sleep more, go to while loop check
                         break
         except KeyboardInterrupt:
             pass
         self.status = 'Stopped'
-        return self.last_mod_time
 
     def get_all_mp3(self, files):
         """
@@ -75,7 +80,6 @@ class Monitor:
         :param files: file list
         :return: set(file)
         """
-        self.status = 'Check for mp3'
         self.pbar = tqdm(files, desc="Check for mp3", unit="file", leave=True, mininterval=0.2, ncols=100)
         mp3_files = {file for file in self.pbar if is_mp3(str(file))}
         self.pbar.close()
@@ -88,7 +92,6 @@ class Monitor:
         :param target_dir: target directory
         :return: without errors copied files dict[checksum, file]
         """
-        self.status = 'Copy new mp3'
         self.pbar = tqdm(files, desc="Copy new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100)
         for file in self.pbar:
             try:

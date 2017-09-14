@@ -19,9 +19,12 @@ class DataTableModel(QAbstractTableModel):
         if not index.isValid():
             return None
         if index.column() == 0:  # active is editable
-            return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
-        else:
-            return Qt.ItemIsEnabled | Qt.ItemIsSelectable
+            job = list(core.job_dict.values())[index.row()]
+            if job.stopping and job.thread.isAlive():  # only editable if thread is not alive
+                return Qt.ItemIsSelectable
+            else:
+                return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
+        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
     def headerData(self, col, orientation, role=None):
         """
@@ -51,11 +54,14 @@ class DataTableModel(QAbstractTableModel):
         if role == Qt.TextAlignmentRole:
             return Qt.AlignCenter
         elif role == Qt.ForegroundRole:
-            if index.column() > 0 and not job.active:
+            if index.column() > 0 and not job.thread.isAlive():
                 return QColor(135, 135, 135)
-        elif role == Qt.DisplayRole:
+        elif role == Qt.EditRole:
             if index.column() == 0:
-                return job.active
+                return not job.stopping
+        elif role == Qt.DisplayRole:
+            if index.column() == 0:  # return negate stopping
+                return not job.stopping
             elif index.column() == 1:
                 return str(job.source_dir)
             elif index.column() == 2:
@@ -68,15 +74,15 @@ class DataTableModel(QAbstractTableModel):
         return QVariant()
 
     def setData(self, index, data, role=None):
-        # edit active state of threads
-        if index.column() == 0:
+        if index.column() == 0:  # edit active state
             if not isinstance(data, bool):
                 return False
             job = list(core.job_dict.values())[index.row()]
-            job.active = data
-            #self.dataChanged().emit()
             if data:
-                job.thread.start()
+                job.start()
+            else:
+                job.stop()
+            # self.dataChanged().emit()
             return True
         return False
 

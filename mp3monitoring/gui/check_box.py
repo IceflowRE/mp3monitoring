@@ -33,9 +33,9 @@ class CheckBoxDelegate(QStyledItemDelegate):
     def get_check_box_rect(self, option):
         check_box_style_option = QStyleOptionButton()
         check_box_rect = QApplication.style().subElementRect(QStyle.SE_CheckBoxIndicator,
-                                                                   check_box_style_option, None)
+                                                             check_box_style_option, None)
         check_box_point = QPoint(option.rect.x() + option.rect.width() / 2 - check_box_rect.width() / 2,
-                                        option.rect.y() + option.rect.height() / 2 - check_box_rect.height() / 2)
+                                 option.rect.y() + option.rect.height() / 2 - check_box_rect.height() / 2)
 
         return QRect(check_box_point, check_box_rect.size())
 
@@ -52,7 +52,7 @@ class CheckBoxDelegate(QStyledItemDelegate):
             if event.button() != Qt.LeftButton or not self.get_check_box_rect(option).contains(event.pos()):
                 return False
             if event.type() == QEvent.MouseButtonDblClick:
-                return True
+                return False
         elif event.type() == QEvent.KeyPress:
             if event.key() != Qt.Key_Space and event.key() != Qt.Key_Select:
                 return False
@@ -69,5 +69,4 @@ class CheckBoxDelegate(QStyledItemDelegate):
         The user wanted to change the old state in the opposite.
         """
         new_data = not index.model().data(index, Qt.DisplayRole)
-
         model.setData(index, new_data, Qt.EditRole)

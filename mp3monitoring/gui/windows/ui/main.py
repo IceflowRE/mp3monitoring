@@ -37,6 +37,7 @@ class Ui_MainWindow(object):
         self.dataTableView.setLineWidth(1)
         self.dataTableView.setMidLineWidth(0)
         self.dataTableView.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustIgnored)
+        self.dataTableView.setEditTriggers(QtWidgets.QAbstractItemView.AnyKeyPressed|QtWidgets.QAbstractItemView.EditKeyPressed)
         self.dataTableView.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
         self.dataTableView.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.dataTableView.setGridStyle(QtCore.Qt.SolidLine)

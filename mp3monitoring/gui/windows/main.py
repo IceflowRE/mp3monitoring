@@ -54,6 +54,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dataTableView.setSortingEnabled(False)
 
         self.dataTableView.setItemDelegateForColumn(0, CheckBoxDelegate(self.dataTableView))
+
         h_header = self.dataTableView.horizontalHeader()
         # h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
         h_header.setSectionResizeMode(1, QHeaderView.Stretch)  # source dir
@@ -62,7 +63,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def update_data_table(self):
         """
-        Updates the profile view content.
+        Updates the data table content.
         :return:
         """
         self.dataTableView.update()
