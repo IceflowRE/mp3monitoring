@@ -1,7 +1,7 @@
 from functools import partial
 
-import gui.dialogs
-from gui.about import AboutWindow
+import gui.widgets.dialogs
+from gui.windows.about import AboutWindow
 
 
 def set_item_actions(parent):
@@ -14,11 +14,11 @@ def set_item_actions(parent):
 
 
 def handle_help_help():
-    gui.dialogs.information_dialog('Not implemented yet.', 'Help is not implemented yet.')
+    gui.widgets.dialogs.information_dialog('Not implemented yet.', 'Help is not implemented yet.')
 
 
 def handle_help_check_updates():
-    gui.dialogs.information_dialog('Not implemented yet.', 'Checking for updates is not implemented yet.')
+    gui.widgets.dialogs.information_dialog('Not implemented yet.', 'Checking for updates is not implemented yet.')
 
 
 def handle_help_about(parent):

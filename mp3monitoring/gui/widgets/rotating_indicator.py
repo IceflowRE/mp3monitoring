@@ -1,8 +1,8 @@
-from PyQt5 import QtWidgets
 from PyQt5.QtGui import QColor, QPainter, QPen
+from PyQt5.QtWidgets import QWidget
 
 
-class RotatingIndicator(QtWidgets.QWidget):
+class RotatingIndicator(QWidget):
     def __init__(self, parent=None):
         super(RotatingIndicator, self).__init__(parent)
         self.parent = parent

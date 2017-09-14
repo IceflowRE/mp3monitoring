@@ -18,8 +18,8 @@ class DataTableModel(QAbstractTableModel):
     def flags(self, index):
         if not index.isValid():
             return None
-        if index.column() == 0:  # active role checkable
-            return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEnabled
+        if index.column() == 0:  # active is editable
+            return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
         else:
             return Qt.ItemIsEnabled | Qt.ItemIsSelectable
 
@@ -33,14 +33,14 @@ class DataTableModel(QAbstractTableModel):
         """
         if orientation == Qt.Horizontal:
             if role == Qt.DisplayRole:
-                return QVariant(self.header_data[col])
+                return self.header_data[col]
             elif role == Qt.TextAlignmentRole:
-                return QVariant(Qt.AlignCenter)
+                return Qt.AlignCenter
             elif role == Qt.FontRole:
                 font = self.parent().font()
                 font.setBold(True)
                 font.setPointSize(self.parent().font().pointSize() + 1)
-                return QVariant(font)
+                return font
         return QVariant()
 
     def data(self, index, role=None):
@@ -49,26 +49,36 @@ class DataTableModel(QAbstractTableModel):
 
         job = list(core.job_dict.values())[index.row()]
         if role == Qt.TextAlignmentRole:
-            return QVariant(Qt.AlignCenter)
-        elif role == Qt.TextColorRole:
+            return Qt.AlignCenter
+        elif role == Qt.ForegroundRole:
             if index.column() > 0 and not job.active:
-                return QVariant(QColor(135, 135, 135))
+                return QColor(135, 135, 135)
         elif role == Qt.DisplayRole:
             if index.column() == 0:
-                return QVariant(job.active)
+                return job.active
             elif index.column() == 1:
-                return QVariant(str(job.source_dir))
+                return str(job.source_dir)
             elif index.column() == 2:
-                return QVariant(str(job.target_dir))
+                return str(job.target_dir)
             elif index.column() == 3:
-                return QVariant(job.status)
+                return job.status
             elif index.column() == 4:
-                return QVariant(job.pause_s)
+                return job.pause_s
 
         return QVariant()
 
-    def setData(self, index, any, role=None):
-        pass
+    def setData(self, index, data, role=None):
+        # edit active state of threads
+        if index.column() == 0:
+            if not isinstance(data, bool):
+                return False
+            job = list(core.job_dict.values())[index.row()]
+            job.active = data
+            #self.dataChanged().emit()
+            if data:
+                job.thread.start()
+            return True
+        return False
 
     def sort(self, p_int, order=None):
         pass

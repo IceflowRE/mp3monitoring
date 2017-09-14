@@ -77,14 +77,6 @@ def start():
     shutdown()
 
 
-def import_pyqt():
-    try:
-        import PyQt5
-        from PyQt5.QtWidgets import QApplication
-    except ImportError:
-        pass  # module doesn't exist, deal with it.
-
-
 def init_monitor_dir(source_dir, target_dir):
     """
     Check source and initialize target directory.
@@ -142,10 +134,14 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
 def gui():
     try:
         from PyQt5.QtWidgets import QApplication
-        from gui.main import MainWindow
     except ImportError:
         print('PyQt5 not installed, you can not use the gui.')
-        sys.exit(1)
+        return
+    try:
+        from gui.windows.main import MainWindow
+    except ImportError:
+        print('blubs')
+        return
     app = QApplication([])
     main_window = MainWindow(app)
     main_window.show()

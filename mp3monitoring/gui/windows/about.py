@@ -3,7 +3,7 @@ from PyQt5.QtSvg import QGraphicsSvgItem
 from PyQt5.QtWidgets import QGraphicsScene, QMainWindow
 
 from data import static
-from gui.ui.about import Ui_AboutWindow
+from gui.windows.ui.about import Ui_AboutWindow
 
 
 class AboutWindow(QMainWindow, Ui_AboutWindow):
@@ -15,7 +15,7 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         self.setFixedSize(self.size())
         self.closeButton.clicked.connect(self.close)
 
-        # set window background
+        # set windows background
         self.setStyleSheet('background: palette(Base)')
 
         # set descriptions
