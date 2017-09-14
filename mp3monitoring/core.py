@@ -63,17 +63,17 @@ def start():
     # configure threads
     create_jobs(job_dict, time_dict, args.dir_list, args.no_save, args.pause_s)  # job_dict will be modified
     # start threads
-    for thread in job_dict.values():
-        if thread.active:
-            thread.start()
+    for monitor in job_dict.values():
+        if monitor.active:
+            monitor.thread.start()
 
     print(list(job_dict.values())[0])
 
     if args.gui:
         gui()
 
-    for thread in job_dict.values():
-        thread.join()
+    for monitor in job_dict.values():
+        monitor.thread.join()
     shutdown()
 
 
@@ -164,8 +164,8 @@ def shutdown(signal=None):
     for job in job_dict.values():
         job.active = False
     # wait for ending
-    for thread in job_dict.values():
-        thread.join()
+    for monitor in job_dict.values():
+        monitor.thread.join()
 
     # update times
     if signal is not None:

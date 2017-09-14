@@ -9,7 +9,7 @@ from tqdm import tqdm
 from tools import get_all_files_after_time, is_mp3
 
 
-class Monitor(Thread):
+class Monitor:
     def __init__(self, source_dir: Path, target_dir: Path, active, pause_s=10, last_mod_time=0):
         """
         :param source_dir: source directory
@@ -29,6 +29,7 @@ class Monitor(Thread):
         self.last_mod_time = last_mod_time
         self.pbar = ""
         self.active = active
+        self.thread = Thread(target=self.run)
 
     def __str__(self):
         return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.active,
@@ -36,6 +37,10 @@ class Monitor(Thread):
                                                                               target=str(self.target_dir),
                                                                               pause_s=str(self.pause_s),
                                                                               status=self.status)
+
+    def start(self):
+        self.thread = Thread(target=self.run)
+        self.thread.start()
 
     def run(self):
         """
