@@ -1,7 +1,7 @@
 from PyQt5.QtGui import QColor, QPainter
 from PyQt5.QtWidgets import QWidget
 
-from gui.ui.shutdown_overlay import Ui_ShutdownOverlay
+from gui.windows.ui.shutdown_overlay import Ui_ShutdownOverlay
 
 
 class ShutdownOverlay(QWidget, Ui_ShutdownOverlay):

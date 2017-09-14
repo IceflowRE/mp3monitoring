@@ -1,12 +1,12 @@
-from PyQt5.QtCore import QThread, Qt
-from PyQt5.QtWidgets import QMainWindow, QTableWidgetItem, QAbstractItemView, QTableView, QHeaderView
+from PyQt5.QtCore import QThread
+from PyQt5.QtWidgets import QHeaderView, QMainWindow
 
-import gui.menu_items as menu
+from gui.check_box import CheckBoxDelegate
 from gui.data.data_table_model import DataTableModel
-from gui.menu_items import file, help, settings
-from gui.shutdown_overlay import ShutdownOverlay
 from gui.shutdown_worker import ShutdownWorker
-from gui.ui.main import Ui_MainWindow
+from gui.widgets.shutdown_overlay import ShutdownOverlay
+from gui.windows import menu_items
+from gui.windows.ui.main import Ui_MainWindow
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -16,9 +16,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.app = app
 
-        menu.file.set_item_actions(self)
-        menu.settings.set_item_actions(self)
-        menu.help.set_item_actions(self)
+        menu_items.file.set_item_actions(self)
+        menu_items.settings.set_item_actions(self)
+        menu_items.help.set_item_actions(self)
 
         # shutdown overlay
         self.overlay = ShutdownOverlay(self)
@@ -34,7 +34,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
 
         self.create_data_table()
-        #self.update_data_table()
+        # self.update_data_table()
 
     def change_status_bar(self, msg, time=5000):
         self.statusBar.showMessage(msg, time)
@@ -53,8 +53,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dataTableView.setModel(table_model)
         self.dataTableView.setSortingEnabled(False)
 
+        self.dataTableView.setItemDelegateForColumn(0, CheckBoxDelegate(self.dataTableView))
         h_header = self.dataTableView.horizontalHeader()
-        #h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
+        # h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
         h_header.setSectionResizeMode(1, QHeaderView.Stretch)  # source dir
         h_header.setSectionResizeMode(2, QHeaderView.Stretch)  # target dir
         self.dataTableView.resizeColumnsToContents()

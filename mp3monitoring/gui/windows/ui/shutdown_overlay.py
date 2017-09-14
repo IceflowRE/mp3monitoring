@@ -67,4 +67,4 @@ class Ui_ShutdownOverlay(object):
         ShutdownOverlay.setWindowTitle(_translate("ShutdownOverlay", "Form"))
         self.message.setText(_translate("ShutdownOverlay", "Exiting..."))
 
-from gui.rotating_indicator import RotatingIndicator
+from gui.widgets.rotating_indicator import RotatingIndicator

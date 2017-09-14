@@ -33,10 +33,10 @@ class Monitor:
 
     def __str__(self):
         return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.active,
-                                                                              source=str(self.source_dir),
-                                                                              target=str(self.target_dir),
-                                                                              pause_s=str(self.pause_s),
-                                                                              status=self.status)
+                                                                               source=str(self.source_dir),
+                                                                               target=str(self.target_dir),
+                                                                               pause_s=str(self.pause_s),
+                                                                               status=self.status)
 
     def start(self):
         self.thread = Thread(target=self.run)

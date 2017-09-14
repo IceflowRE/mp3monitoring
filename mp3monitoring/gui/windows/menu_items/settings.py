@@ -1,4 +1,4 @@
-import gui.dialogs
+import gui.widgets.dialogs
 
 
 def set_item_actions(parent):
@@ -6,4 +6,4 @@ def set_item_actions(parent):
 
 
 def handle_settings_settings():
-    gui.dialogs.information_dialog('Not implemented yet.', 'Help is not implemented yet.')
+    gui.widgets.dialogs.information_dialog('Not implemented yet.', 'Help is not implemented yet.')
