@@ -47,12 +47,10 @@ def start():
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
     parser.add_argument('-v', '--version', action='version', version=static.VERSION)
-    parser.add_argument('-d', '--directory', dest='dir_list', nargs=2, action='append', required=True,
-                        help='source and target directory which will be monitored (default: %(default)s)')
+    parser.add_argument('-j', '--job', dest='job_list', nargs=3, action='append', metavar=('source', 'target', 'pause'),
+                        help='Monitors the source and copies to target directory and adds a pause in seconds between every check.')
     parser.add_argument('--ignore_save', dest='no_save', default=False, action='store_true',
                         help='ignore the last modification time from save file (default: %(default)s)')
-    parser.add_argument('-p', '--pause', dest='pause_s', default=10, type=int,
-                        help='pause between the checks in seconds (default: %(default)s)')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
                         help='open the gui (default: %(default)s)')
 
@@ -61,7 +59,7 @@ def start():
     _init()
 
     # configure threads
-    create_jobs(job_dict, time_dict, args.dir_list, args.no_save, args.pause_s)  # job_dict will be modified
+    create_jobs(job_dict, time_dict, args.job_list, args.no_save)  # job_dict will be modified
     # start threads
     for monitor in job_dict.values():
         monitor.start()
@@ -87,7 +85,7 @@ def init_monitor_dir(source_dir, target_dir):
         raise NotADirectoryError
 
 
-def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
+def create_jobs(jobs_dict, times_dict, dir_list, no_save):
     """
 
     :param jobs_dict: will be modified
@@ -100,6 +98,7 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save, pause_s):
     for task in dir_list:
         source_dir = Path(task[0])
         target_dir = Path(task[1])
+        pause_s = int(task[2])
 
         try:
             init_monitor_dir(source_dir, target_dir)

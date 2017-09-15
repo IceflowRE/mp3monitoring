@@ -31,7 +31,6 @@ class DataTableModel(QAbstractTableModel):
             flag |= Qt.ItemIsEditable
         return flag
 
-
     def headerData(self, col, orientation, role=None):
         """
         Header data is bold and centered.
