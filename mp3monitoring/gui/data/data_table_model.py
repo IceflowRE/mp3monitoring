@@ -1,13 +1,18 @@
-from PyQt5.QtCore import QAbstractTableModel, QVariant, Qt
+from PyQt5.QtCore import QAbstractTableModel, QTimer, QVariant, Qt
 from PyQt5.QtGui import QColor
 
 import core
+from data import dynamic
 
 
 class DataTableModel(QAbstractTableModel):
     def __init__(self, header_data, parent=None):
         super(DataTableModel, self).__init__(parent)
         self.header_data = header_data
+
+        self.__timer = QTimer()
+        self.__timer.timeout.connect(self.update_model)
+        self.__timer.start(dynamic.GUI_UPDATE_TIME)
 
     def rowCount(self, parent=None, *args, **kwargs):
         return len(core.job_dict)
@@ -82,9 +87,14 @@ class DataTableModel(QAbstractTableModel):
                 job.start()
             else:
                 job.stop()
-            # self.dataChanged().emit()
+            self.dataChanged.emit(index, index, [])
             return True
         return False
 
     def sort(self, p_int, order=None):
         pass
+
+    def update_model(self):
+        self.layoutAboutToBeChanged.emit()
+        self.dataChanged.emit(self.createIndex(0, 0), self.createIndex(self.rowCount(0), self.columnCount(0)))
+        self.layoutChanged.emit()

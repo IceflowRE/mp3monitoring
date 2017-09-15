@@ -34,7 +34,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
 
         self.create_data_table()
-        # self.update_data_table()
 
     def change_status_bar(self, msg, time=5000):
         self.statusBar.showMessage(msg, time)
@@ -59,12 +58,4 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
         h_header.setSectionResizeMode(1, QHeaderView.Stretch)  # source dir
         h_header.setSectionResizeMode(2, QHeaderView.Stretch)  # target dir
-        self.dataTableView.resizeColumnsToContents()
-
-    def update_data_table(self):
-        """
-        Updates the data table content.
-        :return:
-        """
-        self.dataTableView.update()
         self.dataTableView.resizeColumnsToContents()
