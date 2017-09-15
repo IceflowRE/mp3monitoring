@@ -78,6 +78,15 @@ class Monitor:
             pass
         self.status = 'Stopped'
 
+    def change_pause(self, pause):
+        if pause < 0:
+            pause = 0
+        self.pause = pause
+        if pause % 10 == 0:
+            self.sleep_time = 10
+        else:
+            self.sleep_time = 1
+
     def get_all_mp3(self, files):
         """
         Checks the files list for mp3.

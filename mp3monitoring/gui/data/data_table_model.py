@@ -99,12 +99,24 @@ class DataTableModel(QAbstractTableModel):
                 job.stop()
             self.update_model()
             return True
+        elif index.column() == 4:  # edit pause
+            if not isinstance(data, int):
+                return False
+            job = list(core.job_dict.values())[index.row()]
+            job.change_pause(data)
+            self.update_model()
+            return True
         return False
 
     def sort(self, p_int, order=None):
         pass
 
     def update_model(self):
+        """
+        Updates table, except pause column.
+        :return:
+        """
         self.layoutAboutToBeChanged.emit()
-        self.dataChanged.emit(self.createIndex(0, 0), self.createIndex(self.rowCount(0), self.columnCount(0)))
+        # "- 2" TODO: work around for prevent that the pause values gets switched back to origin while editing
+        self.dataChanged.emit(self.createIndex(0, 0), self.createIndex(self.rowCount(0), self.columnCount(0) - 2))
         self.layoutChanged.emit()
