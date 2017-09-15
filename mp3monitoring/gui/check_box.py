@@ -16,7 +16,7 @@ class CheckBoxDelegate(QStyledItemDelegate):
         checked = index.model().data(index, Qt.DisplayRole)
         style_option = QStyleOptionButton()
 
-        if index.flags() & Qt.ItemIsEditable:
+        if index.flags() & Qt.ItemIsEnabled:
             style_option.state |= QStyle.State_Enabled
         else:
             style_option.state |= QStyle.State_ReadOnly
@@ -35,8 +35,7 @@ class CheckBoxDelegate(QStyledItemDelegate):
 
     def get_check_box_rect(self, option):
         check_box_style_option = QStyleOptionButton()
-        check_box_rect = QApplication.style().subElementRect(QStyle.SE_CheckBoxIndicator,
-                                                             check_box_style_option, None)
+        check_box_rect = QApplication.style().subElementRect(QStyle.SE_CheckBoxIndicator, check_box_style_option, None)
         check_box_point = QPoint(option.rect.x() + option.rect.width() / 2 - check_box_rect.width() / 2,
                                  option.rect.y() + option.rect.height() / 2 - check_box_rect.height() / 2)
 
@@ -47,7 +46,7 @@ class CheckBoxDelegate(QStyledItemDelegate):
         Change the data in the model and the state of the checkbox if the user presses the left mouse button or presses
         Key_Space or Key_Select and this cell is editable. Otherwise do nothing.
         """
-        if not index.flags() & Qt.ItemIsEditable:
+        if not index.flags() & Qt.ItemIsEnabled:
             return False
 
         # Do not change the checkbox-state
@@ -71,5 +70,5 @@ class CheckBoxDelegate(QStyledItemDelegate):
         """
         The user wanted to change the old state in the opposite.
         """
-        new_data = not index.model().data(index, Qt.DisplayRole)
+        new_data = not index.model().data(index, Qt.EditRole)
         model.setData(index, new_data, Qt.EditRole)

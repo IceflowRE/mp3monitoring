@@ -24,12 +24,14 @@ class DataTableModel(QAbstractTableModel):
         if not index.isValid():
             return None
         job = list(core.job_dict.values())[index.row()]
-        if job.stopping and job.thread.isAlive():  # only not editable if thread is alive and should be stopped
-            return Qt.NoItemFlags
-        flag = Qt.ItemIsEnabled
-        if index.column() == 0 or index.column() == 4:  # active and pause is editable
-            flag |= Qt.ItemIsEditable
-        return flag
+        if job.stopping and job.thread.isAlive():  # if thread is alive and should be stopped
+            if index.column() == 0:  # active checkbox is not interactable
+                return Qt.ItemIsSelectable
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+        else:
+            if index.column() == 4:  # active and pause is editable
+                return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled
 
     def headerData(self, col, orientation, role=None):
         """
@@ -64,7 +66,7 @@ class DataTableModel(QAbstractTableModel):
             if index.column() == 0:
                 return not job.stopping
             elif index.column() == 4:
-                return job.pause_s
+                return job.pause
         elif role == Qt.ForegroundRole:
             if job.stopping and job.thread.isAlive():
                 return QColor(190, 190, 0)
@@ -82,7 +84,7 @@ class DataTableModel(QAbstractTableModel):
             elif index.column() == 3:
                 return job.status
             elif index.column() == 4:
-                return job.pause
+                return str(job.pause)
 
         return QVariant()
 
