@@ -39,11 +39,13 @@ class Monitor:
                                                                                status=self.status)
 
     def start(self):
+        self.status = 'Starting'
         self.stopping = False
         self.thread = Thread(target=self.run)
         self.thread.start()
 
     def stop(self):
+        self.status = 'Stopping'
         self.stopping = True
 
     def run(self):
@@ -54,15 +56,15 @@ class Monitor:
         """
         try:
             while not self.stopping:
-                self.status = 'Check for modifications'
+                self.status = 'Checking for modifications'
                 new_mod_time = time.time()
                 new_mod_files = get_all_files_after_time(self.source_dir, after_time=self.last_mod_time)
                 if new_mod_files:
-                    self.status = 'Check for mp3'
+                    self.status = 'Checking for mp3'
                     mp3_files = self.get_all_mp3(new_mod_files)
                     # del mp3_files
                     if mp3_files:
-                        self.status = 'Copy new mp3'
+                        self.status = 'Copying new mp3'
                         self.copy_files_as_mp3(mp3_files)
                 self.last_mod_time = new_mod_time
                 self.status = 'Sleeping'
@@ -80,7 +82,7 @@ class Monitor:
         :param files: file list
         :return: set(file)
         """
-        self.pbar = tqdm(files, desc="Check for mp3", unit="file", leave=True, mininterval=0.2, ncols=100)
+        self.pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100)
         mp3_files = {file for file in self.pbar if is_mp3(str(file))}
         self.pbar.close()
         return mp3_files
@@ -92,7 +94,7 @@ class Monitor:
         :param target_dir: target directory
         :return: without errors copied files dict[checksum, file]
         """
-        self.pbar = tqdm(files, desc="Copy new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100)
+        self.pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100)
         for file in self.pbar:
             try:
                 new_file = self.target_dir.joinpath(file.name)

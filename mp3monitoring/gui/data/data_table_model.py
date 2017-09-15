@@ -23,13 +23,14 @@ class DataTableModel(QAbstractTableModel):
     def flags(self, index):
         if not index.isValid():
             return None
-        if index.column() == 0:  # active is editable
-            job = list(core.job_dict.values())[index.row()]
-            if job.stopping and job.thread.isAlive():  # only editable if thread is not alive
-                return Qt.ItemIsSelectable
-            else:
-                return Qt.ItemIsEnabled | Qt.ItemIsSelectable | Qt.ItemIsEditable
-        return Qt.ItemIsEnabled | Qt.ItemIsSelectable
+        job = list(core.job_dict.values())[index.row()]
+        if job.stopping and job.thread.isAlive():  # only not editable if thread is alive and should be stopped
+            return Qt.NoItemFlags
+        flag = Qt.ItemIsEnabled
+        if index.column() == 0:  # first column is editable
+            flag |= Qt.ItemIsEditable
+        return flag
+
 
     def headerData(self, col, orientation, role=None):
         """
@@ -56,14 +57,20 @@ class DataTableModel(QAbstractTableModel):
             return QVariant()
 
         job = list(core.job_dict.values())[index.row()]
+        if role == Qt.ImCurrentSelection:
+            print(index.row(), index.column())
         if role == Qt.TextAlignmentRole:
             return Qt.AlignCenter
-        elif role == Qt.ForegroundRole:
-            if index.column() > 0 and not job.thread.isAlive():
-                return QColor(135, 135, 135)
         elif role == Qt.EditRole:
             if index.column() == 0:
                 return not job.stopping
+        elif role == Qt.ForegroundRole:
+            if job.stopping and job.thread.isAlive():
+                return QColor(190, 190, 0)
+            elif not job.thread.isAlive():
+                return QColor(160, 0, 0)
+            else:
+                return QColor(0, 160, 0)
         elif role == Qt.DisplayRole:
             if index.column() == 0:  # return negate stopping
                 return not job.stopping
@@ -87,7 +94,7 @@ class DataTableModel(QAbstractTableModel):
                 job.start()
             else:
                 job.stop()
-            self.dataChanged.emit(index, index, [])
+            self.update_model()
             return True
         return False
 

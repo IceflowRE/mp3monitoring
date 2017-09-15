@@ -33,6 +33,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Noto Sans UI")
         self.dataTableView.setFont(font)
+        self.dataTableView.setFocusPolicy(QtCore.Qt.NoFocus)
         self.dataTableView.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.dataTableView.setLineWidth(1)
         self.dataTableView.setMidLineWidth(0)

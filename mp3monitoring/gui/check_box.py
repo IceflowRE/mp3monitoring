@@ -26,9 +26,12 @@ class CheckBoxDelegate(QStyledItemDelegate):
         else:
             style_option.state |= QStyle.State_Off
 
-        style_option.rect = self.get_check_box_rect(option)
+        if option.state & QStyle.State_Selected:
+            painter.fillRect(option.rect, option.palette.highlight())
 
+        style_option.rect = self.get_check_box_rect(option)
         QApplication.style().drawControl(QStyle.CE_CheckBox, style_option, painter)
+        painter.restore()
 
     def get_check_box_rect(self, option):
         check_box_style_option = QStyleOptionButton()
