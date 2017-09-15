@@ -92,13 +92,12 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save):
     :param times_dict:
     :param dir_list:
     :param no_save:
-    :param pause_s:
     :return:
     """
     for task in dir_list:
         source_dir = Path(task[0])
         target_dir = Path(task[1])
-        pause_s = int(task[2])
+        pause = int(task[2])
 
         try:
             init_monitor_dir(source_dir, target_dir)
@@ -121,7 +120,7 @@ def create_jobs(jobs_dict, times_dict, dir_list, no_save):
         else:
             last_mod_time = times_dict.get(str(source_dir.resolve()), 0)
 
-        cur_monitor = Monitor(source_dir, target_dir, True, last_mod_time=last_mod_time, pause_s=pause_s)
+        cur_monitor = Monitor(source_dir, target_dir, True, last_mod_time=last_mod_time, pause=pause)
         jobs_dict[str(source_dir.resolve())] = cur_monitor
 
 

@@ -27,7 +27,7 @@ class DataTableModel(QAbstractTableModel):
         if job.stopping and job.thread.isAlive():  # only not editable if thread is alive and should be stopped
             return Qt.NoItemFlags
         flag = Qt.ItemIsEnabled
-        if index.column() == 0:  # first column is editable
+        if index.column() == 0 or index.column() == 4:  # active and pause is editable
             flag |= Qt.ItemIsEditable
         return flag
 
@@ -63,6 +63,8 @@ class DataTableModel(QAbstractTableModel):
         elif role == Qt.EditRole:
             if index.column() == 0:
                 return not job.stopping
+            elif index.column() == 4:
+                return job.pause_s
         elif role == Qt.ForegroundRole:
             if job.stopping and job.thread.isAlive():
                 return QColor(190, 190, 0)
@@ -80,7 +82,7 @@ class DataTableModel(QAbstractTableModel):
             elif index.column() == 3:
                 return job.status
             elif index.column() == 4:
-                return job.pause_s
+                return job.pause
 
         return QVariant()
 

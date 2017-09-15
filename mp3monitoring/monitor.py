@@ -10,11 +10,11 @@ from tools import get_all_files_after_time, is_mp3
 
 
 class Monitor:
-    def __init__(self, source_dir: Path, target_dir: Path, start, pause_s=10, last_mod_time=0):
+    def __init__(self, source_dir: Path, target_dir: Path, start, pause=10, last_mod_time=0):
         """
         :param source_dir: source directory
         :param target_dir: target directory
-        :param pause_s: scan every X seconds
+        :param pause: pause in seconds between the scans
         :param last_mod_time: last modification time
         """
         super().__init__()
@@ -22,8 +22,8 @@ class Monitor:
         self.status = 'Initialization'
         self.source_dir = source_dir
         self.target_dir = target_dir
-        self.pause_s = pause_s
-        if pause_s % 10 == 0:
+        self.pause = pause
+        if pause % 10 == 0:
             self.sleep_time = 10
         else:
             self.sleep_time = 1
@@ -32,11 +32,11 @@ class Monitor:
         self.thread = Thread(target=self.run)
 
     def __str__(self):
-        return "{active} | {source} | {target} | {pause_s}s | {status}".format(active=self.thread.isAlive(),
-                                                                               source=str(self.source_dir),
-                                                                               target=str(self.target_dir),
-                                                                               pause_s=str(self.pause_s),
-                                                                               status=self.status)
+        return "{active} | {source} | {target} | {pause}s | {status}".format(active=self.thread.isAlive(),
+                                                                             source=str(self.source_dir),
+                                                                             target=str(self.target_dir),
+                                                                             pause=str(self.pause),
+                                                                             status=self.status)
 
     def start(self):
         self.status = 'Starting'
@@ -68,10 +68,12 @@ class Monitor:
                         self.copy_files_as_mp3(mp3_files)
                 self.last_mod_time = new_mod_time
                 self.status = 'Sleeping'
-                for i in range(self.pause_s):
+                cur_sleep = 0
+                while cur_sleep < self.pause:
                     time.sleep(self.sleep_time)
                     if self.stopping:  # dont sleep more, go to while loop check
                         break
+                    cur_sleep += 1
         except KeyboardInterrupt:
             pass
         self.status = 'Stopped'
