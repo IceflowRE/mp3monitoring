@@ -3,7 +3,7 @@ from pathlib import Path
 
 import mutagen.mp3
 
-from data import dynamic, static
+from data import static
 
 
 def is_mp3(file_path: str):
@@ -48,18 +48,18 @@ def init_monitor_dir(source_dir, target_dir):
         raise NotADirectoryError
 
 
-def load_config_data():
+def load_config_data(path: Path):
     """
     Loads the modification times from the save file.
     :return: job_dict, dict[file, monitor]
     """
     save_dict = {}
-    with dynamic.SAVE_FILE.open('r', encoding='utf-8') as reader:
+    with path.open('r', encoding='utf-8') as reader:
         save_dict = json.load(reader)
     return save_dict
 
 
-def save_config_data(job_dict):
+def save_config_data(job_dict, path: Path):
     """
     Saves the modification times to the save file.
     :param job_dict: monitor jobs
@@ -67,7 +67,7 @@ def save_config_data(job_dict):
     json_dict = {}
     json_dict['information'] = {'version': static.VERSION}
     json_dict['jobs'] = []
-    for job in job_dict:
+    for job in job_dict.values():
         json_dict['jobs'].append(job.to_json_dict())
-    with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
+    with path.open('w', encoding='utf-8') as writer:
         json.dump(json_dict, writer, indent=4)

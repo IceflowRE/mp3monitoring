@@ -30,7 +30,7 @@ def _init():
     # load save file
     try:
         print('Load save file.')
-        save_dict = tools.load_config_data()
+        save_dict = tools.load_config_data(dynamic.SAVE_FILE)
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
@@ -67,22 +67,23 @@ def start():
     create_jobs(job_dict, args.job_list, args.no_save)  # job_dict will be modified
     # start threads
     for monitor in job_dict.values():
-        try:
-            monitor.start()
-        except FileNotFoundError:
-            print('Source ({source_dir}) does not exist or is not a directory.'.format(
-                source_dir=str(monitor.source_dir)))
-            return False
-        except NotADirectoryError:
-            print('Target directory ({target_dir}) is not a directory.'.format(target_dir=str(job.target_dir)))
-            return False
-        except PermissionError:
-            print('Cant create target directory ({target_dir}). Make sure you have write permissions.'.format(
-                target_dir=str(monitor.target_dir)))
-            return False
-        except Exception as ex:
-            print('Someting went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
-            return False
+        if monitor.startup:
+            try:
+                monitor.start()
+            except FileNotFoundError:
+                print('Source ({source_dir}) does not exist or is not a directory.'.format(
+                    source_dir=str(monitor.source_dir)))
+                return False
+            except NotADirectoryError:
+                print('Target directory ({target_dir}) is not a directory.'.format(target_dir=str(job.target_dir)))
+                return False
+            except PermissionError:
+                print('Cant create target directory ({target_dir}). Make sure you have write permissions.'.format(
+                    target_dir=str(monitor.target_dir)))
+                return False
+            except Exception as ex:
+                print('Someting went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
+                return False
 
     if args.gui:
         gui()
@@ -98,6 +99,8 @@ def create_jobs(jobs_dict, dir_list, no_save):
     :param no_save:
     :return:
     """
+    if dir_list is None:
+        return
     for task in dir_list:
         source_dir = Path(task[0]).resolve()
         target_dir = Path(task[1]).resolve()
@@ -135,7 +138,7 @@ def shutdown(signal=None):
     :param signal: signal of the gui callback
     :return:
     """
-    global time_dict, job_dict
+    global job_dict
     if signal is not None:
         signal.emit("Stopping monitoring threads")
     for job in job_dict.values():
@@ -144,11 +147,6 @@ def shutdown(signal=None):
     for monitor in job_dict.values():
         monitor.thread.join()
 
-    # update times
-    if signal is not None:
-        signal.emit("Update times")
-    time_dict = {source_dir: thread.last_mod_time for source_dir, thread in job_dict.items()}
-
     if signal is not None:
         signal.emit("Save save file")
-    tools.save_config_data(time_dict)
+    tools.save_config_data(job_dict, dynamic.SAVE_FILE)

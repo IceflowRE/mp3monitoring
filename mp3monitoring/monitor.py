@@ -32,6 +32,7 @@ class Monitor:
         self.last_mod_time = last_mod_time
         self.pbar = ""
         self.thread = Thread(target=self.run)
+        self.status = 'Stopped'
 
     @classmethod
     def from_json_dict(cls, json_dict):
