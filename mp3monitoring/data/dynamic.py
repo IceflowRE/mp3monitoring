@@ -5,6 +5,6 @@ from pathlib import Path
 
 from data import static
 
-SAVE_FILE = Path.home().joinpath('.' + static.NAME.replace(' ', '_')).joinpath('last_mod_times.sav')
+SAVE_FILE = Path.home().joinpath('.' + static.NAME.replace(' ', '_')).joinpath('data.sav')
 
 GUI_UPDATE_TIME = 1000
