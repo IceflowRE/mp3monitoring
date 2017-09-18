@@ -64,7 +64,7 @@ def start():
     _init()
 
     # configure threads
-    create_jobs(job_dict, args.job_list, args.no_save)  # job_dict will be modified
+    add_new_jobs(job_dict, args.job_list, args.no_save)  # job_dict will be modified
     # start threads
     for monitor in job_dict.values():
         if monitor.startup:
@@ -91,7 +91,7 @@ def start():
     shutdown()
 
 
-def create_jobs(jobs_dict, dir_list, no_save):
+def add_new_jobs(jobs_dict, dir_list, no_save):
     """
     Will overwrite existing monitoring jobs.
     :param jobs_dict: will be modified
