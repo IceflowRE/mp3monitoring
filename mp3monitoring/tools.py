@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import mutagen.mp3
@@ -32,32 +33,41 @@ def get_all_files_after_time(directory, after_time=0):
             (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
 
 
+def init_monitor_dir(source_dir, target_dir):
+    """
+    Check source and initialize target directory.
+    :param source_dir: source directory
+    :param target_dir: mp3 target folder
+    """
+    if not source_dir.exists() or not source_dir.is_dir():
+        raise FileNotFoundError
+
+    if not target_dir.exists():
+        Path.mkdir(target_dir, parents=True)
+    elif not target_dir.is_dir():
+        raise NotADirectoryError
+
+
 def load_config_data():
     """
     Loads the modification times from the save file.
-    :return: modification dict, dict[file, mod_time]
+    :return: job_dict, dict[file, monitor]
     """
     save_dict = {}
     with dynamic.SAVE_FILE.open('r', encoding='utf-8') as reader:
-        lines = reader.readlines()
-        lines = [line.rstrip() for line in lines]
-        it = iter(lines)
-        next(it)  # skip version value, not used until now
-        for line in it:
-            try:
-                # resolve, due to fixing possibly manually changed values
-                save_dict[str(Path(line).resolve())] = float(next(it))
-            except StopIteration:
-                print('Save file is corrupted. Could not load everything.')
+        save_dict = json.load(reader)
     return save_dict
 
 
-def save_config_data(mod_time_dict):
+def save_config_data(job_dict):
     """
     Saves the modification times to the save file.
-    :param mod_time_dict: modification times
+    :param job_dict: monitor jobs
     """
+    json_dict = {}
+    json_dict['information'] = {'version': static.VERSION}
+    json_dict['jobs'] = []
+    for job in job_dict:
+        json_dict['jobs'].append(job.to_json_dict())
     with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
-        writer.write(static.VERSION + '\n')
-        for file, mod_time in mod_time_dict.items():
-            writer.write(file + '\n' + str(mod_time) + '\n')
+        json.dump(json_dict, writer, indent=4)
