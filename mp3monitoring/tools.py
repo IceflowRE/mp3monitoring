@@ -33,27 +33,12 @@ def get_all_files_after_time(directory, after_time=0):
             (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
 
 
-def init_monitor_dir(source_dir, target_dir):
-    """
-    Check source and initialize target directory.
-    :param source_dir: source directory
-    :param target_dir: mp3 target folder
-    """
-    if not source_dir.exists() or not source_dir.is_dir():
-        raise FileNotFoundError
-
-    if not target_dir.exists():
-        Path.mkdir(target_dir, parents=True)
-    elif not target_dir.is_dir():
-        raise NotADirectoryError
-
-
 def load_config_data(path: Path):
     """
     Loads the modification times from the save file.
+    :param path:
     :return: job_dict, dict[file, monitor]
     """
-    save_dict = {}
     with path.open('r', encoding='utf-8') as reader:
         save_dict = json.load(reader)
     return save_dict
@@ -63,10 +48,9 @@ def save_config_data(job_dict, path: Path):
     """
     Saves the modification times to the save file.
     :param job_dict: monitor jobs
+    :param path:
     """
-    json_dict = {}
-    json_dict['information'] = {'version': static.VERSION}
-    json_dict['jobs'] = []
+    json_dict = {'information': {'version': static.VERSION}, 'jobs': []}
     for job in job_dict.values():
         json_dict['jobs'].append(job.to_json_dict())
     with path.open('w', encoding='utf-8') as writer:

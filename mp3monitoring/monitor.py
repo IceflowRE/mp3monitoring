@@ -6,7 +6,6 @@ from threading import Thread
 
 from tqdm import tqdm
 
-import tools
 from tools import get_all_files_after_time, is_mp3
 
 
@@ -20,19 +19,20 @@ class Monitor:
         """
         super().__init__()
         self.startup = start
-        self.stopping = not start
         self.status = 'Initialization'
         self.source_dir = source_dir
         self.target_dir = target_dir
-        self.pause = pause
-        if pause % 10 == 0:
-            self.sleep_time = 10
-        else:
-            self.sleep_time = 1
         self.last_mod_time = last_mod_time
+        self.__sleep_time = 1
+        self.pause = pause
+        self.change_pause(pause)
+
+        self.stopping = not start
         self.pbar = ""
         self.thread = Thread(target=self.run)
+
         self.status = 'Stopped'
+        self.check_directories()
 
     @classmethod
     def from_json_dict(cls, json_dict):
@@ -55,14 +55,17 @@ class Monitor:
 
     def start(self):
         """
-        Throws exceptions.
+
         :return:
         """
         self.status = 'Starting'
-        tools.init_monitor_dir(self.source_dir, self.target_dir)
+        if not self.check_directories():
+            self.stopping = True
+            return False
         self.stopping = False
         self.thread = Thread(target=self.run)
         self.thread.start()
+        return True
 
     def stop(self):
         self.status = 'Stopping'
@@ -90,22 +93,45 @@ class Monitor:
                 self.status = 'Sleeping'
                 cur_sleep = 0
                 while cur_sleep < self.pause:
-                    time.sleep(self.sleep_time)
+                    time.sleep(self.__sleep_time)
                     if self.stopping:  # dont sleep more, go to while loop check
                         break
-                    cur_sleep += 1
+                    cur_sleep += self.__sleep_time
         except KeyboardInterrupt:
             pass
         self.status = 'Stopped'
+
+    def check_directories(self):
+        """
+        Check source and initialize target directory.
+        """
+        if not self.source_dir.exists():
+            self.status = 'Source ({source_dir}) does not exist.'.format(source_dir=str(self.source_dir))
+            return False
+        elif not self.source_dir.is_dir():
+            self.status = 'Source ({source_dir}) is not a directory.'.format(source_dir=str(self.source_dir))
+            return False
+
+        if not self.target_dir.exists():
+            try:
+                Path.mkdir(self.target_dir, parents=True)
+            except PermissionError:
+                self.status = 'Cant create target directory ({target_dir}). Do you have write permissions?'.format(
+                    target_dir=str(self.target_dir))
+            return False
+        elif not self.target_dir.is_dir():
+            self.status = 'Target ({target_dir}) is not a directory.'.format(target_dir=str(self.target_dir))
+            return False
+        return True
 
     def change_pause(self, pause):
         if pause < 0:
             pause = 0
         self.pause = pause
-        if pause % 10 == 0:
-            self.sleep_time = 10
+        if pause > 10 and pause % 10 == 0:
+            self.__sleep_time = 10
         else:
-            self.sleep_time = 1
+            self.__sleep_time = 1
 
     def get_all_mp3(self, files):
         """

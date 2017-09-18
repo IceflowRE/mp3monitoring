@@ -68,22 +68,9 @@ def start():
     # start threads
     for monitor in job_dict.values():
         if monitor.startup:
-            try:
-                monitor.start()
-            except FileNotFoundError:
-                print('Source ({source_dir}) does not exist or is not a directory.'.format(
-                    source_dir=str(monitor.source_dir)))
-                return False
-            except NotADirectoryError:
-                print('Target directory ({target_dir}) is not a directory.'.format(target_dir=str(job.target_dir)))
-                return False
-            except PermissionError:
-                print('Cant create target directory ({target_dir}). Make sure you have write permissions.'.format(
-                    target_dir=str(monitor.target_dir)))
-                return False
-            except Exception as ex:
-                print('Someting went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
-                return False
+            if not monitor.start():
+                monitor.startup = False
+                print(monitor, monitor.status)
 
     if args.gui:
         gui()

@@ -55,7 +55,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.dataTableView.setItemDelegateForColumn(0, CheckBoxDelegate(self.dataTableView))
 
         h_header = self.dataTableView.horizontalHeader()
-        # h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
+        h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
         h_header.setSectionResizeMode(1, QHeaderView.Stretch)  # source dir
         h_header.setSectionResizeMode(2, QHeaderView.Stretch)  # target dir
         self.dataTableView.resizeColumnsToContents()

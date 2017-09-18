@@ -96,21 +96,8 @@ class DataTableModel(QAbstractTableModel):
                 return False
             job = list(core.job_dict.values())[index.row()]
             if data:
-                try:
-                    job.start()
-                except FileNotFoundError:
-                    self.parent().parent().statusBar.showMessage('Source ({source_dir}) does not exist or is not a directory.'.format(
-                        source_dir=str(job.source_dir)), 5000)
-                    return False
-                except NotADirectoryError:
-                    print('Target directory ({target_dir}) is not a directory.'.format(target_dir=str(job.target_dir)))
-                    return False
-                except PermissionError:
-                    print('Cant create target directory ({target_dir}). Make sure you have write permissions.'.format(
-                        target_dir=str(job.target_dir)))
-                    return False
-                except Exception as ex:
-                    print('Someting went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
+                if not job.start():
+                    job.startup = False
                     return False
                 job.startup = True
             else:
