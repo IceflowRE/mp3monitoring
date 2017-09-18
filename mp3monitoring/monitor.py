@@ -6,6 +6,7 @@ from threading import Thread
 
 from tqdm import tqdm
 
+import tools
 from tools import get_all_files_after_time, is_mp3
 
 
@@ -18,6 +19,7 @@ class Monitor:
         :param last_mod_time: last modification time
         """
         super().__init__()
+        self.startup = start
         self.stopping = not start
         self.status = 'Initialization'
         self.source_dir = source_dir
@@ -31,15 +33,32 @@ class Monitor:
         self.pbar = ""
         self.thread = Thread(target=self.run)
 
+    @classmethod
+    def from_json_dict(cls, json_dict):
+        source_dir = Path(json_dict['source_dir'])
+        target_dir = Path(json_dict['target_dir'])
+        startup = json_dict['startup']
+        pause = json_dict['pause']
+        last_mod_time = json_dict['last_mod_time']
+        return cls(source_dir, target_dir, startup, pause, last_mod_time)
+
     def __str__(self):
-        return "{active} | {source} | {target} | {pause}s | {status}".format(active=self.thread.isAlive(),
-                                                                             source=str(self.source_dir),
-                                                                             target=str(self.target_dir),
-                                                                             pause=str(self.pause),
-                                                                             status=self.status)
+        return "{active} | {source} | {target} | {pause}s | {status} | {startup} | {time}".format(
+            active=self.thread.isAlive(),
+            source=str(self.source_dir),
+            target=str(self.target_dir),
+            pause=str(self.pause),
+            status=self.status,
+            startup=self.startup,
+            time=self.last_mod_time)
 
     def start(self):
+        """
+        Throws exceptions.
+        :return:
+        """
         self.status = 'Starting'
+        tools.init_monitor_dir(self.source_dir, self.target_dir)
         self.stopping = False
         self.thread = Thread(target=self.run)
         self.thread.start()
@@ -121,3 +140,11 @@ class Monitor:
                 traceback.print_exc()
         self.pbar.refresh()
         self.pbar.close()
+
+    def to_json_dict(self):
+        return {'source_dir': str(self.source_dir.resolve()),
+                'target_dir': str(self.target_dir.resolve()),
+                'pause': self.pause,
+                'startup': self.startup,
+                'last_mod_time': self.last_mod_time
+                }

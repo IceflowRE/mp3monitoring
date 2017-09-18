@@ -1,3 +1,4 @@
+import json
 import sys
 import traceback
 from argparse import ArgumentParser
@@ -8,39 +9,43 @@ from data import dynamic, static
 from monitor import Monitor
 
 job_dict = {}
-time_dict = {}
 
 
 def _init():
     """
     Initialization save directory.
     """
-    global time_dict
+    global job_dict
     home = dynamic.SAVE_FILE.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
         if not dynamic.SAVE_FILE.exists():
+            json_dict = {'information': {'version': static.VERSION}}
             with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
-                writer.write(static.VERSION + '\n')
+                json.dump(json_dict, writer, indent=4)
     except PermissionError:
         print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
 
     # load save file
     try:
         print('Load save file.')
-        time_dict = tools.load_config_data()
+        save_dict = tools.load_config_data()
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
         sys.exit(1)
+    # TODO: version not used
+    if 'jobs' in save_dict:
+        for job in save_dict['jobs']:
+            job_dict[job['source_dir']] = Monitor.from_json_dict(job)
 
 
 def start():
     """
     Entry point into program.
     """
-    global time_dict, job_dict
+    global job_dict
     if sys.version_info[0] < 3 or sys.version_info[1] < 6:
         sys.exit('Only Python 3.6 or greater is supported. You are using: {version}'.format(version=sys.version))
 
@@ -59,10 +64,25 @@ def start():
     _init()
 
     # configure threads
-    create_jobs(job_dict, time_dict, args.job_list, args.no_save)  # job_dict will be modified
+    create_jobs(job_dict, args.job_list, args.no_save)  # job_dict will be modified
     # start threads
     for monitor in job_dict.values():
-        monitor.start()
+        try:
+            monitor.start()
+        except FileNotFoundError:
+            print('Source ({source_dir}) does not exist or is not a directory.'.format(
+                source_dir=str(monitor.source_dir)))
+            return False
+        except NotADirectoryError:
+            print('Target directory ({target_dir}) is not a directory.'.format(target_dir=str(job.target_dir)))
+            return False
+        except PermissionError:
+            print('Cant create target directory ({target_dir}). Make sure you have write permissions.'.format(
+                target_dir=str(monitor.target_dir)))
+            return False
+        except Exception as ex:
+            print('Someting went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
+            return False
 
     if args.gui:
         gui()
@@ -70,58 +90,26 @@ def start():
     shutdown()
 
 
-def init_monitor_dir(source_dir, target_dir):
+def create_jobs(jobs_dict, dir_list, no_save):
     """
-    Check source and initialize target directory.
-    :param source_dir: source directory
-    :param target_dir: mp3 target folder
-    """
-    if not source_dir.exists() or not source_dir.is_dir():
-        raise FileNotFoundError
-
-    if not target_dir.exists():
-        Path.mkdir(target_dir, parents=True)
-    elif not target_dir.is_dir():
-        raise NotADirectoryError
-
-
-def create_jobs(jobs_dict, times_dict, dir_list, no_save):
-    """
-
+    Will overwrite existing monitoring jobs.
     :param jobs_dict: will be modified
-    :param times_dict:
     :param dir_list:
     :param no_save:
     :return:
     """
     for task in dir_list:
-        source_dir = Path(task[0])
-        target_dir = Path(task[1])
+        source_dir = Path(task[0]).resolve()
+        target_dir = Path(task[1]).resolve()
         pause = int(task[2])
 
-        try:
-            init_monitor_dir(source_dir, target_dir)
-        except FileNotFoundError:
-            print('Source ({source_dir}) does not exist or is not a directory.'.format(source_dir=str(source_dir)))
-            break
-        except NotADirectoryError:
-            print('Target directory ({target_dir}) is not a directory.'.format(target_dir=str(target_dir)))
-            break
-        except PermissionError:
-            print('Cant create target directory ({target_dir}). Make sure you have write permissions.'.format(
-                target_dir=str(target_dir)))
-            break
-        except Exception as ex:
-            print('Something went wrong: {traceback}'.format(traceback=traceback.format_exc(ex.__traceback__)))
-            break
-
-        if no_save:
-            last_mod_time = 0
+        if str(source_dir) in jobs_dict and not no_save:  # check if the source already exists
+            last_mod_time = jobs_dict[str(source_dir)].last_mod_time
         else:
-            last_mod_time = times_dict.get(str(source_dir.resolve()), 0)
+            last_mod_time = 0
 
         cur_monitor = Monitor(source_dir, target_dir, True, last_mod_time=last_mod_time, pause=pause)
-        jobs_dict[str(source_dir.resolve())] = cur_monitor
+        jobs_dict[str(source_dir)] = cur_monitor
 
 
 def gui():
