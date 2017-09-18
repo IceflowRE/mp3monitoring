@@ -145,7 +145,8 @@ def shutdown(signal=None):
         job.stop()
     # wait for ending
     for monitor in job_dict.values():
-        monitor.thread.join()
+        if monitor.thread.isAlive():
+            monitor.thread.join()
 
     if signal is not None:
         signal.emit("Save save file")
