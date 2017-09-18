@@ -1,5 +1,3 @@
-import traceback
-
 from PyQt5.QtCore import QAbstractTableModel, QTimer, QVariant, Qt
 from PyQt5.QtGui import QColor
 
