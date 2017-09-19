@@ -1,12 +1,15 @@
+from functools import partial
+
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QHeaderView, QMainWindow
 
+from gui import monitor_table_view
 from gui.check_box import CheckBoxDelegate
-from gui.data.data_table_model import DataTableModel
-from gui.shutdown_worker import ShutdownWorker
+from gui.data.monitor_table_model import DataTableModel
 from gui.widgets.shutdown_overlay import ShutdownOverlay
 from gui.windows import menu_items
 from gui.windows.ui.main import Ui_MainWindow
+from gui.workers.shutdown_worker import ShutdownWorker
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -35,6 +38,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.create_data_table()
 
+        # add context menu to table view
+        self.dataTableView.customContextMenuRequested.connect(
+            partial(monitor_table_view.context_menu, self.dataTableView))
+
     def change_status_bar(self, msg, time=5000):
         self.statusBar.showMessage(msg, time)
 
@@ -50,7 +57,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         header = [' active ', ' source ', ' target ', ' status ', ' pause (s) ']
         table_model = DataTableModel(header, self)
         self.dataTableView.setModel(table_model)
-        self.dataTableView.setSortingEnabled(False)
+        self.dataTableView.setSortingEnabled(False)  # TODO
 
         self.dataTableView.setItemDelegateForColumn(0, CheckBoxDelegate(self.dataTableView))
 

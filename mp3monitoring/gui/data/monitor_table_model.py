@@ -3,6 +3,7 @@ from PyQt5.QtGui import QColor
 
 import core
 from data import dynamic
+from gui.workers.stop_monitor_worker import add_remover
 
 
 class DataTableModel(QAbstractTableModel):
@@ -111,6 +112,11 @@ class DataTableModel(QAbstractTableModel):
             self.update_model()
             return True
         return False
+
+    def removeRow(self, row, parent=None, *args, **kwargs):
+        source_dir = self.index(row, 1).data(role=Qt.DisplayRole)
+        add_remover(source_dir, self)
+        return True
 
     def sort(self, p_int, order=None):
         pass
