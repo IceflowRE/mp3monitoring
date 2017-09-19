@@ -22,8 +22,8 @@ class DataTableModel(QAbstractTableModel):
         return len(self.header_data)
 
     def flags(self, index):
-        if not index.isValid():
-            return None
+        if not index.isValid() or len(core.job_dict) <= 0:
+            return Qt.NoItemFlags
         job = list(core.job_dict.values())[index.row()]
         if job.stopping and job.thread.isAlive():  # if thread is alive and should be stopped
             if index.column() == 0:  # active checkbox is not interactable
@@ -55,9 +55,8 @@ class DataTableModel(QAbstractTableModel):
         return QVariant()
 
     def data(self, index, role=None):
-        if not index.isValid():
+        if not index.isValid() or len(core.job_dict) <= 0:
             return QVariant()
-
         job = list(core.job_dict.values())[index.row()]
         if role == Qt.ImCurrentSelection:
             print(index.row(), index.column())
@@ -90,6 +89,8 @@ class DataTableModel(QAbstractTableModel):
         return QVariant()
 
     def setData(self, index, data, role=None):
+        if not index.isValid() or len(core.job_dict) <= 0:
+            return Qt.NoItemFlags
         if index.column() == 0:  # edit active state
             if not isinstance(data, bool):
                 return False
@@ -113,9 +114,21 @@ class DataTableModel(QAbstractTableModel):
             return True
         return False
 
-    def removeRow(self, row, parent=None, *args, **kwargs):
-        source_dir = self.index(row, 1).data(role=Qt.DisplayRole)
-        add_remover(source_dir, self)
+    def removeRows(self, row_start, row_end, parent=None, *args, **kwargs):
+        """
+        beginRemoveRows and endRemoveRows are not called because the time when it gets removed and the row at this
+        moment are not known. But update_model gets called manually.
+        :param row_start:
+        :param row_end:
+        :param parent:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        for delta in range(row_end - row_start + 1):
+            cur_row = row_start + delta
+            source_dir = self.index(cur_row, 1).data(role=Qt.DisplayRole)
+            add_remover(source_dir, self)
         return True
 
     def sort(self, p_int, order=None):

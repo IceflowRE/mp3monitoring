@@ -7,5 +7,4 @@ def context_menu(table_view, position):
     action = menu.exec_(table_view.mapToGlobal(position))
     if action == remove_selected_item:
         rows = sorted(set(index.row() for index in table_view.selectedIndexes()))
-        for row in rows:  # is only item, because of SingleSelection
-            table_view.model().removeRow(row)
+        table_view.model().removeRows(min(rows), max(rows))

@@ -31,7 +31,8 @@ def add_remover(source_dir, model):
 def stop_monitor(source):
     monitor = core.job_dict[source]
     monitor.stop()
-    core.job_dict[source].thread.join()
+    if monitor.thread.is_alive():
+        monitor.thread.join()
     del core.job_dict[source]
 
 
