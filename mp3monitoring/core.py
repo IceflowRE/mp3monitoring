@@ -11,7 +11,7 @@ from monitor import Monitor
 job_dict = {}
 
 
-def _init():
+def _init(ignore_save=False):
     """
     Initialization save directory.
     """
@@ -27,17 +27,18 @@ def _init():
         print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
 
     # load save file
-    try:
-        print('Load save file.')
-        save_dict = tools.load_config_data(dynamic.SAVE_FILE)
-    except Exception:
-        print('Could not load save file.')  # TODO: ask user
-        traceback.print_exc()
-        sys.exit(1)
-    # TODO: version not used
-    if 'jobs' in save_dict:
-        for job in save_dict['jobs']:
-            add_new_monitor(Monitor.from_json_dict(job))
+    if not ignore_save:
+        try:
+            print('Load save file.')
+            save_dict = tools.load_config_data(dynamic.SAVE_FILE)
+        except Exception:
+            print('Could not load save file.')  # TODO: ask user
+            traceback.print_exc()
+            sys.exit(1)
+        # TODO: version not used
+        if 'jobs' in save_dict:
+            for job in save_dict['jobs']:
+                add_new_monitor(Monitor.from_json_dict(job))
 
 
 def start():
@@ -53,17 +54,19 @@ def start():
     parser.add_argument('-v', '--version', action='version', version=static.VERSION)
     parser.add_argument('-j', '--job', dest='job_list', nargs=3, action='append', metavar=('source', 'target', 'pause'),
                         help='Monitors the source and copies to target directory and adds a pause in seconds between every check.')
-    parser.add_argument('--ignore_save', dest='no_save', default=False, action='store_true',
-                        help='ignore the last modification time from save file (default: %(default)s)')
+    parser.add_argument('--ignore_times', dest='ignore_times', default=False, action='store_true',
+                        help='Ignore the last modification time from save file (default: %(default)s)')
+    parser.add_argument('--ignore_save', dest='ignore_save', default=False, action='store_true',
+                        help='Ignores the save file and do not load any jobs from there. (default: %(default)s)')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
                         help='open the gui (default: %(default)s)')
 
     # init
     args = parser.parse_args()
-    _init()
+    _init(args.ignore_save)
 
     # configure threads
-    add_new_jobs(job_dict, args.job_list, args.no_save)  # job_dict will be modified
+    add_new_jobs(job_dict, args.job_list, args.ignore_times)  # job_dict will be modified
 
     if args.gui:
         gui()
@@ -80,12 +83,12 @@ def add_new_monitor(monitor):
             print(monitor, monitor.status)
 
 
-def add_new_jobs(jobs_dict, job_list, no_save):
+def add_new_jobs(jobs_dict, job_list, ignore_times):
     """
     Will overwrite existing monitoring jobs.
     :param jobs_dict: will be modified
     :param job_list:
-    :param no_save:
+    :param ignore_times:
     :return:
     """
     if job_list is None:
@@ -95,7 +98,7 @@ def add_new_jobs(jobs_dict, job_list, no_save):
         target_dir = Path(task[1])
         pause = int(task[2])
 
-        if str(source_dir) in jobs_dict and not no_save:  # check if the source already exists
+        if str(source_dir) in jobs_dict and not ignore_times:  # check if the source already exists
             last_mod_time = jobs_dict[str(source_dir)].last_mod_time
         else:
             last_mod_time = 0
