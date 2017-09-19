@@ -20,8 +20,8 @@ class Monitor:
         super().__init__()
         self.startup = start
         self.status = 'Initialization'
-        self.source_dir = source_dir
-        self.target_dir = target_dir
+        self.source_dir = source_dir.resolve()
+        self.target_dir = target_dir.resolve()
         self.last_mod_time = last_mod_time
         self.__sleep_time = 1
         self.pause = pause
@@ -169,8 +169,8 @@ class Monitor:
         self.pbar.close()
 
     def to_json_dict(self):
-        return {'source_dir': str(self.source_dir.resolve()),
-                'target_dir': str(self.target_dir.resolve()),
+        return {'source_dir': str(self.source_dir),
+                'target_dir': str(self.target_dir),
                 'pause': self.pause,
                 'startup': self.startup,
                 'last_mod_time': self.last_mod_time

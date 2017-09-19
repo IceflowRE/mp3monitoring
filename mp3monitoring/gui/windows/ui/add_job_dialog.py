@@ -8,13 +8,16 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-class Ui_Dialog(object):
-    def setupUi(self, Dialog):
-        Dialog.setObjectName("Dialog")
-        Dialog.resize(500, 200)
-        self.gridLayout = QtWidgets.QGridLayout(Dialog)
+class Ui_AddJobDialog(object):
+    def setupUi(self, AddJobDialog):
+        AddJobDialog.setObjectName("AddJobDialog")
+        AddJobDialog.resize(500, 200)
+        font = QtGui.QFont()
+        font.setFamily("Noto Sans UI")
+        AddJobDialog.setFont(font)
+        self.gridLayout = QtWidgets.QGridLayout(AddJobDialog)
         self.gridLayout.setObjectName("gridLayout")
-        self.targetDirectory = QtWidgets.QFrame(Dialog)
+        self.targetDirectory = QtWidgets.QFrame(AddJobDialog)
         self.targetDirectory.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.targetDirectory.setFrameShadow(QtWidgets.QFrame.Raised)
         self.targetDirectory.setObjectName("targetDirectory")
@@ -33,14 +36,14 @@ class Ui_Dialog(object):
         self.gridLayout.addWidget(self.targetDirectory, 2, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem, 4, 0, 1, 1)
-        self.buttonBox = QtWidgets.QDialogButtonBox(Dialog)
+        self.buttonBox = QtWidgets.QDialogButtonBox(AddJobDialog)
         self.buttonBox.setInputMethodHints(QtCore.Qt.ImhDialableCharactersOnly)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Discard|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setCenterButtons(False)
         self.buttonBox.setObjectName("buttonBox")
         self.gridLayout.addWidget(self.buttonBox, 5, 0, 1, 1, QtCore.Qt.AlignBottom)
-        self.frame = QtWidgets.QFrame(Dialog)
+        self.frame = QtWidgets.QFrame(AddJobDialog)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
@@ -64,7 +67,7 @@ class Ui_Dialog(object):
         spacerItem2 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_3.addItem(spacerItem2)
         self.gridLayout.addWidget(self.frame, 3, 0, 1, 1)
-        self.sourceDirectory = QtWidgets.QFrame(Dialog)
+        self.sourceDirectory = QtWidgets.QFrame(AddJobDialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -87,20 +90,20 @@ class Ui_Dialog(object):
         self.horizontalLayout.addWidget(self.sourceDialogButton)
         self.gridLayout.addWidget(self.sourceDirectory, 1, 0, 1, 1)
 
-        self.retranslateUi(Dialog)
-        self.buttonBox.accepted.connect(Dialog.accept)
-        self.buttonBox.rejected.connect(Dialog.reject)
-        QtCore.QMetaObject.connectSlotsByName(Dialog)
+        self.retranslateUi(AddJobDialog)
+        self.buttonBox.accepted.connect(AddJobDialog.accept)
+        self.buttonBox.rejected.connect(AddJobDialog.reject)
+        QtCore.QMetaObject.connectSlotsByName(AddJobDialog)
 
-    def retranslateUi(self, Dialog):
+    def retranslateUi(self, AddJobDialog):
         _translate = QtCore.QCoreApplication.translate
-        Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.targetLabel.setText(_translate("Dialog", "Target Directory"))
-        self.targetDialogButton.setText(_translate("Dialog", "..."))
-        self.startBox.setText(_translate("Dialog", "Start"))
-        self.pauseLabel.setToolTip(_translate("Dialog", "Pause between the scans."))
-        self.pauseLabel.setText(_translate("Dialog", "Pause"))
-        self.pauseEdit.setDisplayFormat(_translate("Dialog", "mm:ss"))
-        self.sourceLabel.setText(_translate("Dialog", "Source Directory"))
-        self.sourceDialogButton.setText(_translate("Dialog", "..."))
+        AddJobDialog.setWindowTitle(_translate("AddJobDialog", "Dialog"))
+        self.targetLabel.setText(_translate("AddJobDialog", "Target Directory"))
+        self.targetDialogButton.setText(_translate("AddJobDialog", "..."))
+        self.startBox.setText(_translate("AddJobDialog", "Start"))
+        self.pauseLabel.setToolTip(_translate("AddJobDialog", "Pause between the scans."))
+        self.pauseLabel.setText(_translate("AddJobDialog", "Pause"))
+        self.pauseEdit.setDisplayFormat(_translate("AddJobDialog", "mm:ss"))
+        self.sourceLabel.setText(_translate("AddJobDialog", "Source Directory"))
+        self.sourceDialogButton.setText(_translate("AddJobDialog", "..."))
 

@@ -15,7 +15,6 @@ def _init():
     """
     Initialization save directory.
     """
-    global job_dict
     home = dynamic.SAVE_FILE.parent
     try:
         if not home.exists():
@@ -38,7 +37,7 @@ def _init():
     # TODO: version not used
     if 'jobs' in save_dict:
         for job in save_dict['jobs']:
-            job_dict[job['source_dir']] = Monitor.from_json_dict(job)
+            add_new_monitor(Monitor.from_json_dict(job))
 
 
 def start():
@@ -65,12 +64,6 @@ def start():
 
     # configure threads
     add_new_jobs(job_dict, args.job_list, args.no_save)  # job_dict will be modified
-    # start threads
-    for monitor in job_dict.values():
-        if monitor.startup:
-            if not monitor.start():
-                monitor.startup = False
-                print(monitor, monitor.status)
 
     if args.gui:
         gui()
@@ -78,19 +71,28 @@ def start():
     shutdown()
 
 
-def add_new_jobs(jobs_dict, dir_list, no_save):
+def add_new_monitor(monitor):
+    global job_dict
+    job_dict[str(monitor.source_dir)] = monitor
+    if monitor.startup:
+        if not monitor.start():
+            monitor.startup = False
+            print(monitor, monitor.status)
+
+
+def add_new_jobs(jobs_dict, job_list, no_save):
     """
     Will overwrite existing monitoring jobs.
     :param jobs_dict: will be modified
-    :param dir_list:
+    :param job_list:
     :param no_save:
     :return:
     """
-    if dir_list is None:
+    if job_list is None:
         return
-    for task in dir_list:
-        source_dir = Path(task[0]).resolve()
-        target_dir = Path(task[1]).resolve()
+    for task in job_list:
+        source_dir = Path(task[0])
+        target_dir = Path(task[1])
         pause = int(task[2])
 
         if str(source_dir) in jobs_dict and not no_save:  # check if the source already exists
@@ -98,8 +100,7 @@ def add_new_jobs(jobs_dict, dir_list, no_save):
         else:
             last_mod_time = 0
 
-        cur_monitor = Monitor(source_dir, target_dir, True, last_mod_time=last_mod_time, pause=pause)
-        jobs_dict[str(source_dir)] = cur_monitor
+        add_new_monitor(Monitor(source_dir, target_dir, True, last_mod_time=last_mod_time, pause=pause))
 
 
 def gui():
