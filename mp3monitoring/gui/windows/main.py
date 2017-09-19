@@ -3,8 +3,8 @@ from functools import partial
 from PyQt5.QtCore import QThread
 from PyQt5.QtWidgets import QHeaderView, QMainWindow
 
-from gui import monitor_table_view
 from gui.check_box import CheckBoxDelegate
+from gui.data import monitor_table_view
 from gui.data.monitor_table_model import DataTableModel
 from gui.widgets.shutdown_overlay import ShutdownOverlay
 from gui.windows import menu_items
