@@ -13,7 +13,7 @@ def set_item_actions(parent):
     # File -> Add...
     parent.actionAdd.triggered.connect(partial(handle_file_add, parent))
     # File -> Exit
-    parent.actionExit.triggered.connect(parent.close)
+    parent.actionExit.triggered.connect(parent.exit)
 
 
 def handle_file_add(parent):

@@ -1,11 +1,13 @@
 from functools import partial
 
 from PyQt5.QtCore import QThread
-from PyQt5.QtWidgets import QHeaderView, QMainWindow
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtWidgets import QDialogButtonBox, QHeaderView, QMainWindow, QMenu, QSystemTrayIcon
 
 from gui.check_box import CheckBoxDelegate
 from gui.data import monitor_table_view
 from gui.data.monitor_table_model import DataTableModel
+from gui.widgets import dialogs
 from gui.widgets.shutdown_overlay import ShutdownOverlay
 from gui.windows import menu_items
 from gui.windows.ui.main import Ui_MainWindow
@@ -28,6 +30,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.gridLayout.addWidget(self.overlay, 0, 0, 1, 1)
         self.overlay.hide()
 
+        # tray icon
+        self.tray_icon = None
+        self.create_tray_icon()
+
         # init shutdown thread
         self.shutdown_worker = ShutdownWorker()
         self.shutdown_thread = QThread()
@@ -46,12 +52,48 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.statusBar.showMessage(msg, time)
 
     def closeEvent(self, event, close_immediately=False):  # TODO
+        event.ignore()
+        if not QSystemTrayIcon.isSystemTrayAvailable():
+            value = dialogs.question_dialog('Exiting...', 'Do you really want to exit?')
+            if bool(value & QDialogButtonBox.Yes):
+                self.exit()
+        else:
+            self.tray_icon.show()
+            self.hide()
+            if QSystemTrayIcon.supportsMessages():  # TODO: seems not to work, on at least win10
+                self.tray_icon.showMessage("MP3 Monitoring is running in background!",
+                                           "Double click tray icon to open window and right click for menu.")
+
+    def exit(self):  # TODO: deactivate close button
         self.menuBar.setEnabled(False)
         self.overlay.show()
+        self.show_window()
 
         self.shutdown_thread.start()
 
-        event.ignore()
+    def create_tray_icon(self):
+        icon = QIcon()
+        icon.addPixmap(QPixmap("../data/icon_export.svg"), QIcon.Normal, QIcon.Off)
+        self.tray_icon = QSystemTrayIcon(icon)
+        self.tray_icon.activated.connect(self.tray_icon_clicked)
+
+        menu = QMenu(self)
+        open_action = menu.addAction("Open")
+        menu.addSeparator()
+        exit_action = menu.addAction("Exit")
+        open_action.triggered.connect(self.show_window)
+        exit_action.triggered.connect(self.exit)
+        self.tray_icon.setContextMenu(menu)
+
+    def tray_icon_clicked(self, reason):
+        if reason == QSystemTrayIcon.DoubleClick:
+            self.show_window()
+        elif reason == QSystemTrayIcon.Context:
+            pass  # context menu automatically shown by the system tray icon
+
+    def show_window(self):
+        self.show()
+        self.tray_icon.hide()
 
     def create_data_table(self):
         header = [' active ', ' source ', ' target ', ' status ', ' pause (s) ']
