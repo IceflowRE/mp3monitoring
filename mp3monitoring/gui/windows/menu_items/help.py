@@ -5,13 +5,13 @@ from gui.windows.about import AboutWindow
 
 
 def set_item_actions(parent):
-    # Help -> Check for udpates
-    parent.actionCheckForUpdates.triggered.connect(handle_help_check_updates)
+    # Help -> Check for updates
+    parent.actionCheckForUpdates.triggered.connect(handle_check_update)
     # Help -> About
     parent.actionAbout.triggered.connect(partial(handle_help_about, parent))
 
 
-def handle_help_check_updates():
+def handle_check_update():
     gui.widgets.dialogs.information_dialog('Not implemented yet.', 'Checking for updates is not implemented yet.')
 
 

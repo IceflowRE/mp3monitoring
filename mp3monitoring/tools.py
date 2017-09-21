@@ -35,7 +35,19 @@ def get_all_files_after_time(directory, after_time=0):
             (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
 
 
-def load_config_data(path: Path):
+def load_settings(save_dict):
+    if 'settings' in save_dict:
+        settings = save_dict['settings']
+        for value in data.static.SETTINGS_VALUES:
+            if value.lower() in settings:
+                setattr(data.settings, value, settings[value.lower()])
+            else:
+                print('{value} not found in settings.'.format(value=value))
+    else:
+        print('No settings found in save file.')
+
+
+def load_save_file(path: Path):
     """
     Loads the modification times from the save file.
     :param path:
@@ -46,7 +58,17 @@ def load_config_data(path: Path):
     return save_dict
 
 
-def save_config_data(job_dict, path: Path):
+def get_settings_dict():
+    settings = {}
+    for value in data.static.SETTINGS_VALUES:
+        try:
+            settings[value.lower()] = getattr(data.settings, value)
+        except AttributeError:
+            print('Internal fail, for settings variables. ({variable}'.format(variable=value))
+    return settings
+
+
+def save_save_file(job_dict, path: Path):
     """
     Saves the modification times to the save file.
     :param job_dict: monitor jobs
@@ -56,8 +78,7 @@ def save_config_data(job_dict, path: Path):
     for job in job_dict.values():
         json_dict['jobs'].append(job.to_json_dict())
 
-    json_dict['settings']['gui_update_time'] = data.settings.GUI_UPDATE_TIME
-    json_dict['settings']['check_update_at_startup'] = data.settings.CHECK_UPDATE_AT_STARTUP
+    json_dict['settings'] = get_settings_dict()
 
     with path.open('w', encoding='utf-8') as writer:
         json.dump(json_dict, writer, indent=4)

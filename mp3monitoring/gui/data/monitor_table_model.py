@@ -13,7 +13,7 @@ class DataTableModel(QAbstractTableModel):
 
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.update_model)
-        self.__timer.start(data.settings.GUI_UPDATE_TIME)
+        self.__timer.start(data.settings.GUI_UPDATE_TIME * 1000)
 
     def rowCount(self, parent=None, *args, **kwargs):
         return len(data.dynamic.JOB_DICT)

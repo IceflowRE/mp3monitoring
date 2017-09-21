@@ -7,4 +7,4 @@ AUTHOR = 'Iceflower S'
 AUTHOR_GITHUB = 'https://github.com/IceflowRE'
 AUTHOR_EMAIL = 'iceflower@gmx.de'
 
-SETTINGS_VALUES = ['gui_update_time', 'check_update_at_startup']
+SETTINGS_VALUES = ['GUI_UPDATE_TIME', 'CHECK_UPDATE_AT_STARTUP']

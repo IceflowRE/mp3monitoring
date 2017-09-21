@@ -1,9 +1,12 @@
-import gui.widgets.dialogs
+from functools import partial
+
+from gui.windows.settings import SettingsWindow
 
 
 def set_item_actions(parent):
-    parent.actionSettings.triggered.connect(handle_settings_settings)
+    parent.actionSettings.triggered.connect(partial(handle_settings_settings, parent))
 
 
-def handle_settings_settings():
-    gui.widgets.dialogs.information_dialog('Not implemented yet.', 'Settings are not implemented yet.')
+def handle_settings_settings(parent):
+    sw = SettingsWindow(parent)
+    sw.show()

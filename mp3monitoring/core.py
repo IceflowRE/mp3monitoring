@@ -30,7 +30,7 @@ def _init(ignore_save=False):
     # TODO: version not used
     try:
         print('Load save file.')
-        save_dict = tools.load_config_data(data.dynamic.SAVE_FILE)
+        save_dict = tools.load_save_file(data.dynamic.SAVE_FILE)
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
@@ -39,16 +39,8 @@ def _init(ignore_save=False):
         if 'jobs' in save_dict:
             for job in save_dict['jobs']:
                 add_new_monitor(Monitor.from_json_dict(job))
-    # load settings
-    if 'settings' in save_dict:
-        settings = save_dict['settings']
-        for value in data.static.SETTINGS_VALUES:
-            if value in settings:
-                data.settings.GUI_UPDATE_TIME = settings[value]
-            else:
-                print('{value} not found in settings.'.format(value=value))
-    else:
-        print('No settings found in save file.')
+
+    tools.load_settings(save_dict)
 
 
 def start():
@@ -148,4 +140,4 @@ def shutdown(signal=None):
 
     if signal is not None:
         signal.emit("Save save file")
-    tools.save_config_data(data.dynamic.JOB_DICT, data.dynamic.SAVE_FILE)
+    tools.save_save_file(data.dynamic.JOB_DICT, data.dynamic.SAVE_FILE)
