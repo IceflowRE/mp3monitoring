@@ -6,7 +6,7 @@ import codecs
 
 from setuptools import find_packages, setup
 
-from data import static
+import data.static
 
 try:
     codecs.lookup('mbcs')
@@ -16,11 +16,11 @@ except LookupError:
     codecs.register(func)
 
 setup(
-    name=static.NAME,
-    version=static.VERSION,
+    name=data.static.NAME,
+    version=data.static.VERSION,
     description='Monitors a folder and copies mp3s to another folder.',
-    author=static.AUTHOR,
-    author_email=static.AUTHOR_EMAIL,
+    author=data.static.AUTHOR,
+    author_email=data.static.AUTHOR_EMAIL,
     license='GPLv3',
     classifiers=[
         'Programming Language :: Python :: 3.6',

@@ -64,7 +64,7 @@ def get_settings_dict():
         try:
             settings[value.lower()] = getattr(data.settings, value)
         except AttributeError:
-            print('Internal fail, for settings variables. ({variable}'.format(variable=value))
+            print('Internal fail, for settings variable. ({variable}'.format(variable=value))
     return settings
 
 
