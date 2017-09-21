@@ -21,6 +21,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.app = app
 
+        # menu items
         menu_items.file.set_item_actions(self)
         menu_items.settings.set_item_actions(self)
         menu_items.help.set_item_actions(self)
@@ -42,11 +43,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.shutdown_worker.moveToThread(self.shutdown_thread)
         self.shutdown_thread.started.connect(self.shutdown_worker.shutdown)
 
-        self.create_data_table()
+        # create monitor table
+        self.create_monitor_table()
 
         # add context menu to table view
-        self.dataTableView.customContextMenuRequested.connect(
-            partial(monitor_table_view.context_menu, self.dataTableView))
+        self.monitorTableView.customContextMenuRequested.connect(
+            partial(monitor_table_view.context_menu, self.monitorTableView))
 
     def change_status_bar(self, msg, time=5000):
         self.statusBar.showMessage(msg, time)
@@ -95,16 +97,16 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.show()
         self.tray_icon.hide()
 
-    def create_data_table(self):
+    def create_monitor_table(self):
         header = [' active ', ' source ', ' target ', ' status ', ' pause (s) ']
         table_model = DataTableModel(header, self)
-        self.dataTableView.setModel(table_model)
-        self.dataTableView.setSortingEnabled(False)  # TODO
+        self.monitorTableView.setModel(table_model)
+        self.monitorTableView.setSortingEnabled(False)  # TODO
 
-        self.dataTableView.setItemDelegateForColumn(0, CheckBoxDelegate(self.dataTableView))
+        self.monitorTableView.setItemDelegateForColumn(0, CheckBoxDelegate(self.monitorTableView))
 
-        h_header = self.dataTableView.horizontalHeader()
+        h_header = self.monitorTableView.horizontalHeader()
         h_header.setSectionResizeMode(0, QHeaderView.Fixed)  # active
         h_header.setSectionResizeMode(1, QHeaderView.Stretch)  # source dir
         h_header.setSectionResizeMode(2, QHeaderView.Stretch)  # target dir
-        self.dataTableView.resizeColumnsToContents()
+        self.monitorTableView.resizeColumnsToContents()

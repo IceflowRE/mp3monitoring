@@ -27,18 +27,28 @@ def _init(ignore_save=False):
         print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
 
     # load save file
+    # TODO: version not used
+    try:
+        print('Load save file.')
+        save_dict = tools.load_config_data(dynamic.SAVE_FILE)
+    except Exception:
+        print('Could not load save file.')  # TODO: ask user
+        traceback.print_exc()
+        sys.exit(1)
     if not ignore_save:
-        try:
-            print('Load save file.')
-            save_dict = tools.load_config_data(dynamic.SAVE_FILE)
-        except Exception:
-            print('Could not load save file.')  # TODO: ask user
-            traceback.print_exc()
-            sys.exit(1)
-        # TODO: version not used
         if 'jobs' in save_dict:
             for job in save_dict['jobs']:
                 add_new_monitor(Monitor.from_json_dict(job))
+    # load settings
+    if 'settings' in save_dict:
+        settings = save_dict['settings']
+        for value in static.SETTINGS_VALUES:
+            if value in settings:
+                dynamic.GUI_UPDATE_TIME = settings[value]
+            else:
+                print('{value} not found in settings.'.format(value=value))
+    else:
+        print('No settings found in save file.')
 
 
 def start():
@@ -57,7 +67,7 @@ def start():
     parser.add_argument('--ignore_times', dest='ignore_times', default=False, action='store_true',
                         help='Ignore the last modification time from save file (default: %(default)s)')
     parser.add_argument('--ignore_save', dest='ignore_save', default=False, action='store_true',
-                        help='Ignores the save file and do not load any jobs from there. (default: %(default)s)')
+                        help='Ignores existing jobs from save file and do not load them. (default: %(default)s)')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
                         help='open the gui (default: %(default)s)')
 

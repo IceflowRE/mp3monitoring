@@ -114,6 +114,7 @@ class DataTableModel(QAbstractTableModel):
             return True
         return False
 
+    # TODO: remove here or call directly from context menu
     def removeRows(self, row_start, row_end, parent=None, *args, **kwargs):
         """
         beginRemoveRows and endRemoveRows are not called because the time when it gets removed and the row at this

@@ -3,7 +3,7 @@ from pathlib import Path
 
 import mutagen.mp3
 
-from data import static
+from data import static, dynamic
 
 
 def is_mp3(file_path: str):
@@ -50,8 +50,12 @@ def save_config_data(job_dict, path: Path):
     :param job_dict: monitor jobs
     :param path:
     """
-    json_dict = {'information': {'version': static.VERSION}, 'jobs': []}
+    json_dict = {'information': {'version': static.VERSION}, 'jobs': [], 'settings': {}}
     for job in job_dict.values():
         json_dict['jobs'].append(job.to_json_dict())
+
+    json_dict['settings']['gui_update_time'] = dynamic.GUI_UPDATE_TIME
+    json_dict['settings']['check_update_at_startup'] = False
+
     with path.open('w', encoding='utf-8') as writer:
         json.dump(json_dict, writer, indent=4)

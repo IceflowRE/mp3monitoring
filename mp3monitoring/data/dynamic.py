@@ -8,3 +8,4 @@ from data import static
 SAVE_FILE = Path.home().joinpath('.' + static.NAME.replace(' ', '_')).joinpath('data.sav')
 
 GUI_UPDATE_TIME = 1000
+CHECK_UPDATE_AT_STARTUP = False

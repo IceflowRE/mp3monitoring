@@ -52,7 +52,7 @@
      <number>0</number>
     </property>
     <item row="0" column="0">
-     <widget class="QTableView" name="dataTableView">
+     <widget class="QTableView" name="monitorTableView">
       <property name="font">
        <font>
         <family>Noto Sans UI</family>
@@ -130,8 +130,6 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionHelp"/>
-    <addaction name="separator"/>
     <addaction name="actionCheckForUpdates"/>
     <addaction name="actionAbout"/>
    </widget>
@@ -193,25 +191,12 @@
   </action>
   <action name="actionCheckForUpdates">
    <property name="text">
-    <string>Check for updates</string>
+    <string>Check for updates...</string>
    </property>
    <property name="font">
     <font>
      <family>Noto Sans UI</family>
     </font>
-   </property>
-  </action>
-  <action name="actionHelp">
-   <property name="text">
-    <string>&amp;Help</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Noto Sans UI</family>
-    </font>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+H</string>
    </property>
   </action>
   <action name="actionSettings">
