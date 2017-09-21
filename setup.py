@@ -15,6 +15,13 @@ except LookupError:
     func = lambda name, enc=ascii: {True: enc}.get(name=='mbcs')
     codecs.register(func)
 
+_OPTIONAL = {
+    'with_gui': ['PyQt5 >= 5.9'],
+    'with_updater': ['urllib3'],
+}
+with_everything = [package for optional_list in _OPTIONAL.values() for package in optional_list]
+_OPTIONAL['with_everything'] = with_everything
+
 setup(
     name=data.static.NAME,
     version=data.static.VERSION,
@@ -36,14 +43,14 @@ setup(
     install_requires=[
         'mutagen',
         'tqdm',
-        'PyQt5 >= 5.9',
     ],
+    extras_require=_OPTIONAL,
     package_data={
         'License': ['LICENSE.md'],
         'ReadMe': ['README.md'],
     },
     zip_safe=True,
     scripts=[
-        'bin/mp3-monitoring'
+        'bin/mp3-monitoring',
     ],
 )
