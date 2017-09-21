@@ -5,6 +5,7 @@ from argparse import ArgumentParser
 from pathlib import Path
 
 import data.dynamic
+import data.settings
 import data.static
 import tools
 from monitor import Monitor
@@ -43,7 +44,7 @@ def _init(ignore_save=False):
         settings = save_dict['settings']
         for value in data.static.SETTINGS_VALUES:
             if value in settings:
-                data.dynamic.GUI_UPDATE_TIME = settings[value]
+                data.settings.GUI_UPDATE_TIME = settings[value]
             else:
                 print('{value} not found in settings.'.format(value=value))
     else:

@@ -2,6 +2,7 @@ from PyQt5.QtCore import QAbstractTableModel, QTimer, QVariant, Qt
 from PyQt5.QtGui import QColor
 
 import data.dynamic
+import data.settings
 from gui.workers.stop_monitor_worker import add_remover
 
 
@@ -12,7 +13,7 @@ class DataTableModel(QAbstractTableModel):
 
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.update_model)
-        self.__timer.start(data.dynamic.GUI_UPDATE_TIME)
+        self.__timer.start(data.settings.GUI_UPDATE_TIME)
 
     def rowCount(self, parent=None, *args, **kwargs):
         return len(data.dynamic.JOB_DICT)
