@@ -12,7 +12,6 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         self.setupUi(self)
         self.setWindowModality(Qt.ApplicationModal)
         self.setWindowFlags(self.windowFlags() | Qt.FramelessWindowHint)
-        self.setFixedSize(self.size())
 
         self.closeButton.clicked.connect(self.close)
 

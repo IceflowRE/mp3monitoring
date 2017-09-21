@@ -57,7 +57,7 @@ def save_config_data(job_dict, path: Path):
         json_dict['jobs'].append(job.to_json_dict())
 
     json_dict['settings']['gui_update_time'] = data.settings.GUI_UPDATE_TIME
-    json_dict['settings']['check_update_at_startup'] = False
+    json_dict['settings']['check_update_at_startup'] = data.settings.CHECK_UPDATE_AT_STARTUP
 
     with path.open('w', encoding='utf-8') as writer:
         json.dump(json_dict, writer, indent=4)

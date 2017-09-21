@@ -12,7 +12,7 @@ class Ui_AboutWindow(object):
     def setupUi(self, AboutWindow):
         AboutWindow.setObjectName("AboutWindow")
         AboutWindow.resize(600, 350)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(AboutWindow.sizePolicy().hasHeightForWidth())
