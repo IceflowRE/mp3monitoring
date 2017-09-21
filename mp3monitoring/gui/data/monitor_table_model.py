@@ -74,7 +74,7 @@ class DataTableModel(QAbstractTableModel):
                 return QColor(160, 0, 0)
             else:
                 return QColor(0, 160, 0)
-        elif role == Qt.DisplayRole:
+        elif role == Qt.DisplayRole or role == Qt.ToolTipRole:
             if index.column() == 0:  # return negate stopping
                 return not job.stopping
             elif index.column() == 1:
