@@ -49,17 +49,9 @@ class CheckBoxDelegate(QStyledItemDelegate):
         if not index.flags() & Qt.ItemIsEnabled:
             return False
 
-        # Do not change the checkbox-state
-        if event.type() == QEvent.MouseButtonRelease or event.type() == QEvent.MouseButtonDblClick:
-            if event.button() != Qt.LeftButton or not self.get_check_box_rect(option).contains(event.pos()):
-                return False
-            if event.type() == QEvent.MouseButtonDblClick:
-                return False
-        elif event.type() == QEvent.KeyPress:
-            if event.key() != Qt.Key_Space and event.key() != Qt.Key_Select:
-                return False
-            else:
-                return False
+        # Change only state if left clicked released and inside the check box
+        if event.button() != Qt.LeftButton or event.type() != QEvent.MouseButtonRelease or not self.get_check_box_rect(option).contains(event.pos()):
+            return False
 
         # Change the checkbox-state
         self.setModelData(None, model, index)
