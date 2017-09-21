@@ -4,24 +4,23 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
+import data.dynamic
+import data.static
 import tools
-from data import dynamic, static
 from monitor import Monitor
-
-job_dict = {}
 
 
 def _init(ignore_save=False):
     """
     Initialization save directory.
     """
-    home = dynamic.SAVE_FILE.parent
+    home = data.dynamic.SAVE_FILE.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
-        if not dynamic.SAVE_FILE.exists():
-            json_dict = {'information': {'version': static.VERSION}}
-            with dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
+        if not data.dynamic.SAVE_FILE.exists():
+            json_dict = {'information': {'version': data.static.VERSION}}
+            with data.dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
                 json.dump(json_dict, writer, indent=4)
     except PermissionError:
         print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
@@ -30,7 +29,7 @@ def _init(ignore_save=False):
     # TODO: version not used
     try:
         print('Load save file.')
-        save_dict = tools.load_config_data(dynamic.SAVE_FILE)
+        save_dict = tools.load_config_data(data.dynamic.SAVE_FILE)
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
@@ -42,9 +41,9 @@ def _init(ignore_save=False):
     # load settings
     if 'settings' in save_dict:
         settings = save_dict['settings']
-        for value in static.SETTINGS_VALUES:
+        for value in data.static.SETTINGS_VALUES:
             if value in settings:
-                dynamic.GUI_UPDATE_TIME = settings[value]
+                data.dynamic.GUI_UPDATE_TIME = settings[value]
             else:
                 print('{value} not found in settings.'.format(value=value))
     else:
@@ -55,13 +54,12 @@ def start():
     """
     Entry point into program.
     """
-    global job_dict
     if sys.version_info[0] < 3 or sys.version_info[1] < 6:
         sys.exit('Only Python 3.6 or greater is supported. You are using: {version}'.format(version=sys.version))
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
-    parser.add_argument('-v', '--version', action='version', version=static.VERSION)
+    parser.add_argument('-v', '--version', action='version', version=data.static.VERSION)
     parser.add_argument('-j', '--job', dest='job_list', nargs=3, action='append', metavar=('source', 'target', 'pause'),
                         help='Monitors the source and copies to target directory and adds a pause in seconds between every check.')
     parser.add_argument('--ignore_times', dest='ignore_times', default=False, action='store_true',
@@ -76,7 +74,7 @@ def start():
     _init(args.ignore_save)
 
     # configure threads
-    add_new_jobs(job_dict, args.job_list, args.ignore_times)  # job_dict will be modified
+    add_new_jobs(data.dynamic.JOB_DICT, args.job_list, args.ignore_times)  # JOB_DICT will be modified
 
     if args.gui:
         gui()
@@ -85,8 +83,7 @@ def start():
 
 
 def add_new_monitor(monitor):
-    global job_dict
-    job_dict[str(monitor.source_dir)] = monitor
+    data.dynamic.JOB_DICT[str(monitor.source_dir)] = monitor
     if monitor.startup:
         if not monitor.start():
             monitor.startup = False
@@ -139,16 +136,15 @@ def shutdown(signal=None):
     :param signal: signal of the gui callback
     :return:
     """
-    global job_dict
     if signal is not None:
         signal.emit("Stopping monitoring threads")
-    for job in job_dict.values():
+    for job in data.dynamic.JOB_DICT.values():
         job.stop()
     # wait for ending
-    for monitor in job_dict.values():
+    for monitor in data.dynamic.JOB_DICT.values():
         if monitor.thread.isAlive():
             monitor.thread.join()
 
     if signal is not None:
         signal.emit("Save save file")
-    tools.save_config_data(job_dict, dynamic.SAVE_FILE)
+    tools.save_config_data(data.dynamic.JOB_DICT, data.dynamic.SAVE_FILE)
