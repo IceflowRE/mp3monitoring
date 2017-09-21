@@ -120,7 +120,7 @@ def gui():
     app = QApplication([])
     main_window = MainWindow(app)
     main_window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 
 def shutdown(signal=None):

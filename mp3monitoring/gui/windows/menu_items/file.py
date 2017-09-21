@@ -22,7 +22,7 @@ def handle_file_add(parent):
     :return:
     """
     dialog = AddJobDialog(parent)
-    state = dialog.exec_()
+    state = dialog.exec()
     if state == QDialog.Accepted:
         values = dialog.get_values()
         if values[0] == '' or values[1] == '':
