@@ -2,7 +2,7 @@
 <Package>
     <Name>mp3monitoring.updater</Name>
     <DisplayName>Updater</DisplayName>
-    <Description>Installs urllib3 to make the updater working.</Description>
+    <Description>Installs urllib3 and the updater component.</Description>
     <Version>1.0.0</Version>
     <ReleaseDate>2017-09-21</ReleaseDate>
     <Default>false</Default>

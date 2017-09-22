@@ -108,14 +108,14 @@ def add_new_jobs(jobs_dict, job_list, ignore_times):
 
 def gui():
     try:
-        from PyQt5.QtWidgets import QApplication
-    except ImportError:
-        print('PyQt5 not installed, you can not use the gui.')
-        return
-    try:
         from gui.windows.main import MainWindow
     except ImportError:
-        print('blubs')
+        print('GUI component is not installed.')
+        return
+    try:
+        from PyQt5.QtWidgets import QApplication
+    except ImportError:
+        print('PyQt5 is not installed, you can not use the gui.')
         return
     app = QApplication([])
     main_window = MainWindow(app)
