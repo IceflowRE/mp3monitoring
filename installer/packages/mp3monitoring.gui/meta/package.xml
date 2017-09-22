@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <Name>mp3monitoring.gui</Name>
+    <DisplayName>Gui</DisplayName>
+    <Description>Installs pyqt5 and gui.</Description>
+    <Version>1.0.0</Version>
+    <ReleaseDate>2017-09-21</ReleaseDate>
+    <Default>false</Default>
+    <Dependencies>mp3monitoring</Dependencies>
+</Package>

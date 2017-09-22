@@ -1,3 +1,10 @@
+# installer files
+installer/bin/
+installer/packages/mp3monitoring/data/
+installer/packages/mp3monitoring/meta/LICENSE.md
+installer/packages/mp3monitoring.gui/data/
+installer/packages/mp3monitoring.updater/data/
+
 .idea/
 
 # Byte-compiled / optimized / DLL files
