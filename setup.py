@@ -6,7 +6,7 @@ import codecs
 
 from setuptools import find_packages, setup
 
-import data.static
+import mp3monitoring.data.static
 
 try:
     codecs.lookup('mbcs')
@@ -23,11 +23,11 @@ with_everything = [package for optional_list in _OPTIONAL.values() for package i
 _OPTIONAL['with_everything'] = with_everything
 
 setup(
-    name=data.static.NAME,
-    version=data.static.VERSION,
+    name=mp3monitoring.data.static.NAME,
+    version=mp3monitoring.data.static.VERSION,
     description='Monitors a folder and copies mp3s to another folder.',
-    author=data.static.AUTHOR,
-    author_email=data.static.AUTHOR_EMAIL,
+    author=mp3monitoring.data.static.AUTHOR,
+    author_email=mp3monitoring.data.static.AUTHOR_EMAIL,
     license='GPLv3',
     classifiers=[
         'Programming Language :: Python :: 3.6',
