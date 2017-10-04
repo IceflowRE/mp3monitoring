@@ -40,6 +40,7 @@ setup(
         'Environment :: X11 Applications :: Qt',
     ],
     packages=find_packages(),
+    python_requires='>=3.6',
     install_requires=[
         'mutagen',
         'tqdm',

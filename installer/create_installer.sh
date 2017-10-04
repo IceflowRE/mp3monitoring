@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cur_folder="./packages/mp3monitoring/data/"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}
