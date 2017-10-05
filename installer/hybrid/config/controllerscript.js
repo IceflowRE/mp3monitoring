@@ -1,4 +1,6 @@
-function Controller() { }
+function Controller() {
+    
+}
 
 Controller.prototype.IntroductionPageCallback = function() {
     // disable updater radio buttons
