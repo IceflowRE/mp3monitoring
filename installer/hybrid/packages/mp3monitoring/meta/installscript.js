@@ -18,7 +18,7 @@ Component.prototype.createOperations = function() {
     component.createOperations();
     
     component.addOperation("Copy", tmpDir + "README.md", "@TargetDir@")
-    component.addOperation("Execute", "pip", "install", "--no-deps", tmpDir + wheelName);
+    component.addOperation("Execute", "pip", "install", "--no-deps", tmpDir + wheelName, "UNDOEXECUTE", "pip", "uninstall", "-y", "mp3monitoring");
     component.addOperation("Execute", "pip", "install", "--upgrade", "mutagen");
     component.addOperation("Execute", "pip", "install", "--upgrade", "tqdm");
 }
