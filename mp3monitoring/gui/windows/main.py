@@ -4,14 +4,14 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialogButtonBox, QHeaderView, QMainWindow, QMenu, QSystemTrayIcon
 
-from gui.check_box import CheckBoxDelegate
-from gui.data import monitor_table_view
-from gui.data.monitor_table_model import DataTableModel
-from gui.widgets import dialogs
-from gui.widgets.shutdown_overlay import ShutdownOverlay
-from gui.windows import menu_items
-from gui.windows.ui.main import Ui_MainWindow
-from gui.workers.shutdown_worker import ShutdownWorker
+from mp3monitoring.gui.check_box import CheckBoxDelegate
+from mp3monitoring.gui.data import monitor_table_view
+from mp3monitoring.gui.data.monitor_table_model import DataTableModel
+from mp3monitoring.gui.widgets import dialogs
+from mp3monitoring.gui.widgets.shutdown_overlay import ShutdownOverlay
+from mp3monitoring.gui.windows import menu_items
+from mp3monitoring.gui.windows.ui.main import Ui_MainWindow
+from mp3monitoring.gui.workers.shutdown_worker import ShutdownWorker
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):

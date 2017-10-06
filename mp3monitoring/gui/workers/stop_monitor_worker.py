@@ -2,8 +2,7 @@ from functools import partial
 
 from PyQt5.QtCore import QObject, QThread, pyqtSignal, pyqtSlot
 
-import core
-import data.dynamic
+import mp3monitoring.data.dynamic as dynamic_data
 
 remover_dict = {}  # dictionary which contains the object and thread who removes the monitor threads
 
@@ -30,11 +29,11 @@ def add_remover(source_dir, model):
 
 
 def stop_monitor(source):
-    monitor = data.dynamic.JOB_DICT[source]
+    monitor = dynamic_data.JOB_DICT[source]
     monitor.stop()
     if monitor.thread.is_alive():
         monitor.thread.join()
-    del data.dynamic.JOB_DICT[source]
+    del dynamic_data.JOB_DICT[source]
 
 
 def remove_worker(source_dir):

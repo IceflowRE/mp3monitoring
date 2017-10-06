@@ -6,7 +6,8 @@ from threading import Thread
 
 from tqdm import tqdm
 
-from tools import get_all_files_after_time, is_mp3
+from mp3monitoring.data import dynamic as dynamic_data
+from mp3monitoring.tools import get_all_files_after_time, is_mp3
 
 
 class Monitor:
@@ -175,3 +176,11 @@ class Monitor:
                 'startup': self.startup,
                 'last_mod_time': self.last_mod_time
                 }
+
+
+def add_new_monitor(monitor):
+    dynamic_data.JOB_DICT[str(monitor.source_dir)] = monitor
+    if monitor.startup:
+        if not monitor.start():
+            monitor.startup = False
+            print(monitor, monitor.status)

@@ -51,7 +51,9 @@ setup(
         'ReadMe': ['README.md'],
     },
     zip_safe=True,
-    scripts=[
-        'bin/mp3-monitoring',
-    ],
+    entry_points = {
+        'console_scripts': [
+            'mp3monitoring = mp3monitoring.core:start',
+        ]
+    }
 )

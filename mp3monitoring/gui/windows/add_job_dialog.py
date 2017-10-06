@@ -1,7 +1,7 @@
 from PyQt5.QtCore import QTime, Qt
 from PyQt5.QtWidgets import QDialog, QFileDialog
 
-from gui.windows.ui.add_job_dialog import Ui_AddJobDialog
+from mp3monitoring.gui.windows.ui.add_job_dialog import Ui_AddJobDialog
 
 
 class AddJobDialog(QDialog, Ui_AddJobDialog):

@@ -3,10 +3,9 @@ from pathlib import Path
 
 from PyQt5.QtWidgets import QDialog
 
-import core
-from gui.widgets.dialogs import information_dialog
-from gui.windows.add_job_dialog import AddJobDialog
-from monitor import Monitor
+from mp3monitoring.gui.widgets.dialogs import information_dialog
+from mp3monitoring.gui.windows.add_job_dialog import AddJobDialog
+from mp3monitoring.monitor import Monitor, add_new_monitor
 
 
 def set_item_actions(parent):
@@ -28,4 +27,4 @@ def handle_file_add(parent):
         if values[0] == '' or values[1] == '':
             information_dialog('Could not create monitor job.', 'Source or target directory value was empty.')
             return
-        core.add_new_monitor(Monitor(Path(values[0]), Path(values[1]), values[2], pause=values[3]))
+        add_new_monitor(Monitor(Path(values[0]), Path(values[1]), values[2], pause=values[3]))

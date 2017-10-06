@@ -4,24 +4,24 @@ import traceback
 from argparse import ArgumentParser
 from pathlib import Path
 
-import data.dynamic
-import data.settings
-import data.static
-import tools
-from monitor import Monitor
+import mp3monitoring.data.dynamic as dynamic_data
+import mp3monitoring.data.static as static_data
+import mp3monitoring.tools as tools
+from mp3monitoring.monitor import Monitor
+from mp3monitoring.monitor import add_new_monitor
 
 
 def _init(ignore_save=False):
     """
     Initialization save directory.
     """
-    home = data.dynamic.SAVE_FILE.parent
+    home = dynamic_data.SAVE_FILE.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
-        if not data.dynamic.SAVE_FILE.exists():
-            json_dict = {'information': {'version': data.static.VERSION}}
-            with data.dynamic.SAVE_FILE.open('w', encoding='utf-8') as writer:
+        if not dynamic_data.SAVE_FILE.exists():
+            json_dict = {'information': {'version': static_data.VERSION}}
+            with dynamic_data.SAVE_FILE.open('w', encoding='utf-8') as writer:
                 json.dump(json_dict, writer, indent=4)
     except PermissionError:
         print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
@@ -30,7 +30,7 @@ def _init(ignore_save=False):
     # TODO: version not used
     try:
         print('Load save file.')
-        save_dict = tools.load_save_file(data.dynamic.SAVE_FILE)
+        save_dict = tools.load_save_file(dynamic_data.SAVE_FILE)
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
@@ -52,7 +52,7 @@ def start():
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
-    parser.add_argument('-v', '--version', action='version', version=data.static.VERSION)
+    parser.add_argument('-v', '--version', action='version', version=static_data.VERSION)
     parser.add_argument('-j', '--job', dest='job_list', nargs=3, action='append', metavar=('source', 'target', 'pause'),
                         help='Monitors the source and copies to target directory and adds a pause in seconds between every check.')
     parser.add_argument('--ignore_times', dest='ignore_times', default=False, action='store_true',
@@ -60,27 +60,22 @@ def start():
     parser.add_argument('--ignore_save', dest='ignore_save', default=False, action='store_true',
                         help='Ignores existing jobs from save file and do not load them. (default: %(default)s)')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
-                        help='open the gui (default: %(default)s)')
+                        help='Open the gui (default: %(default)s)')
 
     # init
     args = parser.parse_args()
+    if not (args.gui or args.job_list):
+        parser.error('At least --job or --gui has to be provided.')
+
     _init(args.ignore_save)
 
     # configure threads
-    add_new_jobs(data.dynamic.JOB_DICT, args.job_list, args.ignore_times)  # JOB_DICT will be modified
+    add_new_jobs(dynamic_data.JOB_DICT, args.job_list, args.ignore_times)  # JOB_DICT will be modified
 
     if args.gui:
         gui()
 
     shutdown()
-
-
-def add_new_monitor(monitor):
-    data.dynamic.JOB_DICT[str(monitor.source_dir)] = monitor
-    if monitor.startup:
-        if not monitor.start():
-            monitor.startup = False
-            print(monitor, monitor.status)
 
 
 def add_new_jobs(jobs_dict, job_list, ignore_times):
@@ -107,8 +102,10 @@ def add_new_jobs(jobs_dict, job_list, ignore_times):
 
 
 def gui():
+    # First it was planned not to ship the gui component by default, but mind has changed. I will leave this check here
+    # anyway.
     try:
-        from gui.windows.main import MainWindow
+        from mp3monitoring.gui.windows.main import MainWindow
     except ImportError:
         print('GUI component is not installed.')
         return
@@ -131,13 +128,13 @@ def shutdown(signal=None):
     """
     if signal is not None:
         signal.emit("Stopping monitoring threads")
-    for job in data.dynamic.JOB_DICT.values():
+    for job in dynamic_data.JOB_DICT.values():
         job.stop()
     # wait for ending
-    for monitor in data.dynamic.JOB_DICT.values():
+    for monitor in dynamic_data.JOB_DICT.values():
         if monitor.thread.isAlive():
             monitor.thread.join()
 
     if signal is not None:
         signal.emit("Save save file")
-    tools.save_save_file(data.dynamic.JOB_DICT, data.dynamic.SAVE_FILE)
+    tools.save_save_file(dynamic_data.JOB_DICT, dynamic_data.SAVE_FILE)

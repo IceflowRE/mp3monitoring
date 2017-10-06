@@ -1,6 +1,6 @@
 from functools import partial
 
-from gui.windows.settings import SettingsWindow
+from mp3monitoring.gui.windows.settings import SettingsWindow
 
 
 def set_item_actions(parent):

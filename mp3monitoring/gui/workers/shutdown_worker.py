@@ -1,6 +1,5 @@
+import mp3monitoring.core
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
-
-import core
 
 
 class ShutdownWorker(QObject):
@@ -9,5 +8,5 @@ class ShutdownWorker(QObject):
 
     @pyqtSlot(name='shutdown')
     def shutdown(self):  # a slot takes no params
-        core.shutdown(signal=self.status)
+        mp3monitoring.core.shutdown(signal=self.status)
         self.finished.emit()

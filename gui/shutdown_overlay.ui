@@ -135,7 +135,7 @@
   <customwidget>
    <class>RotatingIndicator</class>
    <extends>QWidget</extends>
-   <header>gui/widgets/rotating_indicator</header>
+   <header>mp3monitoring/gui/widgets/rotating_indicator</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

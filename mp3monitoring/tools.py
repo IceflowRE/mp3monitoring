@@ -3,9 +3,8 @@ from pathlib import Path
 
 import mutagen.mp3
 
-import data.dynamic
-import data.settings
-import data.static
+import mp3monitoring.data.settings as settings_data
+import mp3monitoring.data.static as static_data
 
 
 def is_mp3(file_path: str):
@@ -38,9 +37,9 @@ def get_all_files_after_time(directory, after_time=0):
 def load_settings(save_dict):
     if 'settings' in save_dict:
         settings = save_dict['settings']
-        for value in data.static.SETTINGS_VALUES:
+        for value in static_data.SETTINGS_VALUES:
             if value.lower() in settings:
-                setattr(data.settings, value, settings[value.lower()])
+                setattr(settings_data, value, settings[value.lower()])
             else:
                 print('{value} not found in settings.'.format(value=value))
     else:
@@ -60,9 +59,9 @@ def load_save_file(path: Path):
 
 def get_settings_dict():
     settings = {}
-    for value in data.static.SETTINGS_VALUES:
+    for value in static_data.SETTINGS_VALUES:
         try:
-            settings[value.lower()] = getattr(data.settings, value)
+            settings[value.lower()] = getattr(settings_data, value)
         except AttributeError:
             print('Internal fail, for settings variable. ({variable}'.format(variable=value))
     return settings
@@ -74,7 +73,7 @@ def save_save_file(job_dict, path: Path):
     :param job_dict: monitor jobs
     :param path:
     """
-    json_dict = {'information': {'version': data.static.VERSION}, 'jobs': [], 'settings': {}}
+    json_dict = {'information': {'version': static_data.VERSION}, 'jobs': [], 'settings': {}}
     for job in job_dict.values():
         json_dict['jobs'].append(job.to_json_dict())
 

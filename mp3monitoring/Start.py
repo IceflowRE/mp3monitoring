@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import core
+import mp3monitoring.core
 
 if __name__ == '__main__':
-    core.start()
+    mp3monitoring.core.start()
