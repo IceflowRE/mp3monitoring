@@ -53,10 +53,10 @@ setup(
     zip_safe=True,
     entry_points = {
         'console_scripts': [
-            'mp3monitoring = mp3monitoring.core:start',
+            'mp3-monitoring = mp3monitoring.core:start',
         ],
         'gui_scripts': [
-            'mp3monitoring-gui = mp3monitoring.core:gui_start',
+            'mp3-monitoring-gui = mp3monitoring.core:gui_start',
         ],
     },
 )

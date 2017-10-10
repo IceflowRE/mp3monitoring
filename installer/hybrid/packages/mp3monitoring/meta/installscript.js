@@ -1,5 +1,5 @@
 var tmpDir = "@RootDir@/tmp/mp3monitoring/"
-var wheelName = "MP3Monitoring-1.0.0-py3-none-any.whl"
+var wheelName = "MP3_Monitoring-1.0.0-py3-none-any.whl"
 
 function Component() {
     if (installer.value("os") != "win") {
