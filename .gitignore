@@ -4,10 +4,14 @@ target*/
 
 # installer files
 installer/bin/
+installer/hybrid/config/data/
 installer/hybrid/packages/mp3monitoring/data/
 installer/hybrid/packages/mp3monitoring/meta/LICENSE.md
 installer/hybrid/packages/mp3monitoring.gui/data/
 installer/hybrid/packages/mp3monitoring.updater/data/
+
+# other
+data/icon.png
 
 .idea/
 

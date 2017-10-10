@@ -1,5 +1,10 @@
 #!/bin/sh
 
+cur_folder="./hybrid/config/data"
+rm -rf ${cur_folder}
+mkdir -p ${cur_folder}
+cp ../data/icon.png ${cur_folder}/icon.png
+
 cur_folder="./hybrid/packages/mp3monitoring/data/"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}

@@ -7,6 +7,8 @@
     <ProductUrl>???</ProductUrl>
     <StartMenuDir>MP3 Monitoring</StartMenuDir>
     <TargetDir>@ApplicationsDirX64@/MP3 Monitoring</TargetDir>
+    <InstallerWindowIcon>data/icon.png</InstallerWindowIcon>
+    <WizardStyle>Aero</WizardStyle>
     <MaintenanceToolName>Uninstall</MaintenanceToolName>
     <ControlScript>controllerscript.js</ControlScript>
 </Installer>
