@@ -4,6 +4,7 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialogButtonBox, QHeaderView, QMainWindow, QMenu, QSystemTrayIcon
 
+from mp3monitoring.gui.data import dynamic as dynamic_gui_data
 from mp3monitoring.gui.check_box import CheckBoxDelegate
 from mp3monitoring.gui.data import monitor_table_view
 from mp3monitoring.gui.data.monitor_table_model import DataTableModel
@@ -20,6 +21,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.app = app
+
+        # set icon
+        icon = QIcon()
+        icon.addPixmap(QPixmap(dynamic_gui_data.ICON_FILE), QIcon.Normal, QIcon.Off)
+        self.setWindowIcon(icon)
 
         # menu items
         menu_items.file.set_item_actions(self)
@@ -75,7 +81,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def create_tray_icon(self):
         icon = QIcon()
-        icon.addPixmap(QPixmap("../data/icon_export.svg"), QIcon.Normal, QIcon.Off)
+        icon.addPixmap(QPixmap(dynamic_gui_data.ICON_FILE), QIcon.Normal, QIcon.Off)
         self.tray_icon = QSystemTrayIcon(icon)
         self.tray_icon.activated.connect(self.tray_icon_clicked)
 

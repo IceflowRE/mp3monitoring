@@ -47,9 +47,11 @@ setup(
     ],
     extras_require=_OPTIONAL,
     package_data={
-        'License': ['LICENSE.md'],
-        'ReadMe': ['README.md'],
+        "mp3monitoring": [
+            'pkg_data/gui/icon_export.svg',
+        ],
     },
+    include_package_data=True,
     zip_safe=True,
     entry_points = {
         'console_scripts': [

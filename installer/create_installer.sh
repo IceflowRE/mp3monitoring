@@ -3,7 +3,7 @@
 cur_folder="./hybrid/config/data"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}
-cp ../data/icon.png ${cur_folder}/icon.png
+inkscape ../mp3monitoring/pkg_data/gui/icon_export.svg --export-png=${cur_folder}/icon.png -w512 -h512
 
 cur_folder="./hybrid/packages/mp3monitoring/data/"
 rm -rf ${cur_folder}

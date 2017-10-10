@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtSvg import QGraphicsSvgItem
 from PyQt5.QtWidgets import QGraphicsScene, QMainWindow
 
+import mp3monitoring.gui.data.dynamic as dynamic_gui_data
 import mp3monitoring.data.static as static_data
 from mp3monitoring.gui.windows.ui.about import Ui_AboutWindow
 
@@ -28,7 +29,7 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         # set logo
         self.logo.setStyleSheet('background: transparent')
         scene = QGraphicsScene()
-        svg = QGraphicsSvgItem('../data/icon_export.svg')
+        svg = QGraphicsSvgItem(dynamic_gui_data.ICON_FILE)
         svg.setScale(160 / svg.boundingRect().width())
         scene.addItem(svg)
         self.logo.setScene(scene)
