@@ -78,6 +78,11 @@ def start():
     shutdown()
 
 
+def gui_start():
+    _init()
+    gui()
+
+
 def add_new_jobs(jobs_dict, job_list, ignore_times):
     """
     Will overwrite existing monitoring jobs.

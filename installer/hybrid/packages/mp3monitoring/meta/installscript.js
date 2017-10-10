@@ -43,7 +43,7 @@ function checkPrerequisite() {
     if (exists != 0) {
         cancelInstaller("No Python installation detected.");
     } else {
-        console.log("Python installation detected.")
+        console.log("Check: Python installation detected.")
     }
     
     // check pip
@@ -56,7 +56,7 @@ function checkPrerequisite() {
     if (exists != 0) {
         cancelInstaller("No Pip installation detected.");
     } else {
-        console.log("Pip installation detected.")
+        console.log("Check: Pip installation detected.")
     }
 }
 
