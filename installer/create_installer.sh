@@ -11,6 +11,11 @@ mkdir -p ${cur_folder}
 cp ../README.md ${cur_folder}/README.md
 cp ../dist/MP3_Monitoring-1.0.0-py3-none-any.whl ${cur_folder}/MP3_Monitoring-1.0.0-py3-none-any.whl
 
+cur_folder="./hybrid/packages/mp3monitoring.gui/data/"
+rm -rf ${cur_folder}
+mkdir -p ${cur_folder}
+cp ./icon.ico ${cur_folder}/icon.ico
+
 cur_folder="./hybrid/packages/mp3monitoring/meta/"
 cp ../LICENSE.md ${cur_folder}/LICENSE.md
 
