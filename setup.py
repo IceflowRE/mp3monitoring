@@ -12,7 +12,7 @@ try:
     codecs.lookup('mbcs')
 except LookupError:
     ascii = codecs.lookup('ascii')
-    func = lambda name, enc=ascii: {True: enc}.get(name=='mbcs')
+    func = lambda name, enc=ascii: {True: enc}.get(name == 'mbcs')
     codecs.register(func)
 
 _OPTIONAL = {
@@ -21,6 +21,15 @@ _OPTIONAL = {
 }
 with_everything = [package for optional_list in _OPTIONAL.values() for package in optional_list]
 _OPTIONAL['with_everything'] = with_everything
+devel_pkg = _OPTIONAL['with_everything'] + [
+    'prospector[with_everything]',
+    'cov-core',
+    'codecov',
+    'coverage',
+    'nose2',
+    'Sphinx',
+]
+_OPTIONAL['dev'] = devel_pkg
 
 setup(
     name=mp3monitoring.data.static.NAME,
@@ -53,7 +62,7 @@ setup(
     },
     include_package_data=True,
     zip_safe=True,
-    entry_points = {
+    entry_points={
         'console_scripts': [
             'mp3-monitoring = mp3monitoring.core:start',
         ],
