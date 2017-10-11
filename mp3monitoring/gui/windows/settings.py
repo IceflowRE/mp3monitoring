@@ -1,5 +1,5 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QMainWindow, QDialogButtonBox
+from PyQt5.QtWidgets import QDialogButtonBox, QMainWindow
 
 import mp3monitoring.data.settings as settings_data
 from mp3monitoring.gui.windows.ui.settings import Ui_SettingsWindow

@@ -4,8 +4,8 @@ from PyQt5.QtCore import QThread
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QDialogButtonBox, QHeaderView, QMainWindow, QMenu, QSystemTrayIcon
 
-from mp3monitoring.gui.data import dynamic as dynamic_gui_data
 from mp3monitoring.gui.check_box import CheckBoxDelegate
+from mp3monitoring.gui.data import dynamic as dynamic_gui_data
 from mp3monitoring.gui.data import monitor_table_view
 from mp3monitoring.gui.data.monitor_table_model import DataTableModel
 from mp3monitoring.gui.widgets import dialogs

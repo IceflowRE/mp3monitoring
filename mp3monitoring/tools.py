@@ -1,37 +1,8 @@
 import json
 from pathlib import Path
 
-import mutagen.mp3
-
 import mp3monitoring.data.settings as settings_data
 import mp3monitoring.data.static as static_data
-
-
-def is_mp3(file_path: str):
-    """
-    Check a file for mp3 and if its a valid MPEG audio format.
-    :param file_path: file to be checked
-    :return: if its can be loaded as mp3 and if its a valid MPEG format.
-    """
-    try:
-        return not mutagen.mp3.MP3(file_path).info.sketchy
-    except mutagen.mp3.HeaderNotFoundError:
-        pass
-    except FileNotFoundError:
-        pass
-    return False
-
-
-def get_all_files_after_time(directory, after_time=0):
-    """
-    Check all files in the given directory if access or creation time after the given time.
-    :param directory: directory which will be checked
-    :param after_time: time in seconds (unixtime)
-    :return: list of modified/created files after time
-    """
-    files = directory.glob('**/*')
-    return [file for file in files if
-            (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
 
 
 def load_settings(save_dict):

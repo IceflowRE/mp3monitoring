@@ -1,5 +1,6 @@
-import mp3monitoring.core
 from PyQt5.QtCore import QObject, pyqtSignal, pyqtSlot
+
+import mp3monitoring.core
 
 
 class ShutdownWorker(QObject):
