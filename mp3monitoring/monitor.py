@@ -30,7 +30,7 @@ class Monitor:
         self.change_pause(pause)
 
         self.stopping = not start
-        self.thread = Thread(target=self.run)
+        self.thread = Thread(target=self.__run)
 
         self.status = 'Stopped'
         self.check_directories()
@@ -64,7 +64,7 @@ class Monitor:
             self.stopping = True
             return False
         self.stopping = False
-        self.thread = Thread(target=self.run)
+        self.thread = Thread(target=self.__run)
         self.thread.start()
         return True
 
@@ -72,7 +72,7 @@ class Monitor:
         self.status = 'Stopping'
         self.stopping = True
 
-    def run(self):
+    def __run(self):
         """
         Scans a source directory every pause_s seconds, for new mp3 and copies them to the target directory.
         Warning: excepts KeyboardInterrupt!
@@ -196,7 +196,7 @@ def copy_files(files, target_dir: Path):
     :param files: set(file)
     :param target_dir: target directory
     :param pbar:
-    :return: without errors copied files dict[checksum, file]
+    :return:
     """
     pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100, disable=dynamic_data.DISABLE_TQDM)
     for file in pbar:
