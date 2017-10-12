@@ -15,6 +15,7 @@ class Monitor:
         """
         :param source_dir: source directory
         :param target_dir: target directory
+        :param start:
         :param pause: pause in seconds between the scans
         :param last_mod_time: last modification time
         """
@@ -29,7 +30,6 @@ class Monitor:
         self.change_pause(pause)
 
         self.stopping = not start
-        self.pbar = None
         self.thread = Thread(target=self.run)
 
         self.status = 'Stopped'
@@ -85,11 +85,11 @@ class Monitor:
                 new_mod_files = get_all_files_after_time(self.source_dir, after_time=self.last_mod_time)
                 if new_mod_files:
                     self.status = 'Checking for mp3'
-                    mp3_files = self.get_all_mp3(new_mod_files)
+                    mp3_files = get_all_mp3(new_mod_files)
                     # del mp3_files
                     if mp3_files:
                         self.status = 'Copying new mp3'
-                        self.copy_files_as_mp3(mp3_files)
+                        copy_files(mp3_files, self.target_dir)
                 self.last_mod_time = new_mod_time
                 self.status = 'Sleeping'
                 cur_sleep = 0
@@ -134,41 +134,6 @@ class Monitor:
         else:
             self.__sleep_time = 1
 
-    def get_all_mp3(self, files):
-        """
-        Checks the files list for mp3.
-        :param files: file list
-        :return: set(file)
-        """
-        self.pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100)
-        mp3_files = {file for file in self.pbar if is_mp3(str(file))}
-        self.pbar.close()
-        return mp3_files
-
-    def copy_files_as_mp3(self, files):
-        """
-        Copy given file list to target directory.
-        :param files: set(file)
-        :param target_dir: target directory
-        :return: without errors copied files dict[checksum, file]
-        """
-        self.pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100)
-        for file in self.pbar:
-            try:
-                new_file = self.target_dir.joinpath(file.name)
-                new_file = new_file.with_suffix('.mp3')
-
-                while new_file.exists():
-                    new_file = new_file.with_name(new_file.stem + '_d.mp3')
-
-                shutil.copy2(str(file), str(self.target_dir))
-                self.target_dir.joinpath(file.name).rename(new_file)
-            except Exception:
-                self.pbar.write('Couldnt copy ' + str(file))
-                traceback.print_exc()
-        self.pbar.refresh()
-        self.pbar.close()
-
     def to_json_dict(self):
         return {'source_dir': str(self.source_dir),
                 'target_dir': str(self.target_dir),
@@ -186,6 +151,18 @@ def add_new_monitor(monitor):
             print(monitor, monitor.status)
 
 
+def get_all_files_after_time(directory, after_time=0):
+    """
+    Check all files in the given directory if access or creation time after the given time.
+    :param directory: directory which will be checked
+    :param after_time: time in seconds (unixtime)
+    :return: list of modified/created files after time
+    """
+    files = directory.glob('**/*')
+    return [file for file in files if
+            (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
+
+
 def is_mp3(file_path: str):
     """
     Check a file for mp3 and if its a valid MPEG audio format.
@@ -201,13 +178,39 @@ def is_mp3(file_path: str):
     return False
 
 
-def get_all_files_after_time(directory, after_time=0):
+def get_all_mp3(files):
     """
-    Check all files in the given directory if access or creation time after the given time.
-    :param directory: directory which will be checked
-    :param after_time: time in seconds (unixtime)
-    :return: list of modified/created files after time
+    Checks the files list for mp3.
+    :param files: file list
+    :return: set(file)
     """
-    files = directory.glob('**/*')
-    return [file for file in files if
-            (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
+    pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100)
+    mp3_files = {file for file in pbar if is_mp3(str(file))}
+    pbar.close()
+    return mp3_files
+
+
+def copy_files(files, target_dir: Path):
+    """
+    Copy given file list to target directory.
+    :param files: set(file)
+    :param target_dir: target directory
+    :param pbar:
+    :return: without errors copied files dict[checksum, file]
+    """
+    pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100)
+    for file in pbar:
+        try:
+            new_file = target_dir.joinpath(file.name)
+            new_file = new_file.with_suffix('.mp3')
+
+            while new_file.exists():
+                new_file = new_file.with_name(new_file.stem + '_d.mp3')
+
+            shutil.copy2(str(file), str(target_dir))
+            target_dir.joinpath(file.name).rename(new_file)
+        except Exception:
+            pbar.write('Couldnt copy ' + str(file))
+            traceback.print_exc()
+    pbar.refresh()
+    pbar.close()
