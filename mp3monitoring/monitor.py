@@ -163,14 +163,14 @@ def get_all_files_after_time(directory, after_time=0):
             (file.is_file() and (max(file.stat().st_mtime, file.stat().st_ctime) > after_time))]
 
 
-def is_mp3(file_path: str):
+def is_mp3(file_path: Path):
     """
     Check a file for mp3 and if its a valid MPEG audio format.
     :param file_path: file to be checked
     :return: if its can be loaded as mp3 and if its a valid MPEG format.
     """
     try:
-        return not mutagen.mp3.MP3(file_path).info.sketchy
+        return not mutagen.mp3.MP3(str(file_path)).info.sketchy
     except mutagen.mp3.HeaderNotFoundError:
         pass
     except FileNotFoundError:
@@ -184,8 +184,8 @@ def get_all_mp3(files):
     :param files: file list
     :return: set(file)
     """
-    pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100)
-    mp3_files = {file for file in pbar if is_mp3(str(file))}
+    pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100, disable=dynamic_data.DISABLE_TQDM)
+    mp3_files = {file for file in pbar if is_mp3(file)}
     pbar.close()
     return mp3_files
 
@@ -198,7 +198,7 @@ def copy_files(files, target_dir: Path):
     :param pbar:
     :return: without errors copied files dict[checksum, file]
     """
-    pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100)
+    pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100, disable=dynamic_data.DISABLE_TQDM)
     for file in pbar:
         try:
             new_file = target_dir.joinpath(file.name)

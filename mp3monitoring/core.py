@@ -73,6 +73,7 @@ def start():
     add_new_jobs(dynamic_data.JOB_DICT, args.job_list, args.ignore_times)  # JOB_DICT will be modified
 
     if args.gui:
+        dynamic_data.DISABLE_TQDM = True
         gui()
 
     shutdown()
@@ -80,6 +81,7 @@ def start():
 
 def gui_start():
     _init()
+    dynamic_data.DISABLE_TQDM = True
     gui()
 
 
