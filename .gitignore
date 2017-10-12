@@ -1,6 +1,5 @@
 testdata*/
 target*/
-*.mp3
 
 # installer files
 installer/bin/
