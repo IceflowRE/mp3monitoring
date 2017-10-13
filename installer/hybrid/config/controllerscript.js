@@ -1,5 +1,5 @@
 function Controller() {
-    
+    installer.setAutomatedPageSwitchEnabled(false);
 }
 
 Controller.prototype.IntroductionPageCallback = function() {
