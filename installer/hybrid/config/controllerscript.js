@@ -2,6 +2,12 @@ function Controller() {
     installer.setAutomatedPageSwitchEnabled(false);
 }
 
+Controller.prototype.FinishedPageCallback = function() {
+    if (installer.value("prerequisiteError", false)) {
+        installer.interrupt();
+    }
+}
+
 Controller.prototype.IntroductionPageCallback = function() {
     checkPrerequisite();
     // disable updater radio buttons
@@ -78,4 +84,6 @@ cancelInstaller = function(message) {
     installer.setDefaultPageVisible(QInstaller.PerformInstallation, false);
     installer.setDefaultPageVisible(QInstaller.LicenseCheck, false);
     gui.clickButton(buttons.NextButton);
+    
+    installer.setValue("prerequisiteError", true);
 }
