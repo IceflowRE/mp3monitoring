@@ -1,5 +1,5 @@
-var tmpDir = "@RootDir@/tmp/mp3monitoring/"
-var wheelName = "MP3_Monitoring-1.0.0-py3-none-any.whl"
+var tmpDir = "@RootDir@/tmp/mp3monitoring/";
+var wheelName = "MP3_Monitoring-1.0.0-py3-none-any.whl";
 
 function Component() {
     if (installer.value("os") != "win") {
@@ -17,14 +17,14 @@ Component.prototype.createOperationsForArchive = function(archive) {
 Component.prototype.createOperations = function() {
     component.createOperations();
     
-    component.addOperation("Copy", tmpDir + "README.md", "@TargetDir@")
+    component.addOperation("Copy", tmpDir + "README.md", "@TargetDir@");
     component.addOperation("Execute", "pip", "install", "--no-deps", tmpDir + wheelName, "UNDOEXECUTE", "pip", "uninstall", "-y", "mp3-monitoring");
-    component.addOperation("Execute", "pip", "install", "--upgrade", "mutagen");
-    component.addOperation("Execute", "pip", "install", "--upgrade", "tqdm");
+    component.addOperation("Execute", "pip", "install", "--upgrade", "mutagen", "UNDOEXECUTE", "pip", "uninstall", "-y", "mutagen");
+    component.addOperation("Execute", "pip", "install", "--upgrade", "tqdm", "UNDOEXECUTE", "pip", "uninstall", "-y", "tqdm");
 }
 
-var checkPythonArr = new Array("", "if command -v python; then", "    exit 0", "else", "    exit 1", "fi")
-var checkPipArr = new Array("", "if command -v pip; then", "    exit 0", "else", "    exit 1", "fi")
+var checkPythonArr = new Array("", "if command -v python; then", "    exit 0", "else", "    exit 1", "fi");
+var checkPipArr = new Array("", "if command -v pip; then", "    exit 0", "else", "    exit 1", "fi");
 
 function checkPrerequisite() {
     var windir = installer.environmentVariable("WINDIR");
@@ -34,7 +34,7 @@ function checkPrerequisite() {
     var cmdLocation = windir + "\\system32\\cmd.exe";
     
     // check python
-    var file = "@RootDir@/tmp/check_python.sh"
+    var file = "@RootDir@/tmp/check_python.sh";
     installer.execute(cmdLocation, new Array("/C", "echo #!/bin/sh > " + file));
     for (i = 1; i < checkPythonArr.length; i++) {
         installer.execute(cmdLocation, new Array("/C", "echo " + checkPythonArr[i] + " >> " + file));
@@ -43,7 +43,7 @@ function checkPrerequisite() {
     if (exists != 0) {
         cancelInstaller("No Python installation detected.");
     } else {
-        console.log("Check: Python installation detected.")
+        console.log("Check: Python installation detected.");
     }
     
     // check pip
@@ -56,7 +56,7 @@ function checkPrerequisite() {
     if (exists != 0) {
         cancelInstaller("No Pip installation detected.");
     } else {
-        console.log("Check: Pip installation detected.")
+        console.log("Check: Pip installation detected.");
     }
 }
 
