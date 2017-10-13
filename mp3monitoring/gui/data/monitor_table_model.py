@@ -89,12 +89,12 @@ class DataTableModel(QAbstractTableModel):
         return QVariant()
 
     def setData(self, index, data, role=None):
-        if not index.isValid() or len(data.dynamic.job_dict) <= 0:
+        if not index.isValid() or len(dynamic_data.JOB_DICT) <= 0:
             return Qt.NoItemFlags
         if index.column() == 0:  # edit active state
             if not isinstance(data, bool):
                 return False
-            job = list(data.dynamic.job_dict.values())[index.row()]
+            job = list(dynamic_data.JOB_DICT.values())[index.row()]
             if data:
                 if not job.start():
                     job.startup = False
@@ -108,7 +108,7 @@ class DataTableModel(QAbstractTableModel):
         elif index.column() == 4:  # edit pause
             if not isinstance(data, int):
                 return False
-            job = list(data.dynamic.job_dict.values())[index.row()]
+            job = list(dynamic_data.JOB_DICT.values())[index.row()]
             job.change_pause(data)
             self.update_model()
             return True
