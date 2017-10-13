@@ -4,7 +4,7 @@
     <DisplayName>MP3 Monitoring</DisplayName>
     <Description>Installs the basic tools and its requirements: tqdm (~100KB), mutagen (~1MB). An internet connection is required.</Description>
     <Version>1.0.0</Version>
-    <ReleaseDate>2017-10-05</ReleaseDate>
+    <ReleaseDate>2017-10-13</ReleaseDate>
     <ForcedInstallation>true</ForcedInstallation>
     <Licenses>
         <License name="GPLv3" file="LICENSE.md" />

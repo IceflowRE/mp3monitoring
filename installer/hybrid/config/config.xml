@@ -2,9 +2,9 @@
 <Installer>
     <Name>MP3 Monitoring</Name>
     <Version>1.0.0</Version>
-    <Title>MP3 Monitoring Installer</Title>
+    <Title>MP3 Monitoring Setup</Title>
     <Publisher>Iceflower S</Publisher>
-    <ProductUrl>???</ProductUrl>
+    <ProductUrl>https://gitlab.com/Iceflower/mp3-monitoring/</ProductUrl>
     <StartMenuDir>MP3 Monitoring</StartMenuDir>
     <TargetDir>@ApplicationsDirX64@/MP3 Monitoring</TargetDir>
     <InstallerWindowIcon>data/icon.png</InstallerWindowIcon>
