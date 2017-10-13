@@ -68,7 +68,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.tray_icon.show()
             self.hide()
-            if QSystemTrayIcon.supportsMessages():  # TODO: seems not to work, on at least win10
+            if QSystemTrayIcon.supportsMessages():
                 self.tray_icon.showMessage("MP3 Monitoring is running in background!",
                                            "Double click tray icon to open window and right click for menu.")
 
