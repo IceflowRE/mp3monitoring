@@ -1,10 +1,10 @@
 function Controller() {
-    installer.setAutomatedPageSwitchEnabled(false);
+    
 }
 
 Controller.prototype.FinishedPageCallback = function() {
     if (installer.value("prerequisiteError", false)) {
-        installer.interrupt();
+        installer.interrupt(); // fixes asking for admin rights
     }
 }
 
