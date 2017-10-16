@@ -73,7 +73,6 @@ def start():
     add_new_jobs(dynamic_data.JOB_DICT, args.job_list, args.ignore_times)  # JOB_DICT will be modified
 
     if args.gui:
-        dynamic_data.DISABLE_TQDM = True
         gui()
 
     shutdown()
@@ -81,7 +80,6 @@ def start():
 
 def gui_start():
     _init()
-    dynamic_data.DISABLE_TQDM = True
     gui()
 
 
@@ -109,6 +107,7 @@ def add_new_jobs(jobs_dict, job_list, ignore_times):
 
 
 def gui():
+    dynamic_data.DISABLE_TQDM = True
     # First it was planned not to ship the gui component by default, but mind has changed. I will leave this check here
     # anyway.
     try:
