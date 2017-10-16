@@ -107,6 +107,10 @@ def add_new_jobs(jobs_dict, job_list, ignore_times):
 
 
 def gui():
+    if sys.platform != "windows":
+        print("Other platform than windows is not support for gui, yet.")
+        sys.exit(4)
+
     dynamic_data.DISABLE_TQDM = True
     # First it was planned not to ship the gui component by default, but mind has changed. I will leave this check here
     # anyway.
