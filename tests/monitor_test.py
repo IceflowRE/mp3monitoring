@@ -187,6 +187,7 @@ class MonitorTest(unittest.TestCase):
 
             monitor.copy_files(files, target_dir)
             result = [x for x in target_dir.glob('*') if x.is_file()]
+            result.sort()
 
             self.assertEqual([target_dir.joinpath('0.mp3'), target_dir.joinpath('1.mp3'), target_dir.joinpath('2.mp3')],
                              result)
@@ -204,6 +205,7 @@ class MonitorTest(unittest.TestCase):
             monitor.copy_files({files[0]}, target_dir)
             monitor.copy_files({files[0]}, target_dir)
             result = [x for x in target_dir.glob('*') if x.is_file()]
+            result.sort()
 
             self.assertEqual(
                 [target_dir.joinpath('0.mp3'), target_dir.joinpath('0_d.mp3'), target_dir.joinpath('0_d_d.mp3'),
