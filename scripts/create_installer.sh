@@ -1,5 +1,7 @@
 #!/bin/sh
+# executed from project root
 
+cd installer
 cur_folder="./hybrid/config/data"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}
@@ -9,7 +11,7 @@ cur_folder="./hybrid/packages/mp3monitoring/data/"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}
 cp ../README.md ${cur_folder}/README.md
-cp ../dist/MP3_Monitoring-1.0.0-py3-none-any.whl ${cur_folder}/MP3_Monitoring-1.0.0-py3-none-any.whl
+cp ../dist/MP3_Monitoring-1.0.1-py36-none-any.whl ${cur_folder}/MP3_Monitoring-1.0.1-py36-none-any.whl
 
 cur_folder="./hybrid/packages/mp3monitoring.gui/data/"
 rm -rf ${cur_folder}
@@ -24,5 +26,6 @@ binarycreator -c ./hybrid/config/config.xml -p ./hybrid/packages/ --offline-only
 if [ $? -ne 0 ]; then
     exit 1
 fi
+cd ..
 
 exit 0

@@ -29,10 +29,6 @@ Controller.prototype.ReadyForInstallationPageCallback = function() {
     }
 }
 
-var tmpDir = "@RootDir@/tmp/mp3monitoring/";
-var checkPythonArr = new Array("", "if command -v python; then", "    exit 0", "else", "    exit 1", "fi");
-var checkPipArr = new Array("", "if command -v pip; then", "    exit 0", "else", "    exit 1", "fi");
-
 checkPrerequisite = function() {
     if (installer.value("os") != "win") {
         cancelInstaller("Installation on " + systemInfo.prettyProductName + " is not supported");
@@ -46,13 +42,11 @@ checkPrerequisite = function() {
     var cmdLocation = windir + "\\system32\\cmd.exe";
     
     // check python
-    var file = tmpDir + "check_python.sh";
-    installer.execute(cmdLocation, new Array("/C", "echo #!/bin/sh > " + file));
-    for (i = 1; i < checkPythonArr.length; i++) {
-        installer.execute(cmdLocation, new Array("/C", "echo " + checkPythonArr[i] + " >> " + file));
-    }
-    var exists = installer.execute(cmdLocation, new Array("/C", "bash " + file))[1];
-    if (exists != 0) {
+    var exists = installer.execute(cmdLocation, "/C where python >nul 2>&1 && exit 0 || exit 1");
+    if (exists.length == 0) {
+        cancelInstaller("No Python installation detected.");
+        return;
+    } else if (exists[1] != 0) {
         cancelInstaller("No Python installation detected.");
         return;
     } else {
@@ -60,13 +54,11 @@ checkPrerequisite = function() {
     }
     
     // check pip
-    file = tmpDir + "check_pip.sh"
-    installer.execute(cmdLocation, new Array("/C", "echo #!/bin/sh > " + file));
-    for (i = 1; i < checkPipArr.length; i++) {
-        installer.execute(cmdLocation, new Array("/C", "echo " + checkPipArr[i] + " >> " + file));
-    }
-    var exists = installer.execute(cmdLocation, new Array("/C", "bash " + file))[1];
-    if (exists != 0) {
+    var exists = installer.execute(cmdLocation, "/C where pip >nul 2>&1 && exit 0 || exit 1");
+    if (exists.length == 0) {
+        cancelInstaller("No Pip installation detected.");
+        return;
+    } else if (exists[1] != 0) {
         cancelInstaller("No Pip installation detected.");
         return;
     } else {

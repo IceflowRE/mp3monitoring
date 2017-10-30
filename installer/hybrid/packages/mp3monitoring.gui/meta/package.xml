@@ -3,7 +3,7 @@
     <Name>mp3monitoring.gui</Name>
     <DisplayName>Gui</DisplayName>
     <Description>Installs the requirements for the gui: PyQt5 (~80MB). An internet connection is required.</Description>
-    <Version>1.1.0</Version>
+    <Version>1.0.1</Version>
     <ReleaseDate>2017-10-13</ReleaseDate>
     <Default>false</Default>
     <Dependencies>mp3monitoring</Dependencies>
