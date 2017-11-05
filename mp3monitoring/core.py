@@ -1,4 +1,5 @@
 import json
+import platform
 import sys
 import traceback
 from argparse import ArgumentParser
@@ -7,8 +8,7 @@ from pathlib import Path
 import mp3monitoring.data.dynamic as dynamic_data
 import mp3monitoring.data.static as static_data
 import mp3monitoring.tools as tools
-from mp3monitoring.monitor import Monitor
-from mp3monitoring.monitor import add_new_monitor
+from mp3monitoring.monitor import Monitor, add_new_monitor
 
 
 def _init(ignore_save=False):
@@ -107,7 +107,7 @@ def add_new_jobs(jobs_dict, job_list, ignore_times):
 
 
 def gui():
-    if sys.platform != "windows":
+    if platform.system() != "Windows":
         print("Other platform than windows is not support for gui, yet.")
         sys.exit(4)
 
