@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # executed from project root
 
 cd ./gui
