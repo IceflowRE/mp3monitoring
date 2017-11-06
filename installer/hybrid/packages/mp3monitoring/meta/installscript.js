@@ -1,5 +1,5 @@
 var tmpDir = "@RootDir@/tmp/mp3monitoring/";
-var wheelName = "MP3_Monitoring-1.0.2-py36-none-any.whl";
+var wheelName = "MP3_Monitoring-1.0.3-py36-none-any.whl";
 
 function Component() {
     
