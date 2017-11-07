@@ -16,7 +16,7 @@ except LookupError:
     codecs.register(func)
 
 _OPTIONAL = {
-    'with_gui': ['PyQt5 >= 5.9'],
+    'with_gui': ['PyQt5 >= 5.9.1'],
     'with_updater': ['urllib3'],
 }
 with_everything = [package for optional_list in _OPTIONAL.values() for package in optional_list]

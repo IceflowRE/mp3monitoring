@@ -8,10 +8,11 @@ rls_date=`date +%Y-%m-%d`
 echo -e "$app_version""\c" > ./version
 
 # change versions in installer
-sed -i 's/<Version>[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/config/config.xml
-sed -i 's/<Version>[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/packages/mp3monitoring/meta/package.xml
-sed -i 's/<Version>[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/packages/mp3monitoring.gui/meta/package.xml
-sed -i 's/<Version>[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/packages/mp3monitoring.updater/meta/package.xml
+version_regex="[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+\.[a-zA-Z0-9]\+"
+sed -i 's/<Version>'"$version_regex"'<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/config/config.xml
+sed -i 's/<Version>'"$version_regex"'<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/packages/mp3monitoring/meta/package.xml
+sed -i 's/<Version>'"$version_regex"'<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/packages/mp3monitoring.gui/meta/package.xml
+sed -i 's/<Version>'"$version_regex"'<\/Version>/<Version>'"$app_version"'<\/Version>/' ./installer/hybrid/packages/mp3monitoring.updater/meta/package.xml
 
 # change release date
 sed -i 's/<ReleaseDate>[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}<\/ReleaseDate>/<ReleaseDate>'"$rls_date"'<\/ReleaseDate>/' ./installer/hybrid/packages/mp3monitoring/meta/package.xml
