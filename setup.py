@@ -6,7 +6,7 @@ import codecs
 
 from setuptools import find_packages, setup
 
-import mp3monitoring.data.static
+import mp3monitoring.data.static as static_data
 
 try:
     codecs.lookup('mbcs')
@@ -32,12 +32,13 @@ devel_pkg = _OPTIONAL['with_everything'] + [
 _OPTIONAL['dev'] = devel_pkg
 
 setup(
-    name=mp3monitoring.data.static.NAME,
-    version=mp3monitoring.data.static.VERSION,
+    name=static_data.NAME,
+    version=static_data.VERSION,
     description='Monitors a folder and copies mp3s to another folder.',
-    author=mp3monitoring.data.static.AUTHOR,
-    author_email=mp3monitoring.data.static.AUTHOR_EMAIL,
+    author=static_data.AUTHOR,
+    author_email=static_data.AUTHOR_EMAIL,
     license='GPLv3',
+    url=static_data.PROJECT_URL,
     classifiers=[
         'Programming Language :: Python :: 3.6',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
@@ -48,7 +49,7 @@ setup(
         'Environment :: Console',
         'Environment :: X11 Applications :: Qt',
     ],
-    packages=find_packages(),
+    packages=find_packages(exclude=['gui', 'installer', 'scripts', 'tests']),
     python_requires='>=3.6',
     install_requires=[
         'mutagen',
