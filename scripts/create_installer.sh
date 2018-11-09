@@ -9,7 +9,7 @@ cur_folder="./installer/hybrid/packages/mp3monitoring/data/"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}
 cp ./README.md ${cur_folder}/README.md
-cp ./dist/MP3_Monitoring-"$app_version"-"$py_version"-none-any.whl ${cur_folder}/MP3_Monitoring.whl
+cp ./dist/mp3monitoring-"$app_version"-"$py_version"-none-any.whl ${cur_folder}/MP3_Monitoring.whl
 
 cur_folder="./installer/hybrid/packages/mp3monitoring.gui/data/"
 rm -rf ${cur_folder}

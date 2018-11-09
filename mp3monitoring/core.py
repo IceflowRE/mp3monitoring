@@ -47,8 +47,8 @@ def start():
     """
     Entry point into program.
     """
-    if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-        sys.exit("Only Python 3.6 or greater is supported. You are using: " + sys.version)
+    if sys.version_info[0] < 3 or sys.version_info[1] < 7:
+        sys.exit("Only Python 3.7 or greater is supported. You are using: " + sys.version)
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')
@@ -56,14 +56,15 @@ def start():
     parser.add_argument('-j', '--job', dest='job_list', nargs=3, action='append', metavar=('source', 'target', 'pause'),
                         help='Monitors the source and copies to target directory and adds a pause in seconds between every check.')
     parser.add_argument('--ignore_times', dest='ignore_times', default=False, action='store_true',
-                        help='Ignore the last modification time from save file (default: %(default)s)')
+                        help='Ignore the last modification time from save file.')
     parser.add_argument('--ignore_save', dest='ignore_save', default=False, action='store_true',
-                        help='Ignores existing jobs from save file and do not load them. (default: %(default)s)')
+                        help='Ignores existing jobs from save file and do not load them.')
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
-                        help='Open the gui (default: %(default)s)')
+                        help='Open the gui.')
 
     # init
     args = parser.parse_args()
+    #TODO: fix if below
     if not (args.gui or args.job_list):
         parser.error('At least --job or --gui has to be provided.')
 

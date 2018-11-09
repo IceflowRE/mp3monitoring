@@ -6,4 +6,4 @@ app_version=$(grep -oP "VERSION\s=\s'\K([\w\W]*)'" ./mp3monitoring/data/static.p
 app_version=${app_version:: -1}
 
 ./scripts/build.sh "$py_version"
-pip install --upgrade --no-cache ./dist/MP3_Monitoring-"$app_version"-"$py_version"-none-any.whl[dev]
+pip install --upgrade --no-cache ./dist/mp3monitoring-"$app_version"-"$py_version"-none-any.whl[dev]
