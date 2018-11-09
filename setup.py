@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+from pathlib import Path
 
 from setuptools import find_packages, setup
 
 import mp3monitoring.data.static as static_data
+
+# get long description
+with Path('README.rst').open(mode='r', encoding='UTF-8') as reader:
+    long_description = reader.read()
 
 _OPTIONAL = {
     'gui': ['pyqt5==5.11.3'],
