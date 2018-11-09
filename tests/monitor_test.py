@@ -40,8 +40,7 @@ class MonitorTest(unittest.TestCase):
             target_dir = Path('./tmp/target')
             Path.mkdir(target_dir)
             moni = monitor.Monitor(self.tmp_path, target_dir, False, pause=3, last_mod_time=922)
-            exp_result = "False | {source_dir} | {target_dir} | 3s | Stopped | False | 922".format(
-                source_dir=str(self.tmp_path.resolve()), target_dir=str(target_dir.resolve()))
+            exp_result = f"False | {self.tmp_path.resolve()} | {target_dir.resolve()} | 3s | Stopped | False | 922"
 
             self.assertEqual(exp_result, str(moni))
             self.tearDown()
@@ -51,9 +50,14 @@ class MonitorTest(unittest.TestCase):
             source_dir = Path('./nosource')
             target_dir = Path('./notarget')
             moni = monitor.Monitor(source_dir, target_dir, False, pause=3, last_mod_time=922)
-            exp_result = "False | nosource | notarget | 3s | Source (nosource) does not exist. | False | 922"
+            # workaround of https://bugs.python.org/issue32434
+            exp_result = [
+                f"False | {source_dir} | {target_dir} | 3s | Source ({source_dir}) does not exist. | False | 922",
+                f"False | {source_dir.resolve()} | {target_dir.resolve()} | 3s | Source ({source_dir.resolve()}) does not exist. | False | 922"
+            ]
 
-            self.assertEqual(exp_result, str(moni))
+            self.assertIn(str(moni), exp_result)
+            #self.assertEqual(exp_result, str(moni))
             self.tearDown()
 
     def test_run(self):
