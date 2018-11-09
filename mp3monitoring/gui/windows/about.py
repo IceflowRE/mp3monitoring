@@ -25,7 +25,7 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         self.authorValue.setText(
             "<a href=\"{link}\">{name}</a>".format(link=static_data.AUTHOR_GITHUB, name=static_data.AUTHOR))
         self.licenseValue.setText("<a href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\">GPLv3</a>")
-        self.websiteValue.setText("<a href=\"{url}\">GitLab</a>".format(url=static_data.PROJECT_URL))
+        self.websiteValue.setText("<a href=\"{url}\">Github</a>".format(url=static_data.PROJECT_URL))
 
         # set logo
         self.logo.setStyleSheet('background: transparent')
