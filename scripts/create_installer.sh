@@ -23,7 +23,7 @@ cp ./installer/icon.ico ${cur_folder}/icon.ico
 cur_folder="./installer/hybrid/packages/mp3monitoring/meta/"
 cp ./LICENSE.md ${cur_folder}/LICENSE.md
 
-mkdir -p bin
+mkdir -p ./installer/bin
 binarycreator -c ./installer/hybrid/config/config.xml -p ./installer/hybrid/packages/ --offline-only "./installer/bin/MP3 Monitoring Hybrid Setup ""${app_version//[.]/_}"".exe"
 if [ $? -ne 0 ]; then
     exit 1
