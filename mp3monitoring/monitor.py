@@ -45,14 +45,7 @@ class Monitor:
         return cls(source_dir, target_dir, startup, pause, last_mod_time)
 
     def __str__(self):
-        return "{active} | {source} | {target} | {pause}s | {status} | {startup} | {time}".format(
-            active=self.thread.isAlive(),
-            source=str(self.source_dir),
-            target=str(self.target_dir),
-            pause=str(self.pause),
-            status=self.status,
-            startup=self.startup,
-            time=self.last_mod_time)
+        return f"{self.thread.isAlive()} | {self.source_dir} | {self.target_dir} | {self.pause}s | {self.status} | {self.startup} | {self.last_mod_time}"
 
     def start(self):
         """
@@ -107,21 +100,20 @@ class Monitor:
         Check source and initialize target directory.
         """
         if not self.source_dir.exists():
-            self.status = 'Source ({source_dir}) does not exist.'.format(source_dir=str(self.source_dir))
+            self.status = f"Source ({self.source_dir}) does not exist."
             return False
         elif not self.source_dir.is_dir():
-            self.status = 'Source ({source_dir}) is not a directory.'.format(source_dir=str(self.source_dir))
+            self.status = f"Source ({self.source_dir}) is not a directory."
             return False
 
         if not self.target_dir.exists():
             try:
                 Path.mkdir(self.target_dir, parents=True)
             except PermissionError:
-                self.status = 'Cant create target directory ({target_dir}). Do you have write permissions?'.format(
-                    target_dir=str(self.target_dir))
+                self.status = f"Cant create target directory ({self.target_dir}). Do you have write permissions?"
             return False
         elif not self.target_dir.is_dir():
-            self.status = 'Target ({target_dir}) is not a directory.'.format(target_dir=str(self.target_dir))
+            self.status = f"Target ({self.target_dir}) is not a directory."
             return False
         return True
 
@@ -184,7 +176,8 @@ def get_all_mp3(files):
     :param files: file list
     :return: set(file)
     """
-    pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100, disable=dynamic_data.DISABLE_TQDM)
+    pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100,
+                disable=dynamic_data.DISABLE_TQDM)
     mp3_files = {file for file in pbar if is_mp3(file)}
     pbar.close()
     return mp3_files
@@ -198,7 +191,8 @@ def copy_files(files, target_dir: Path):
     :param pbar:
     :return:
     """
-    pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100, disable=dynamic_data.DISABLE_TQDM)
+    pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100,
+                disable=dynamic_data.DISABLE_TQDM)
     for file in pbar:
         try:
             new_file = target_dir.joinpath(file.name)

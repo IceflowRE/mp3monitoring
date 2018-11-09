@@ -24,7 +24,7 @@ def _init(ignore_save=False):
             with dynamic_data.SAVE_FILE.open('w', encoding='utf-8') as writer:
                 json.dump(json_dict, writer, indent=4)
     except PermissionError:
-        print('Cant write to config folder ({home}). Make sure you have write permissions.'.format(home=str(home)))
+        print(f"Cant write to config folder ({home}). Make sure you have write permissions.")
 
     # load save file
     # TODO: version not used
@@ -48,7 +48,7 @@ def start():
     Entry point into program.
     """
     if sys.version_info[0] < 3 or sys.version_info[1] < 6:
-        sys.exit('Only Python 3.6 or greater is supported. You are using: {version}'.format(version=sys.version))
+        sys.exit("Only Python 3.6 or greater is supported. You are using: " + sys.version)
 
     parser = ArgumentParser(prog='mp3-monitoring',
                             description='Monitors a folder and copies mp3s to another folder. Quit with Ctrl+C.')

@@ -12,7 +12,7 @@ def load_settings(save_dict):
             if value.lower() in settings:
                 setattr(settings_data, value, settings[value.lower()])
             else:
-                print('{value} not found in settings.'.format(value=value))
+                print(f"{value} not found in settings.")
     else:
         print('No settings found in save file.')
 
@@ -34,7 +34,7 @@ def get_settings_dict():
         try:
             settings[value.lower()] = getattr(settings_data, value)
         except AttributeError:
-            print('Internal fail, for settings variable. ({variable}'.format(variable=value))
+            print(f"Internal fail, for settings variable. ({value}")
     return settings
 
 

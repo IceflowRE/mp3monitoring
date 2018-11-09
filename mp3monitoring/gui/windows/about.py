@@ -22,10 +22,9 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         # set descriptions
         self.programName.setText(static_data.LONG_NAME)
         self.version.setText(static_data.VERSION)
-        self.authorValue.setText(
-            "<a href=\"{link}\">{name}</a>".format(link=static_data.AUTHOR_GITHUB, name=static_data.AUTHOR))
+        self.authorValue.setText(f"<a href=\"{static_data.AUTHOR_GITHUB}\">{static_data.AUTHOR}</a>")
         self.licenseValue.setText("<a href=\"https://www.gnu.org/licenses/gpl-3.0-standalone.html\">GPLv3</a>")
-        self.websiteValue.setText("<a href=\"{url}\">Github</a>".format(url=static_data.PROJECT_URL))
+        self.websiteValue.setText(f"<a href=\"{static_data.PROJECT_URL}\">Github</a>")
 
         # set logo
         self.logo.setStyleSheet('background: transparent')
