@@ -1,9 +1,0 @@
-variables:
-  GIT_STRATEGY: clone
-
-test-3.6:
-  image: python:3.6
-  stage: test
-  script:
-    - pip install -e .[dev]
-    - nose2 -c setup.cfg -v

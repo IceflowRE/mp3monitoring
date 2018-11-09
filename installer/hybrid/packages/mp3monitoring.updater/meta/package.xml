@@ -3,8 +3,8 @@
     <Name>mp3monitoring.updater</Name>
     <DisplayName>Updater</DisplayName>
     <Description>Installs the requirements for the updater: urllib3 (~150KB). An internet connection is required.</Description>
-    <Version>1.0.3</Version>
-    <ReleaseDate>2017-11-05</ReleaseDate>
+    <Version>1.1.0.dev1</Version>
+    <ReleaseDate>2018-11-09</ReleaseDate>
     <!-- <Default>false</Default> -->
     <Virtual>true</Virtual>
     <Dependencies>mp3monitoring</Dependencies>

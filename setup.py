@@ -11,22 +11,22 @@ with Path('README.rst').open(mode='r', encoding='UTF-8') as reader:
 
 _OPTIONAL = {
     'gui': ['pyqt5==5.11.3'],
-    'updater': ['urllib3==1.24.1'],
+    'updater': ['urllib3[secure]==1.24.1'],
 }
-_OPTIONAL['with_everything'] = [package for optional_list in _OPTIONAL.values() for package in optional_list]
+_OPTIONAL['with_everything'] = _OPTIONAL['gui'] + _OPTIONAL['updater']
 _OPTIONAL['dev'] = _OPTIONAL['with_everything'] + [
-    'prospector[with_everything]',
-    'cov-core',
-    'codecov',
-    'coverage',
-    'nose2',
-    'Sphinx',
+    'prospector[with_everything]==1.1.3',
+    'nose2[coverage_plugin]==0.8.0',
+    'twine==1.12.1',
+    'setuptools==40.4.3',
+    'wheel==0.32.1',
 ]
 
 setup(
     name=static_data.NAME,
     version=static_data.VERSION,
-    description='Monitors a folder and copies mp3s to another folder.',
+    description=static_data.DESCRIPTION,
+    long_description=long_description,
     author=static_data.AUTHOR,
     author_email=static_data.AUTHOR_EMAIL,
     license='GPLv3',
@@ -41,11 +41,13 @@ setup(
         'Environment :: Console',
         'Environment :: X11 Applications :: Qt',
     ],
-    packages=find_packages(exclude=['gui', 'installer', 'scripts', 'tests']),
+    keywords='mp3 monitoring',
+    packages=find_packages(include=['mp3monitoring', 'mp3monitoring.*']),
     python_requires='>=3.6',
     install_requires=[
         'mutagen==1.41.1',
         'tqdm==4.28.1',
+        'packaging==18.0',
     ],
     extras_require=_OPTIONAL,
     package_data={

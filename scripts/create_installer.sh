@@ -2,7 +2,8 @@
 # executed from project root
 
 py_version="$1"
-app_version="$2"
+app_version=$(grep -oP "VERSION\s=\s'\K\w+.\w+.\w+" ./mp3monitoring/data/static.py)
+./scripts/create_installer.sh "$py_version" "$app_version"
 
 cur_folder="./installer/hybrid/config/data"
 rm -rf ${cur_folder}
