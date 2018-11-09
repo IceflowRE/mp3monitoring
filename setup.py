@@ -1,27 +1,15 @@
 #!/usr/bin/env python
 
-# Work around mbcs bug in distutils.
-# http://bugs.python.org/issue10945
-import codecs
-
 from setuptools import find_packages, setup
 
 import mp3monitoring.data.static as static_data
 
-try:
-    codecs.lookup('mbcs')
-except LookupError:
-    ascii = codecs.lookup('ascii')
-    func = lambda name, enc=ascii: {True: enc}.get(name == 'mbcs')
-    codecs.register(func)
-
 _OPTIONAL = {
-    'with_gui': ['PyQt5 >= 5.9.1'],
-    'with_updater': ['urllib3'],
+    'gui': ['pyqt5==5.11.3'],
+    'updater': ['urllib3==1.24.1'],
 }
-with_everything = [package for optional_list in _OPTIONAL.values() for package in optional_list]
-_OPTIONAL['with_everything'] = with_everything
-devel_pkg = _OPTIONAL['with_everything'] + [
+_OPTIONAL['with_everything'] = [package for optional_list in _OPTIONAL.values() for package in optional_list]
+_OPTIONAL['dev'] = _OPTIONAL['with_everything'] + [
     'prospector[with_everything]',
     'cov-core',
     'codecov',
@@ -29,7 +17,6 @@ devel_pkg = _OPTIONAL['with_everything'] + [
     'nose2',
     'Sphinx',
 ]
-_OPTIONAL['dev'] = devel_pkg
 
 setup(
     name=static_data.NAME,
@@ -52,8 +39,8 @@ setup(
     packages=find_packages(exclude=['gui', 'installer', 'scripts', 'tests']),
     python_requires='>=3.6',
     install_requires=[
-        'mutagen',
-        'tqdm',
+        'mutagen==1.41.1',
+        'tqdm==4.28.1',
     ],
     extras_require=_OPTIONAL,
     package_data={
