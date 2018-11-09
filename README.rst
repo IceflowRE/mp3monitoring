@@ -35,7 +35,7 @@ Pip
 
 Installation with pip.
 
-.. code-block:: none
+.. code-block:: bash
 
     pip install mp3monitoring[with_everything]
 
@@ -43,12 +43,14 @@ Installation with pip.
 Uninstallation methodes
 -----------------------
 
-Pip
-^^^
+.. dot is to avoid warning for rst check
+
+Pip.
+^^^^
 
 Uninstallation with pip.
 
-.. code-block:: none
+.. code-block:: bash
 
     pip uninstall mp3monitoring[with_everything]
 
