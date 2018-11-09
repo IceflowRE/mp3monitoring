@@ -5,11 +5,6 @@ py_version="$1"
 app_version=$(grep -oP "VERSION\s=\s'\K\w+.\w+.\w+" ./mp3monitoring/data/static.py)
 ./scripts/create_installer.sh "$py_version" "$app_version"
 
-cur_folder="./installer/hybrid/config/data"
-rm -rf ${cur_folder}
-mkdir -p ${cur_folder}
-inkscape ./mp3monitoring/pkg_data/gui/icon_export.svg --export-png=${cur_folder}/icon.png -w512 -h512
-
 cur_folder="./installer/hybrid/packages/mp3monitoring/data/"
 rm -rf ${cur_folder}
 mkdir -p ${cur_folder}
@@ -25,7 +20,7 @@ cur_folder="./installer/hybrid/packages/mp3monitoring/meta/"
 cp ./LICENSE.md ${cur_folder}/LICENSE.md
 
 mkdir -p ./installer/bin
-binarycreator -c ./installer/hybrid/config/config.xml -p ./installer/hybrid/packages/ --offline-only "./installer/bin/MP3 Monitoring Hybrid Setup ""${app_version//[.]/_}"".exe"
+binarycreator -c ./installer/hybrid/config/config.xml -p ./installer/hybrid/packages/ --offline-only "./installer/bin/MP3_Monitoring_win_setup ""${app_version//[.]/_}"".exe"
 if [ $? -ne 0 ]; then
     exit 1
 fi
