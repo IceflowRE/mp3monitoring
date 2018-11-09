@@ -20,7 +20,7 @@ class AboutWindow(QMainWindow, Ui_AboutWindow):
         self.setStyleSheet('background: palette(Base)')
 
         # set descriptions
-        self.programName.setText(static_data.NAME)
+        self.programName.setText(static_data.LONG_NAME)
         self.version.setText(static_data.VERSION)
         self.authorValue.setText(
             "<a href=\"{link}\">{name}</a>".format(link=static_data.AUTHOR_GITHUB, name=static_data.AUTHOR))

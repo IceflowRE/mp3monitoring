@@ -2,7 +2,10 @@
 Data which are constants and should be available global.
 """
 VERSION = '1.1.0.dev1'
-NAME = 'MP3-Monitoring'
+#: name of this program
+NAME = "mp3monitoring"
+#: long name of this program
+LONG_NAME = "MP3 Monitoring"
 AUTHOR = 'Iceflower S'
 AUTHOR_GITHUB = 'https://github.com/IceflowRE'
 AUTHOR_EMAIL = 'iceflower@gmx.de'

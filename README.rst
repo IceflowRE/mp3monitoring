@@ -3,7 +3,7 @@ MP3 Monitoring
 **************
 |maintained| |programming language| |license|
 
-|travis| |appveyor| |readthedocs| |requirements| |codacy| |codecov|
+|travis| |appveyor| |requirements| |codacy| |codecov|
 
 |pypi|
 
@@ -55,7 +55,7 @@ Uninstallation with pip.
 Web
 ===
 
-https://github.com/IceflowRE/unidown
+https://github.com/IceflowRE/mp3monitoring
 
 Credits
 =======
@@ -126,23 +126,20 @@ You should have received a copy of the GNU General Public License along with thi
 .. |license| image:: https://img.shields.io/badge/License-GPL%20v3-blue.svg
    :target: https://www.gnu.org/licenses/gpl-3.0
 
-.. |travis| image:: https://img.shields.io/travis/com/IceflowRE/unidown/master.svg?label=Travis%20CI
-   :target: https://travis-ci.com/IceflowRE/unidown
+.. |travis| image:: https://img.shields.io/travis/com/IceflowRE/mp3monitoring/master.svg?label=Travis%20CI
+   :target: https://travis-ci.com/IceflowRE/mp3monitoring
 
-.. |appveyor| image:: https://img.shields.io/appveyor/ci/IceflowRE/unidown/master.svg?label=AppVeyor%20CI
-    :target: https://ci.appveyor.com/project/IceflowRE/unidown/branch/master
+.. |appveyor| image:: https://img.shields.io/appveyor/ci/IceflowRE/mp3monitoring/master.svg?label=AppVeyor%20CI
+    :target: https://ci.appveyor.com/project/IceflowRE/mp3monitoring/branch/master
 
-.. |readthedocs| image:: https://readthedocs.org/projects/unidown/badge/?version=latest
-   :target: https://unidown.readthedocs.io/en/latest/index.html
+.. |pypi| image:: https://img.shields.io/pypi/v/mp3monitoring.svg
+   :target: https://pypi.org/project/mp3monitoring/
 
-.. |pypi| image:: https://img.shields.io/pypi/v/unidown.svg
-   :target: https://pypi.org/project/unidown/
+.. |requirements| image:: https://requires.io/github/IceflowRE/mp3monitoring/requirements.svg?branch=master
+   :target: https://requires.io/github/IceflowRE/mp3monitoring/requirements/?branch=master
 
-.. |requirements| image:: https://requires.io/github/IceflowRE/unidown/requirements.svg?branch=master
-   :target: https://requires.io/github/IceflowRE/unidown/requirements/?branch=master
+.. |codacy| image:: https://api.codacy.com/project/badge/Grade/20dca363b104472d982e67c31e89ccea
+   :target: https://app.codacy.com/project/IceflowRE/mp3monitoring/dashboard
 
-.. |codacy| image:: https://api.codacy.com/project/badge/Grade/7783e0b9e3734ee6ab43e142b43e9663
-   :target: https://app.codacy.com/project/IceflowRE/unidown/dashboard
-
-.. |codecov| image:: https://img.shields.io/codecov/c/github/IceflowRE/unidown/master.svg?label=coverage
-   :target: https://codecov.io/gh/IceflowRE/unidown
+.. |codecov| image:: https://img.shields.io/codecov/c/github/IceflowRE/mp3monitoring/master.svg?label=coverage
+   :target: https://codecov.io/gh/IceflowRE/mp3monitoring

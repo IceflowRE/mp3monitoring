@@ -23,7 +23,7 @@ script:
   - ./scripts/build.sh "$PY_VERSION"
   - nose2 -c setup.cfg -v
   - python setup.py check -v -r -m -s
-  - mp3-monitoring --version
+  - mp3monitoring --version
 
 after_success:
   - codecov
