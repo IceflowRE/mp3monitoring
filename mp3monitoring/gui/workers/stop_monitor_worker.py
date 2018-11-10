@@ -29,11 +29,11 @@ def add_remover(source_dir, model):
 
 
 def stop_monitor(source):
-    monitor = dynamic_data.JOB_DICT[source]
+    monitor = dynamic_data.job_dict[source]
     monitor.stop()
     if monitor.thread.is_alive():
         monitor.thread.join()
-    del dynamic_data.JOB_DICT[source]
+    del dynamic_data.job_dict[source]
 
 
 def remove_worker(source_dir):

@@ -136,7 +136,7 @@ class Monitor:
 
 
 def add_new_monitor(monitor):
-    dynamic_data.JOB_DICT[str(monitor.source_dir)] = monitor
+    dynamic_data.job_dict[str(monitor.source_dir)] = monitor
     if monitor.startup:
         if not monitor.start():
             monitor.startup = False
@@ -177,7 +177,7 @@ def get_all_mp3(files):
     :return: set(file)
     """
     pbar = tqdm(files, desc="Checking for mp3", unit="file", leave=True, mininterval=0.2, ncols=100,
-                disable=dynamic_data.DISABLE_TQDM)
+                disable=dynamic_data.disable_tqdm)
     mp3_files = {file for file in pbar if is_mp3(file)}
     pbar.close()
     return mp3_files
@@ -192,7 +192,7 @@ def copy_files(files, target_dir: Path):
     :return:
     """
     pbar = tqdm(files, desc="Copying new mp3", unit="mp3", leave=True, mininterval=0.2, ncols=100,
-                disable=dynamic_data.DISABLE_TQDM)
+                disable=dynamic_data.disable_tqdm)
     for file in pbar:
         try:
             new_file = target_dir.joinpath(file.name)

@@ -3,18 +3,7 @@ from pathlib import Path
 
 import mp3monitoring.data.settings as settings_data
 import mp3monitoring.data.static as static_data
-
-
-def load_settings(save_dict):
-    if 'settings' in save_dict:
-        settings = save_dict['settings']
-        for value in static_data.SETTINGS_VALUES:
-            if value.lower() in settings:
-                setattr(settings_data, value, settings[value.lower()])
-            else:
-                print(f"{value} not found in settings.")
-    else:
-        print('No settings found in save file.')
+from mp3monitoring.data.dynamic import config
 
 
 def load_save_file(path: Path):
@@ -28,16 +17,6 @@ def load_save_file(path: Path):
     return save_dict
 
 
-def get_settings_dict():
-    settings = {}
-    for value in static_data.SETTINGS_VALUES:
-        try:
-            settings[value.lower()] = getattr(settings_data, value)
-        except AttributeError:
-            print(f"Internal fail, for settings variable. ({value}")
-    return settings
-
-
 def save_save_file(job_dict, path: Path):
     """
     Saves the modification times to the save file.
@@ -48,7 +27,7 @@ def save_save_file(job_dict, path: Path):
     for job in job_dict.values():
         json_dict['jobs'].append(job.to_json_dict())
 
-    json_dict['settings'] = get_settings_dict()
+    json_dict['settings'] = config.get_dict()
 
     with path.open('w', encoding='utf-8') as writer:
         json.dump(json_dict, writer, indent=4)

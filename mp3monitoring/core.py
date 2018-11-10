@@ -8,6 +8,7 @@ from pathlib import Path
 import mp3monitoring.data.dynamic as dynamic_data
 import mp3monitoring.data.static as static_data
 import mp3monitoring.tools as tools
+from mp3monitoring.data.dynamic import config
 from mp3monitoring.monitor import Monitor, add_new_monitor
 
 
@@ -15,13 +16,13 @@ def _init(ignore_save=False):
     """
     Initialization save directory.
     """
-    home = dynamic_data.SAVE_FILE.parent
+    home = dynamic_data.save_file.parent
     try:
         if not home.exists():
             home.mkdir(parents=True)
-        if not dynamic_data.SAVE_FILE.exists():
+        if not dynamic_data.save_file.exists():
             json_dict = {'information': {'version': static_data.VERSION}}
-            with dynamic_data.SAVE_FILE.open('w', encoding='utf-8') as writer:
+            with dynamic_data.save_file.open('w', encoding='utf-8') as writer:
                 json.dump(json_dict, writer, indent=4)
     except PermissionError:
         print(f"Cant write to config folder ({home}). Make sure you have write permissions.")
@@ -30,7 +31,7 @@ def _init(ignore_save=False):
     # TODO: version not used
     try:
         print('Load save file.')
-        save_dict = tools.load_save_file(dynamic_data.SAVE_FILE)
+        save_dict = tools.load_save_file(dynamic_data.save_file)
     except Exception:
         print('Could not load save file.')  # TODO: ask user
         traceback.print_exc()
@@ -40,7 +41,7 @@ def _init(ignore_save=False):
             for job in save_dict['jobs']:
                 add_new_monitor(Monitor.from_json_dict(job))
 
-    tools.load_settings(save_dict)
+    config.load(save_dict)
 
 
 def start():
@@ -64,14 +65,14 @@ def start():
 
     # init
     args = parser.parse_args()
-    #TODO: fix if below
+    # TODO: fix if below
     if not (args.gui or args.job_list):
         parser.error('At least --job or --gui has to be provided.')
 
     _init(args.ignore_save)
 
     # configure threads
-    add_new_jobs(dynamic_data.JOB_DICT, args.job_list, args.ignore_times)  # JOB_DICT will be modified
+    add_new_jobs(dynamic_data.job_dict, args.job_list, args.ignore_times)  # JOB_DICT will be modified
 
     if args.gui:
         gui()
@@ -112,7 +113,7 @@ def gui():
         print("Other platform than windows is not support for gui, yet.")
         sys.exit(4)
 
-    dynamic_data.DISABLE_TQDM = True
+    dynamic_data.disable_tqdm = True
     # First it was planned not to ship the gui component by default, but mind has changed. I will leave this check here
     # anyway.
     try:
@@ -139,13 +140,13 @@ def shutdown(signal=None):
     """
     if signal is not None:
         signal.emit("Stopping monitoring threads")
-    for job in dynamic_data.JOB_DICT.values():
+    for job in dynamic_data.job_dict.values():
         job.stop()
     # wait for ending
-    for monitor in dynamic_data.JOB_DICT.values():
+    for monitor in dynamic_data.job_dict.values():
         if monitor.thread.isAlive():
             monitor.thread.join()
 
     if signal is not None:
         signal.emit("Save save file")
-    tools.save_save_file(dynamic_data.JOB_DICT, dynamic_data.SAVE_FILE)
+    tools.save_save_file(dynamic_data.job_dict, dynamic_data.save_file)

@@ -1,7 +1,7 @@
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialogButtonBox, QMainWindow
 
-import mp3monitoring.data.settings as settings_data
+from mp3monitoring.data.dynamic import config
 from mp3monitoring.gui.windows.ui.settings import Ui_SettingsWindow
 
 
@@ -19,11 +19,11 @@ class SettingsWindow(QMainWindow, Ui_SettingsWindow):
         self.dialogButtonBox.rejected.connect(self.close)
 
     def set_settings_values(self):
-        self.guiUpdateTimeSpinBox.setValue(settings_data.GUI_UPDATE_TIME)
-        self.checkForUpdatesBox.setChecked(settings_data.CHECK_UPDATE_AT_STARTUP)
+        self.guiUpdateTimeSpinBox.setValue(config.gui_update_time)
+        self.checkForUpdatesBox.setChecked(config.check_update_at_startup)
 
     def apply_settings(self):
-        settings_data.GUI_UPDATE_TIME = self.guiUpdateTimeSpinBox.value()
-        settings_data.CHECK_UPDATE_AT_STARTUP = self.checkForUpdatesBox.isChecked()
+        config.gui_update_time = self.guiUpdateTimeSpinBox.value()
+        config.check_update_at_startup = self.checkForUpdatesBox.isChecked()
 
         self.close()

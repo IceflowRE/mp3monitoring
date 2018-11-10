@@ -17,7 +17,7 @@ class MonitorTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        dynamic_data.DISABLE_TQDM = True
+        dynamic_data.disable_tqdm = True
 
     def setUp(self):
         self.tmp_path = Path('./tmp')

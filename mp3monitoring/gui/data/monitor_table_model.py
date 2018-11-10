@@ -2,7 +2,7 @@ from PyQt5.QtCore import QAbstractTableModel, QTimer, QVariant, Qt
 from PyQt5.QtGui import QColor
 
 import mp3monitoring.data.dynamic as dynamic_data
-import mp3monitoring.data.settings as settings_data
+from mp3monitoring.data.dynamic import config
 from mp3monitoring.gui.workers.stop_monitor_worker import add_remover
 
 
@@ -13,18 +13,18 @@ class DataTableModel(QAbstractTableModel):
 
         self.__timer = QTimer()
         self.__timer.timeout.connect(self.update_model)
-        self.__timer.start(settings_data.GUI_UPDATE_TIME * 1000)
+        self.__timer.start(config.gui_update_time * 1000)
 
     def rowCount(self, parent=None, *args, **kwargs):
-        return len(dynamic_data.JOB_DICT)
+        return len(dynamic_data.job_dict)
 
     def columnCount(self, parent=None, *args, **kwargs):
         return len(self.header_data)
 
     def flags(self, index):
-        if not index.isValid() or len(dynamic_data.JOB_DICT) <= 0:
+        if not index.isValid() or len(dynamic_data.job_dict) <= 0:
             return Qt.NoItemFlags
-        job = list(dynamic_data.JOB_DICT.values())[index.row()]
+        job = list(dynamic_data.job_dict.values())[index.row()]
         if job.stopping and job.thread.isAlive():  # if thread is alive and should be stopped
             if index.column() == 0:  # active checkbox is not interactable
                 return Qt.ItemIsSelectable
@@ -55,9 +55,9 @@ class DataTableModel(QAbstractTableModel):
         return QVariant()
 
     def data(self, index, role=None):
-        if not index.isValid() or len(dynamic_data.JOB_DICT) <= 0:
+        if not index.isValid() or len(dynamic_data.job_dict) <= 0:
             return QVariant()
-        job = list(dynamic_data.JOB_DICT.values())[index.row()]
+        job = list(dynamic_data.job_dict.values())[index.row()]
         if role == Qt.ImCurrentSelection:
             print(index.row(), index.column())
         if role == Qt.TextAlignmentRole:
@@ -89,12 +89,12 @@ class DataTableModel(QAbstractTableModel):
         return QVariant()
 
     def setData(self, index, data, role=None):
-        if not index.isValid() or len(dynamic_data.JOB_DICT) <= 0:
+        if not index.isValid() or len(dynamic_data.job_dict) <= 0:
             return Qt.NoItemFlags
         if index.column() == 0:  # edit active state
             if not isinstance(data, bool):
                 return False
-            job = list(dynamic_data.JOB_DICT.values())[index.row()]
+            job = list(dynamic_data.job_dict.values())[index.row()]
             if data:
                 if not job.start():
                     job.startup = False
@@ -108,7 +108,7 @@ class DataTableModel(QAbstractTableModel):
         elif index.column() == 4:  # edit pause
             if not isinstance(data, int):
                 return False
-            job = list(dynamic_data.JOB_DICT.values())[index.row()]
+            job = list(dynamic_data.job_dict.values())[index.row()]
             job.change_pause(data)
             self.update_model()
             return True
