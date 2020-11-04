@@ -15,10 +15,7 @@ from mp3monitoring.core.settings import load_config, Settings, save_config
 from mp3monitoring.core.signal import choose_signal
 
 
-def arg_parse(argv=None):
-    if argv is None:
-        argv = sys.argv[1:]
-
+def arg_parse(argv):
     parser = ArgumentParser(prog=static_data.LONG_NAME, description=static_data.DESCRIPTION)
     parser.add_argument('-v', '--version', action='version', version=f"{static_data.NAME} {static_data.VERSION}")
 
@@ -46,6 +43,8 @@ def main(argv=None):
     if sys.version_info[0] < 3 or sys.version_info[1] < 8:
         sys.exit('Only Python 3.8 or greater is supported. You are using:' + sys.version)
 
+    if argv is None:
+        argv = sys.argv[1:]
     args = arg_parse(argv)
     choose_signal(args.gui)
 
@@ -93,3 +92,12 @@ def main(argv=None):
         main_window = MainWindow(app, settings, manager)
         main_window.show()
         sys.exit(app.exec())
+
+
+def main_gui(argv=None):
+    if sys.version_info[0] < 3 or sys.version_info[1] < 8:
+        sys.exit('Only Python 3.8 or greater is supported. You are using:' + sys.version)
+
+    if argv is None:
+        argv = sys.argv[1:]
+    main(argv)
