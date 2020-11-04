@@ -44,7 +44,6 @@ jobs:
       - name: Testing
         shell: bash
         run: |
-          pytest -v --cov-config=setup.cfg --cov=mp3monitoring --cov-report term --cov-report=xml --cov-report html
           python setup.py check -v -m -s
           twine check dist/*
 
