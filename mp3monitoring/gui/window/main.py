@@ -14,12 +14,6 @@ from mp3monitoring.gui.monitor_table_model import DataTableModel, IconDelegate
 from mp3monitoring.gui.stop_thread import StopThread
 from mp3monitoring.gui.ui.main import Ui_MainWindow
 from mp3monitoring.gui.widget.shutdown_overlay import ShutdownOverlay
-from gui.updater import check_for_app_updates
-
-
-def handle_settings_settings(parent):
-    sw = SettingsWindow(parent)
-    sw.show()
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):

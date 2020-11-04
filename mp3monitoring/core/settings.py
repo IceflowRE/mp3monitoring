@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 from typing import List
 
-from mp3monitoring.core.job import Job, JobConfig
+from mp3monitoring.core.job import JobConfig
 
 SETTINGS_VERSION = "1"
 
@@ -14,7 +14,6 @@ class Settings:
         self.ignore_config: bool = False
 
         self.check_update: bool = False
-
 
     @classmethod
     def from_dict(cls, file: Path, j_dict: dict):

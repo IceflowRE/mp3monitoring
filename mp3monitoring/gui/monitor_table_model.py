@@ -126,12 +126,5 @@ class DataTableModel(QAbstractTableModel):
                 return True
         return False
 
-    def removeRows(self, row_start, row_end, parent=None, *args, **kwargs):
-        for delta in range(row_end - row_start + 1):
-            cur_row = row_start + delta
-            source_dir = self.index(cur_row, 1).data(role=Qt.DisplayRole)
-            # add_remover(source_dir, self)
-        return True
-
     def sort(self, p_int, order=None):
         pass
