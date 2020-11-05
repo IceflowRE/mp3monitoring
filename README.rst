@@ -1,9 +1,9 @@
-********************
-Universal Downloader
-********************
+**************
+MP3 Monitoring
+**************
 |maintained| |programming language| |license|
 
-|github actions| |readthedocs| |requirements| |codacy| |codecov|
+|github actions| |readthedocs| |requirements| |codacy|
 
 |pypi|
 
@@ -86,6 +86,3 @@ You should have received a copy of the GNU General Public License along with thi
 
 .. |codacy| image:: https://api.codacy.com/project/badge/Grade/20dca363b104472d982e67c31e89ccea
    :target: https://app.codacy.com/project/IceflowRE/mp3monitoring/dashboard
-
-.. |codecov| image:: https://img.shields.io/codecov/c/github/IceflowRE/mp3monitoring/main.svg?label=coverage
-   :target: https://codecov.io/gh/IceflowRE/mp3monitoring

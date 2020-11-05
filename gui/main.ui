@@ -119,14 +119,26 @@
     </font>
    </property>
    <widget class="QMenu" name="menu_file">
+    <property name="font">
+     <font>
+      <family>Noto Sans</family>
+     </font>
+    </property>
     <property name="title">
      <string>File</string>
     </property>
     <addaction name="action_add_job"/>
     <addaction name="separator"/>
+    <addaction name="action_settings"/>
+    <addaction name="separator"/>
     <addaction name="action_exit"/>
    </widget>
    <widget class="QMenu" name="menu_help">
+    <property name="font">
+     <font>
+      <family>Noto Sans</family>
+     </font>
+    </property>
     <property name="title">
      <string>Help</string>
     </property>
@@ -206,6 +218,11 @@
    <property name="toolTip">
     <string>Remove selected job</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Noto Sans</family>
+    </font>
+   </property>
   </action>
   <action name="action_start_job">
    <property name="enabled">
@@ -217,6 +234,11 @@
    <property name="toolTip">
     <string>Start selected job</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Noto Sans</family>
+    </font>
+   </property>
   </action>
   <action name="action_stop_job">
    <property name="enabled">
@@ -227,6 +249,21 @@
    </property>
    <property name="toolTip">
     <string>Stop selected job</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Noto Sans</family>
+    </font>
+   </property>
+  </action>
+  <action name="action_settings">
+   <property name="text">
+    <string>Settings...</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Noto Sans</family>
+    </font>
    </property>
   </action>
  </widget>

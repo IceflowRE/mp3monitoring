@@ -7,6 +7,7 @@ This work
 - power.svg
 - remove.svg
 - search.svg
+- settings.svg
 - start.svg
 - stop.svg
 - stopped.svg

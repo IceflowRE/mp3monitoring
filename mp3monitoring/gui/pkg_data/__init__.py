@@ -28,5 +28,7 @@ with resources.path('mp3monitoring.gui.pkg_data.symbols', 'stop.svg') as p:
 
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'info.svg') as p:
     INFO_SYMBOL = Path(p)
+with resources.path('mp3monitoring.gui.pkg_data.symbols', 'settings.svg') as p:
+    SETTINGS_SYMBOL = Path(p)
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'power.svg') as p:
     POWER_SYMBOL = Path(p)
