@@ -31,7 +31,7 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          python -m ./scripts/ui_to_py.py
+          python ./scripts/ui_to_py.py
           python setup.py clean --all
           python setup.py bdist_wheel
 
