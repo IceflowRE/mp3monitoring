@@ -8,7 +8,7 @@ NAME = "mp3monitoring"
 #: long name of this program
 LONG_NAME = "MP3 Monitoring"
 #: version in PEP440 format
-VERSION = '2.0.0.dev1'
+VERSION = '2.0.0.dev2'
 #: url to the pypi json
 PYPI_JSON_URL = 'https://pypi.org/pypi/mp3monitoring/json'
 #: author

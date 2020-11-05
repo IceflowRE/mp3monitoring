@@ -63,6 +63,7 @@ setup(
     package_data={
         "mp3monitoring": [
             'gui/pkg_data/icon.svg',
+            'gui/pkg_data/symbols/*',
         ],
     },
     zip_safe=True,

@@ -26,13 +26,6 @@ Web
 
 https://github.com/IceflowRE/mp3monitoring
 
-Plugins
-=======
-
-mr_de
-    - Crawl through german ebooks from Mobileread.
-    - https://github.com/IceflowRE/mp3monitoring-mr_de
-
 Credits
 =======
 
@@ -47,14 +40,10 @@ mutagen
     - `Michael Urman <https://github.com/MichaelUrman>`_
     - https://github.com/quodlibet/mutagen
     - `GPL-2.0+ <https://github.com/quodlibet/mutagen/blob/master/COPYING>`__
-Packaging
-    - Donald Stufft and individual contributors
-    - https://github.com/pypa/packaging
-    - `BSD-3-Clause, Apache-2.0 <https://github.com/pypa/packaging/blob/master/LICENSE>`__
-tqdm
-    - `noamraph <https://github.com/noamraph>`_
-    - https://github.com/tqdm/tqdm
-    - `MIT, MPL-2.0 <https://raw.githubusercontent.com/tqdm/tqdm/master/LICENCE>`__
+pyside2
+    - `Qt Group <https://www.qt.io/>`_
+    - https://www.qt.io/qt-for-python
+    - `LGPLv3 <https://www.qt.io/licensing/>`__
 urllib3
     - `Andrey Petrov and contributors <https://github.com/shazow/urllib3/blob/master/CONTRIBUTORS.txt>`_
     - https://github.com/shazow/urllib3

@@ -100,4 +100,5 @@ def main_gui(argv=None):
 
     if argv is None:
         argv = sys.argv[1:]
+    argv.append('--gui')
     main(argv)
