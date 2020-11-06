@@ -2,12 +2,20 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
 
-from mp3monitoring.gui.dialog.about import AboutDialog
 from mp3monitoring.gui import pkg_data
+from mp3monitoring.gui.dialog.about import AboutDialog
+from mp3monitoring.gui.dialog.settings import SettingsDialog
 
 
 def about_dialog(parent=None):
     dialog = AboutDialog(parent)
+    dialog.setAttribute(Qt.WA_DeleteOnClose, True)
+    dialog.open()
+
+
+def settings_dialog(settings, manager, parent=None):
+    dialog = SettingsDialog(settings, manager, parent)
+    dialog.setWindowIcon(QIcon(str(pkg_data.SETTINGS_SYMBOL)))
     dialog.setAttribute(Qt.WA_DeleteOnClose, True)
     dialog.open()
 

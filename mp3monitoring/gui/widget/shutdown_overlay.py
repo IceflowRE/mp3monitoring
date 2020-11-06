@@ -6,7 +6,7 @@ from mp3monitoring.gui.ui.shutdown_overlay import Ui_ShutdownOverlay
 
 class ShutdownOverlay(QWidget, Ui_ShutdownOverlay):
     def __init__(self, parent=None):
-        super(ShutdownOverlay, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
 
         self.fill_color = QColor(30, 30, 30, 120)

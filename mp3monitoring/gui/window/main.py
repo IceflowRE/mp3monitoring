@@ -40,32 +40,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._stop_thread = StopThread(manager)
         self._stop_thread.finished.connect(self._app.exit)
 
+        if self._settings.start_minimized:
+            self.hide()
+            self.tray_icon.show()
+        else:
+            self.show()
+
     def setup_action_handles(self):
-        self.action_exit.triggered.connect(self.exit)
         self.action_about.triggered.connect(partial(show.about_dialog, self))
+        self.action_exit.triggered.connect(self.exit)
+        self.action_settings.triggered.connect(partial(show.settings_dialog, self._settings, self._manager, self))
 
         self.action_add_job.triggered.connect(self.handle_add_job)
         self.action_remove_job.triggered.connect(self.handle_remove_job)
         self.action_start_job.triggered.connect(self.handle_start_job)
         self.action_stop_job.triggered.connect(self.handle_stop_job)
 
-    def setup_tool_bar(self):
-        # disable context menu for the toolbar
-        self.tool_bar.toggleViewAction().setEnabled(False)
-        icon_size = self.tool_bar.height()
         self.action_about.setIcon(QIcon(str(pkg_data.INFO_SYMBOL)))
+        self.action_settings.setIcon(QIcon(str(pkg_data.SETTINGS_SYMBOL)))
         self.action_add_job.setIcon(QIcon(str(pkg_data.ADD_SYMBOL)))
         self.action_exit.setIcon(QIcon(str(pkg_data.POWER_SYMBOL)))
         self.action_remove_job.setIcon(QIcon(str(pkg_data.REMOVE_SYMBOL)))
         self.action_start_job.setIcon(QIcon(str(pkg_data.START_SYMBOL)))
         self.action_stop_job.setIcon(QIcon(str(pkg_data.STOP_SYMBOL)))
+
+    def setup_tool_bar(self):
+        # disable context menu for the toolbar
+        self.tool_bar.toggleViewAction().setEnabled(False)
+        icon_size = self.tool_bar.height()
         self.tool_bar.setIconSize(QSize(icon_size, icon_size))
 
     def changeEvent(self, event):
         if event.type() == QEvent.WindowStateChange:
             if int(self.windowState()) & Qt.WindowMinimized:
-                self.tray_icon.show()
                 self.hide()
+                self.tray_icon.show()
                 if QSystemTrayIcon.supportsMessages():
                     self.tray_icon.showMessage("MP3 Monitoring is running in background!", "Double click the tray icon to open and right click for menu.")
 
@@ -103,9 +112,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             pass  # context menu automatically shown by the system tray icon
 
     def show_window(self):
+        self.tray_icon.hide()
         self.showNormal()
         self.activateWindow()
-        self.tray_icon.hide()
 
     def update_job_actions(self, sel_job_idx: int = -1):
         if sel_job_idx > len(self._manager) or sel_job_idx < 0:  # job does not exist

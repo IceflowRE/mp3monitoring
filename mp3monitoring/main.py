@@ -90,7 +90,6 @@ def main(argv=None):
             return
         app: QApplication = QApplication([])
         main_window = MainWindow(app, settings, manager)
-        main_window.show()
         sys.exit(app.exec())
 
 

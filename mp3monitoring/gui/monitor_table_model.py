@@ -45,7 +45,7 @@ class IconDelegate(QStyledItemDelegate):
 
 class DataTableModel(QAbstractTableModel):
     def __init__(self, manager: Manager, parent=None):
-        super(DataTableModel, self).__init__(parent)
+        super().__init__(parent)
         self.header_data = ['status', 'source', 'target', 'recursive', 'startup', 'interval (s)']
         self.__manager = manager
         # self.__manager.job_added.connect(lambda: self.dataChanged.emit())

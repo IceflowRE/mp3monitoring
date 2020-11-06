@@ -30,7 +30,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QTabWidget" name="tab_widget">
+    <widget class="VerticalTabWidget" name="tab_widget">
      <property name="font">
       <font>
        <family>Noto Sans</family>
@@ -54,6 +54,21 @@
        <string>General</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout4">
+       <property name="leftMargin">
+        <number>11</number>
+       </property>
+       <property name="topMargin">
+        <number>11</number>
+       </property>
+       <property name="rightMargin">
+        <number>11</number>
+       </property>
+       <property name="bottomMargin">
+        <number>11</number>
+       </property>
+       <property name="spacing">
+        <number>7</number>
+       </property>
        <item row="0" column="1">
         <widget class="QCheckBox" name="start_minimized">
          <property name="text">
@@ -114,6 +129,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VerticalTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>mp3monitoring.gui.vertical_tab_bar</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

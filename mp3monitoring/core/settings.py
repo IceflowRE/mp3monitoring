@@ -13,18 +13,21 @@ class Settings:
 
         self.ignore_config: bool = False
 
-        self.check_update: bool = False
+        self.start_minimized: bool = False
+        self.start_with_system: bool = False
 
     @classmethod
     def from_dict(cls, file: Path, j_dict: dict):
         settings = cls()
         settings.file = file
-        settings.check_update = j_dict['check_update']
+        settings.start_minimized = j_dict.get('start_minimized', settings.start_minimized)
+        settings.start_with_system = j_dict.get('start_with_system', settings.start_with_system)
         return settings
 
     def to_dict(self):
         return {
-            'check_update': self.check_update,
+            'start_minimized': self.start_minimized,
+            'start_with_system': self.start_with_system,
         }
 
 
