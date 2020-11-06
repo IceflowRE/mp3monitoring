@@ -89,7 +89,7 @@ def main(argv=None):
             print('PyQt5 is not installed, you can not use the gui.')
             return
         app: QApplication = QApplication([])
-        main_window = MainWindow(app, settings, manager)
+        MainWindow(app, settings, manager)  # will call show in it's constructor
         sys.exit(app.exec())
 
 

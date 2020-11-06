@@ -2,10 +2,10 @@ from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QDialog
 
-from mp3monitoring.gui.updater import UpdateCheckThread
 from mp3monitoring import static_data
 from mp3monitoring.gui import pkg_data
 from mp3monitoring.gui.ui.about_dialog import Ui_AboutDialog
+from mp3monitoring.gui.updater import UpdateCheckThread
 
 
 class AboutDialog(QDialog, Ui_AboutDialog):
