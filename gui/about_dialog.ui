@@ -27,17 +27,6 @@
   <property name="windowTitle">
    <string>About</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">#connector__gui__ui__AboutDialog {
-background-color: #003366;
-}
-#connector__gui__ui__AboutDialog &gt; #top &gt; #right &gt; #info_widget &gt; QLabel, #connector__gui__ui__AboutDialog &gt; #top &gt; #right &gt; #name {
-color: #FFFFFF;
-}
-#connector__gui__ui__AboutDialog &gt; #bottom_widget &gt; #licensing_information {
-color: #FFFFFF;
-}</string>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="sizeConstraint">
     <enum>QLayout::SetNoConstraint</enum>

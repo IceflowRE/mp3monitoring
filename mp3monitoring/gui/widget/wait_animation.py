@@ -27,14 +27,15 @@ class WaitAnimation(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        # big ellipse
-        pen = QPen()
-        big_ellipse_width = self.radius() * 60 / 512
-        pen.setWidth(big_ellipse_width)
-        pen.setColor(self.color)
-        painter.setPen(pen)
         center = QPointF(self.width() / 2, self.height() / 2)
         radius = self.radius()
+        ellipse_line_width = self.radius() * 60 / 512
+
+        # big ellipse
+        pen = QPen()
+        pen.setWidth(ellipse_line_width)
+        pen.setColor(self.color)
+        painter.setPen(pen)
         painter.drawEllipse(center, radius - pen.width() / 2, radius - pen.width() / 2)
 
         # dots
@@ -47,13 +48,11 @@ class WaitAnimation(QWidget):
         color = copy.copy(self.color)
 
         self._change_color(painter, brush, color, 0)
-        painter.drawEllipse(QPointF((self.width() - radius - big_ellipse_width / 2) / 2, self.height() / 2), dot_size, dot_size)
-
+        painter.drawEllipse(QPointF((self.width() - radius - ellipse_line_width / 2) / 2, self.height() / 2), dot_size, dot_size)
         self._change_color(painter, brush, color, 15)
         painter.drawEllipse(center, dot_size, dot_size)
-
         self._change_color(painter, brush, color, 30)
-        painter.drawEllipse(QPointF((self.width() + radius + big_ellipse_width / 2) / 2, self.height() / 2), dot_size, dot_size)
+        painter.drawEllipse(QPointF((self.width() + radius + ellipse_line_width / 2) / 2, self.height() / 2), dot_size, dot_size)
 
     def _change_color(self, painter, brush, color, alpha_offset):
         color.setAlphaF(self._get_opacity(alpha_offset))
@@ -65,13 +64,13 @@ class WaitAnimation(QWidget):
         self._time_point = 0
 
     def _get_opacity(self, offset: int):
-        ONE_BLINK_TIME = 20
+        one_blink_time = 20
         time = max(self._time_point - offset, 0)
-        if time < 0 or time > ONE_BLINK_TIME * 2:
+        if time < 0 or time > one_blink_time * 2:
             return 0
-        if time <= ONE_BLINK_TIME:
-            return time * 1 / ONE_BLINK_TIME
-        return 1 - (time - ONE_BLINK_TIME) * 1 / ONE_BLINK_TIME
+        if time <= one_blink_time:
+            return time * 1 / one_blink_time
+        return 1 - (time - one_blink_time) * 1 / one_blink_time
 
     def timerEvent(self, event):
         self._time_point = (self._time_point + 1) % 101

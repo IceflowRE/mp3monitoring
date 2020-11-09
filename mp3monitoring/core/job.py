@@ -92,8 +92,8 @@ class Job:
             if not self._sleep_event.is_set():
                 self.status = 'ok'
             if self._sleep_event.wait(self.config.sleep_time):
-                time.sleep(5)
                 self._sleep_event.clear()
+                time.sleep(10)
                 self._active = False
                 self.status = 'stopped'
                 return

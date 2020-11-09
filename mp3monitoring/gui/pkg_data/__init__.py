@@ -14,6 +14,8 @@ with resources.path('mp3monitoring.gui.pkg_data.symbols', 'stopped.svg') as p:
     STOPPED_SYMBOL = Path(p)
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'wait.svg') as p:
     WAIT_SYMBOL = Path(p)
+with resources.path('mp3monitoring.gui.pkg_data.symbols', 'wait_animated.svg') as p:
+    WAIT_ANIMATED_SYMBOL = Path(p)
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'warning.svg') as p:
     WARNING_SYMBOL = Path(p)
 

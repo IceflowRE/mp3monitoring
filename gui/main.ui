@@ -21,10 +21,6 @@
   <property name="windowTitle">
    <string notr="true">MP3 Monitoring</string>
   </property>
-  <property name="windowIcon">
-   <iconset>
-    <normaloff>../data/icon_export.svg</normaloff>../data/icon_export.svg</iconset>
-  </property>
   <property name="iconSize">
    <size>
     <width>512</width>
