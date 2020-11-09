@@ -22,4 +22,10 @@ Installation with pip.
 
 .. code-block:: none
 
-    pip install mp3monitoring[with_everything]
+    pip install mp3monitoring
+
+if you want a graphical user interface do
+
+.. code-block:: none
+
+    pip install mp3monitoring[gui]
