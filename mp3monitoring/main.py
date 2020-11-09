@@ -84,13 +84,13 @@ def main(argv=None):
     else:
         from mp3monitoring.gui.window.main import MainWindow
         try:
-            from PyQt5.QtWidgets import QApplication
+            from PySide2.QtWidgets import QApplication
         except ImportError:
-            print('PyQt5 is not installed, you can not use the gui.')
+            print('PySide2 is not installed, you can not use the gui.')
             return
         app: QApplication = QApplication([])
         MainWindow(app, settings, manager)  # will call show in it's constructor
-        sys.exit(app.exec())
+        sys.exit(app.exec_())
 
 
 def main_gui(argv=None):

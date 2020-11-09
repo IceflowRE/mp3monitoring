@@ -1,22 +1,26 @@
-from PyQt5.QtCore import QObject, pyqtSignal
+from PySide2.QtCore import QObject
+from PySide2.QtCore import Signal as QSignal
 
 from mp3monitoring.core.signal._signal_no_qt import Signal as SignalNQ
 
 
 class Signal(SignalNQ, QObject):
-    _s: pyqtSignal = pyqtSignal(int)
+    """
+    Use those weird name because of https://bugreports.qt.io/browse/PYSIDE-1264.
+    """
+    _s: QSignal = QSignal(int)
 
     def __init__(self):
         super().__init__()
 
-    def connect(self, callback):
+    def s_connect(self, callback):
         self._s.connect(callback)
 
-    def disconnect(self):
+    def s_disconnect(self):
         try:
             self._s.disconnect()
         except Exception:
             pass
 
-    def emit(self, idx: int):
+    def s_emit(self, idx: int):
         self._s.emit(idx)

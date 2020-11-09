@@ -58,7 +58,7 @@ class Job:
 
     def __del__(self):
         self.stop()
-        self.status_changed.disconnect()
+        self.status_changed.s_disconnect()
 
     def __run(self):
         self._active = True
@@ -105,7 +105,7 @@ class Job:
     @status.setter
     def status(self, new_status: str):
         self._status = new_status
-        self.status_changed.emit(-1)
+        self.status_changed.s_emit(-1)
 
     def start(self):
         if not self.config.source_dir.exists():

@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMessageBox
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QMessageBox
 
 from mp3monitoring.gui import pkg_data
 from mp3monitoring.gui.dialog.about import AboutDialog

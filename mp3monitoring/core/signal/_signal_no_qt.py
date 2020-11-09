@@ -1,12 +1,12 @@
 class Signal():
-    def __init__(self):
-        super().__init__()
-
-    def connect(self, callback):
+    """
+    Use those weird name because of https://bugreports.qt.io/browse/PYSIDE-1264.
+    """
+    def s_connect(self, callback):
         pass
 
-    def disconnect(self):
+    def s_disconnect(self):
         pass
 
-    def emit(self, idx: int):
+    def s_emit(self, idx: int):
         pass

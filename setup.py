@@ -42,7 +42,7 @@ setup(
     ],
     extras_require={
         'gui': [
-            'pyqt5>=5.15.1',
+            'pyside2>=5.15.1',
             'urllib3[secure]>=1.25.10',
         ],
         'dev': [

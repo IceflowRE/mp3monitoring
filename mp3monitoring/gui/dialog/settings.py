@@ -1,8 +1,8 @@
 import platform
 from pathlib import Path
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QDialog
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QDialog
 
 from mp3monitoring.core.manager import Manager
 from mp3monitoring.core.settings import Settings, save_config

@@ -1,6 +1,6 @@
-from PyQt5.QtCore import QAbstractTableModel, QVariant, Qt, QSize, QRect
-from PyQt5.QtGui import QIcon, QBrush
-from PyQt5.QtWidgets import QStyledItemDelegate, QStyle
+from PySide2.QtCore import QAbstractTableModel, Qt, QSize, QRect
+from PySide2.QtGui import QIcon, QBrush
+from PySide2.QtWidgets import QStyledItemDelegate, QStyle
 
 from mp3monitoring.core.manager import Manager
 from mp3monitoring.gui import pkg_data
@@ -36,21 +36,13 @@ class IconDelegate(QStyledItemDelegate):
         painter.drawPixmap(QRect(left, top, size, size), pixmap)
 
 
-"""
-        self.layoutAboutToBeChanged.emit()
-        self.dataChanged.emit(self.createIndex(0, 0), self.createIndex(self.rowCount(), self.columnCount()))
-        self.layoutChanged.emit()
-"""
-
-
 class DataTableModel(QAbstractTableModel):
     def __init__(self, manager: Manager, parent=None):
         super().__init__(parent)
         self.header_data = ['status', 'source', 'target', 'recursive', 'startup', 'interval (s)']
         self.__manager = manager
-        # self.__manager.job_added.connect(lambda: self.dataChanged.emit())
         for job in self.__manager.jobs:
-            job.status_changed.connect(lambda: self.dataChanged.emit(self.index(0, 0), self.index(0, len(self.__manager))))
+            job.status_changed.s_connect(lambda: self.dataChanged.emit(self.index(0, 0), self.index(0, len(self.__manager))))
 
     def rowCount(self, parent=None, *args, **kwargs):
         return len(self.__manager)
@@ -83,11 +75,11 @@ class DataTableModel(QAbstractTableModel):
                 font.setBold(True)
                 font.setPointSize(self.parent().font().pointSize() + 1)
                 return font
-        return QVariant()
+        return None
 
     def data(self, index, role=None):
         if not index.isValid() or len(self.__manager) <= 0:
-            return QVariant()
+            return None
         if role == Qt.TextAlignmentRole:
             return Qt.AlignCenter
         if role == Qt.DisplayRole or role == Qt.EditRole or role == Qt.ToolTipRole:
@@ -108,7 +100,7 @@ class DataTableModel(QAbstractTableModel):
                 return job.status
             if role == Qt.ToolTipRole:
                 return job.tooltip()
-        return QVariant()
+        return None
 
     def setData(self, index, data, role=None):
         if not index.isValid() or len(self.__manager) <= 0:

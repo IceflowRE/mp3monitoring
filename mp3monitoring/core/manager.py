@@ -12,15 +12,12 @@ class Manager:
 
     def __init__(self):
         self.jobs: List[Job] = []
-        self.job_added: signal.Signal = signal.Signal()
-        self.job_removed: signal.Signal = signal.Signal()
 
     def __len__(self):
         return len(self.jobs)
 
     def add(self, job: Job):
         self.jobs.append(job)
-        self.job_added.emit(len(self.jobs) - 1)
 
     def get_configurations(self) -> List[JobConfig]:
         return [job.config for job in self.jobs]
@@ -28,7 +25,6 @@ class Manager:
     def remove_by_index(self, index: int):
         job = self.jobs.pop(index)
         job.stop()
-        self.job_removed.emit(index)
 
     def start(self):
         for job in self.jobs:

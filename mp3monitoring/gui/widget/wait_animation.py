@@ -1,8 +1,8 @@
 import copy
 
-from PyQt5.QtCore import QPointF, Qt
-from PyQt5.QtGui import QColor, QPainter, QPen, QBrush
-from PyQt5.QtWidgets import QWidget
+from PySide2.QtCore import QPointF, Qt
+from PySide2.QtGui import QColor, QPainter, QPen, QBrush
+from PySide2.QtWidgets import QWidget
 
 
 class WaitAnimation(QWidget):

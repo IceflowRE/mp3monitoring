@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt, QSize
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QDialog
+from PySide2.QtCore import Qt, QSize
+from PySide2.QtGui import QIcon
+from PySide2.QtWidgets import QDialog
 
 from mp3monitoring import static_data
 from mp3monitoring.gui import pkg_data

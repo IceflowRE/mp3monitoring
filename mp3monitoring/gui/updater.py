@@ -5,7 +5,7 @@ import json
 
 import certifi
 import urllib3
-from PyQt5.QtCore import QThread
+from PySide2.QtCore import QThread
 from packaging.version import Version
 
 from mp3monitoring import static_data

@@ -1,6 +1,6 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPaintEvent
-from PyQt5.QtWidgets import QStyle, QStyleOptionTab, QTabBar, QStylePainter, QTabWidget
+from PySide2.QtCore import Qt
+from PySide2.QtGui import QPaintEvent
+from PySide2.QtWidgets import QStyle, QStyleOptionTab, QTabBar, QStylePainter, QTabWidget
 
 
 class VerticalTabBar(QTabBar):

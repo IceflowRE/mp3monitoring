@@ -1,8 +1,8 @@
 from functools import partial
 
-from PyQt5.QtCore import QEvent, Qt, QSize, QItemSelection, QModelIndex
-from PyQt5.QtGui import QIcon, QCloseEvent
-from PyQt5.QtWidgets import QHeaderView, QMainWindow, QMenu, QSystemTrayIcon, QApplication, QDialog
+from PySide2.QtCore import QEvent, Qt, QSize, QItemSelection, QModelIndex
+from PySide2.QtGui import QIcon, QCloseEvent
+from PySide2.QtWidgets import QHeaderView, QMainWindow, QMenu, QSystemTrayIcon, QApplication, QDialog
 
 from mp3monitoring.core.job import Job
 from mp3monitoring.core.manager import Manager
