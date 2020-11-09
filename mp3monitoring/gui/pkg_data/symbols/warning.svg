@@ -6,15 +6,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg8"
    version="1.1"
    viewBox="0 0 1024 1024"
    height="1024"
-   width="1024"
-   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
-   sodipodi:docname="warning.svg">
+   width="1024">
   <defs
      id="defs2">
     <linearGradient
@@ -38,42 +34,6 @@
          style="stop-color:#eeeeee;stop-opacity:0;" />
     </linearGradient>
   </defs>
-  <sodipodi:namedview
-     inkscape:window-maximized="1"
-     inkscape:window-y="-8"
-     inkscape:window-x="-8"
-     inkscape:window-height="1027"
-     inkscape:window-width="1680"
-     units="px"
-     showgrid="false"
-     inkscape:current-layer="svg8"
-     inkscape:document-units="px"
-     inkscape:cy="576.66036"
-     inkscape:cx="397.72266"
-     inkscape:zoom="0.7"
-     inkscape:pageshadow="2"
-     inkscape:pageopacity="0"
-     borderopacity="1.0"
-     bordercolor="#666666"
-     pagecolor="#000000"
-     id="base"
-     inkscape:snap-bbox="true"
-     inkscape:bbox-paths="true"
-     inkscape:bbox-nodes="true"
-     inkscape:snap-bbox-edge-midpoints="true"
-     showguides="true"
-     inkscape:object-paths="true"
-     inkscape:snap-intersection-paths="true"
-     inkscape:snap-smooth-nodes="true"
-     inkscape:snap-global="true"
-     inkscape:document-rotation="0"
-     inkscape:snap-midpoints="false"
-     inkscape:snap-object-midpoints="true"
-     inkscape:snap-center="true"
-     inkscape:snap-text-baseline="true"
-     inkscape:snap-page="true"
-     inkscape:object-nodes="true"
-     inkscape:snap-bbox-midpoints="true" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -119,8 +79,6 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-32.416615)" />
   <ellipse
@@ -133,8 +91,7 @@
   <path
      style="fill:none;stroke:#ffab00;stroke-width:120;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      d="M 512,162 V 652"
-     id="path958"
-     sodipodi:nodetypes="cc" />
+     id="path958" />
   <rect
      style="fill:#ffab00;fill-opacity:1;stroke:none;stroke-width:120;stroke-linecap:round;stroke-linejoin:round;paint-order:fill markers stroke;stop-color:#000000"
      id="rect15"

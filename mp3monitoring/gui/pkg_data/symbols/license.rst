@@ -12,6 +12,7 @@ This work
 - stop.svg
 - stopped.svg
 - wait.svg
+- wait_animated.svg
 - warning.svg
 
 by `Iceflower S <mailto:iceflower@gmx.de>`__ is licensed under CC BY-SA 4.0 |cc_by_sa|
