@@ -1,6 +1,5 @@
 from typing import List
 
-from mp3monitoring.core import signal
 from mp3monitoring.core.job import Job, JobConfig
 
 
