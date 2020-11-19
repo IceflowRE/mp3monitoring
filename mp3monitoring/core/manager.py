@@ -5,8 +5,7 @@ from mp3monitoring.core.job import Job, JobConfig
 
 class Manager:
     """
-    :ivar jobs: We could use a dictionary here, but it is easier to use a List and find a specific Job in it.
-                    Also it is not expected to have a lot of _jobs.
+    :ivar jobs: We could use a dictionary here, but it is easier to use a List and find a specific Job in it. Also it is not expected to have a lot of jobs.
     """
 
     def __init__(self):
