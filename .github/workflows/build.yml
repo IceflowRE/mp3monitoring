@@ -23,8 +23,6 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          sudo apt update -qq
-          sudo apt install -y inkscape imagemagick
           python -m pip install --upgrade pip
           pip install --upgrade -e .[dev,gui]
           pip install codecov
@@ -33,7 +31,6 @@ jobs:
         shell: bash
         run: |
           python ./scripts/tools.py uic
-          python ./scripts/tools.py ico
           python setup.py clean --all
           python setup.py bdist_wheel
           mp3monitoring --version
