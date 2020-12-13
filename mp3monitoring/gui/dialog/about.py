@@ -24,9 +24,9 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         # set logo
         self.logo.setPixmap(QIcon(str(pkg_data.LOGO)).pixmap(QSize(250, 250)))
 
-        self._update_app_runner = UpdateAppThread()
-        self._update_app_runner.finished.connect(self.update_app_check)
-        self.update_now.clicked.connect(self.update_app)
+        #self._update_app_runner = UpdateAppThread()
+        #self._update_app_runner.finished.connect(self.update_app_check)
+        #self.update_now.clicked.connect(self.update_app)
         self.update_now.hide()
 
         self.update_status.setPixmap(QIcon(str(pkg_data.WAIT_SYMBOL)).pixmap(QSize(self.update_info.height() * 0.8, self.update_info.height() * 0.8)))
@@ -53,8 +53,8 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         if self._update_check_runner.update_available:
             self.update_status.setPixmap(QIcon(str(pkg_data.WARNING_SYMBOL)).pixmap(QSize(self.update_info.height() * 0.8, self.update_info.height() * 0.8)))
             self.update_info.setText("An Update is available.")
-            self.update_now.show()
+            #self.update_now.show()
         else:
             self.update_status.setPixmap(QIcon(str(pkg_data.OK_SYMBOL)).pixmap(QSize(self.update_info.height() * 0.8, self.update_info.height() * 0.8)))
             self.update_info.setText("MP3 Monitoring is up to date.")
-            self.update_now.hide()
+            #self.update_now.hide()
