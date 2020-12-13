@@ -23,6 +23,8 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
+          apt update -qq
+          apt install -y inkscape imagemagick
           python -m pip install --upgrade pip
           pip install --upgrade -e .[dev,gui]
           pip install codecov
