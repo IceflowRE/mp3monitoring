@@ -26,14 +26,15 @@ jobs:
           python -m pip install --upgrade pip
           pip install --upgrade -e .[dev,gui]
           pip install codecov
-          mp3monitoring --version
 
       - name: Build
         shell: bash
         run: |
-          python ./scripts/ui_to_py.py
+          python ./scripts/tools.py uic
+          python ./scripts/tools.py ico
           python setup.py clean --all
           python setup.py bdist_wheel
+          mp3monitoring --version
 
       - name: Code style check
         shell: bash

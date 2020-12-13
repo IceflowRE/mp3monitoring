@@ -1,8 +1,10 @@
 from importlib import resources
 from pathlib import Path
 
-with resources.path('mp3monitoring.gui.pkg_data', 'icon.svg') as p:
-    LOGO_ICON = Path(p)
+with resources.path('mp3monitoring.gui.pkg_data', 'logo.svg') as p:
+    LOGO = Path(p)
+with resources.path('mp3monitoring.gui.pkg_data', 'logo.ico') as p:
+    LOGO_ICO = Path(p)
 
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'error.svg') as p:
     ERROR_SYMBOL = Path(p)
