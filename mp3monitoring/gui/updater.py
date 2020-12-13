@@ -2,6 +2,8 @@
 Things needed for checking for updates.
 """
 import json
+import subprocess
+import sys
 
 import certifi
 import urllib3
@@ -37,6 +39,14 @@ def check_for_app_updates() -> bool:
     return get_newest_app_version() > Version(static_data.VERSION)
 
 
+def update() -> (bool, str):
+    try:
+        subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade', 'mp3monitoring==2.0.0.dev4'], stdout=sys.stdout, stderr=sys.stderr, check=True)
+    except subprocess.CalledProcessError as ex:
+        return False, ex.stdout
+    return True, ""
+
+
 class UpdateCheckThread(QThread):
     def __init__(self):
         super().__init__()
@@ -51,3 +61,13 @@ class UpdateCheckThread(QThread):
         except Exception:
             self.check_succeed = False
             self.err_msg = "Update check failed."
+
+
+class UpdateAppThread(QThread):
+    def __init__(self):
+        super().__init__()
+        self.succeed: bool = False
+        self.err_msg: str = ""
+
+    def run(self):
+        self.succeed, self.err_msg = update()

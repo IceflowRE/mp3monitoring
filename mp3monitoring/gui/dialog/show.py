@@ -23,7 +23,7 @@ def settings_dialog(settings, manager, parent=None):
 def question_dialog(win_title, msg):
     msg_box = QMessageBox()
     msg_box.setIcon(QMessageBox.Question)
-    msg_box.setWindowIcon(QIcon(str(pkg_data.LOGO_ICON)))
+    msg_box.setWindowIcon(QIcon(str(pkg_data.LOGO)))
 
     msg_box.setText(msg)
     msg_box.setWindowTitle(win_title)
@@ -35,7 +35,7 @@ def question_dialog(win_title, msg):
 def information_dialog(win_title, msg):
     msg_box = QMessageBox()
     msg_box.setIcon(QMessageBox.Information)
-    msg_box.setWindowIcon(QIcon(str(pkg_data.LOGO_ICON)))
+    msg_box.setWindowIcon(QIcon(str(pkg_data.LOGO)))
 
     msg_box.setText(msg)
     msg_box.setWindowTitle(win_title)

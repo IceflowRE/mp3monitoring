@@ -43,6 +43,7 @@ setup(
     extras_require={
         'gui': [
             'pyside2>=5.15.1',
+            'pylnk3>=0.4.2',
             'urllib3[secure]>=1.25.10',
         ],
         'dev': [
@@ -62,7 +63,7 @@ setup(
     include_package_data=True,
     package_data={
         "mp3monitoring": [
-            'gui/pkg_data/icon.svg',
+            'gui/pkg_data/*',
             'gui/pkg_data/symbols/*',
         ],
     },

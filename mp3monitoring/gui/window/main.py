@@ -25,7 +25,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._settings: Settings = settings
         self._manager: Manager = manager
 
-        self.setWindowIcon(QIcon(str(pkg_data.LOGO_ICON)))
+        self.setWindowIcon(QIcon(str(pkg_data.LOGO)))
         self.tray_icon: QSystemTrayIcon = self.create_tray_icon()
 
         self.overlay: ShutdownOverlay = ShutdownOverlay(self)
@@ -93,7 +93,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self._stop_thread.start()
 
     def create_tray_icon(self):
-        tray_icon = QSystemTrayIcon(QIcon(str(pkg_data.LOGO_ICON)))
+        tray_icon = QSystemTrayIcon(QIcon(str(pkg_data.LOGO)))
         tray_icon.activated.connect(self.tray_icon_clicked)
 
         menu = QMenu(self)

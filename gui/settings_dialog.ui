@@ -69,8 +69,8 @@
        <property name="spacing">
         <number>7</number>
        </property>
-       <item row="0" column="1">
-        <widget class="QCheckBox" name="start_minimized">
+       <item row="1" column="1">
+        <widget class="QCheckBox" name="start_with_system">
          <property name="text">
           <string/>
          </property>
@@ -96,14 +96,7 @@
          </property>
         </spacer>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="start_minimized_l">
-         <property name="text">
-          <string>Start minimized</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <spacer name="vertical_spacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -116,10 +109,24 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="start_with_system">
+       <item row="0" column="1">
+        <widget class="QCheckBox" name="start_minimized">
          <property name="text">
           <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="start_minimized_l">
+         <property name="text">
+          <string>Start minimized</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="create_start_menu_entry">
+         <property name="text">
+          <string>Create Start Menu Entry</string>
          </property>
         </widget>
        </item>
