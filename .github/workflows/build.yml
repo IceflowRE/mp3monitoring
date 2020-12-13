@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest, windows-latest ]
+        os: [ ubuntu-latest] #, windows-latest ]
         python-version: [ 3.8, 3.9 ]
 
     steps:
@@ -23,8 +23,8 @@ jobs:
       - name: Install dependencies
         shell: bash
         run: |
-          apt update -qq
-          apt install -y inkscape imagemagick
+          sudo apt update -qq
+          sudo apt install -y inkscape imagemagick
           python -m pip install --upgrade pip
           pip install --upgrade -e .[dev,gui]
           pip install codecov
