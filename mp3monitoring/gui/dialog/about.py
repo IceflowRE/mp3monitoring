@@ -57,7 +57,7 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         if self._update_check_runner.update_available:
             self.update_status.setPixmap(QIcon(str(pkg_data.WARNING_SYMBOL)).pixmap(QSize(self.update_info.height() * 0.8, self.update_info.height() * 0.8)))
             self.update_info.setText("An Update is available.")
-            # executed in a top-level script environment e.g. pythonw -m mp3monitoring --gui, ONLY then we can update, otherwise the executable is locked by us obviously
+            # executed in a top-level script environment e.g. pythonw -m mp3monitoring --gui, ONLY then we can update, otherwise the executable is locked
             if Path(sys.modules['__main__'].__file__) == Path(sysconfig.get_paths()['purelib']) / "mp3monitoring" / "__main__.py":
                 self.update_now.show()
         else:

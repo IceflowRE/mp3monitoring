@@ -126,10 +126,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.action_start_job.setEnabled(not sel_job.is_active())
         self.action_stop_job.setEnabled(sel_job.is_active() and not sel_job.is_stopping())
 
-    def monitor_selection_changed(self, selected: QItemSelection, deselected: QItemSelection):
+    def monitor_selection_changed(self, selected: QItemSelection, _deselected: QItemSelection):
         self.update_job_actions(selected.indexes()[0].row())
 
-    def monitor_data_changed(self, top_left: QModelIndex, bottom_right: QModelIndex, roles):
+    def monitor_data_changed(self, _top_left: QModelIndex, _bottom_right: QModelIndex, _roles):
         sel_idx = self.monitor_table_view.selectedIndexes()
         if len(sel_idx) > 0:
             self.update_job_actions(sel_idx[0].row())
@@ -177,6 +177,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def handle_stop_job(self):
         self._manager.jobs[self.monitor_table_view.selectionModel().currentIndex().row()].stop(False)
-
-    def handle_check_update(self):
-        show.information_dialog('Not implemented yet.', 'Checking for updates is not implemented yet.')

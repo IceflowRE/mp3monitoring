@@ -70,7 +70,7 @@ def main(argv=None):
     if not args.gui:
         stop_event: threading.Event = threading.Event()
 
-        def signal_handler(sig, frame):
+        def signal_handler(_sig, _frame):
             stop_event.set()
 
         signal.signal(signal.SIGINT, signal_handler)

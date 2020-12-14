@@ -1,4 +1,4 @@
-class Signal():
+class Signal:
     """
     Use those weird name because of https://bugreports.qt.io/browse/PYSIDE-1264.
     """
