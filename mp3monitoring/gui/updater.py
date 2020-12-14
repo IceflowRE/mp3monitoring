@@ -41,7 +41,7 @@ def check_for_app_updates() -> bool:
 
 def update() -> (bool, str):
     try:
-        subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade', 'mp3monitoring==2.0.0.dev4'], stdout=sys.stdout, stderr=sys.stderr, check=True)
+        subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade', 'mp3monitoring'], stdout=sys.stdout, stderr=sys.stderr, check=True)
     except subprocess.CalledProcessError as ex:
         return False, ex.stdout
     return True, ""
