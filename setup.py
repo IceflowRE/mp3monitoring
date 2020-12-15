@@ -35,7 +35,7 @@ setup(
     ],
     keywords='mp3 monitoring',
     packages=find_packages(include=['mp3monitoring', 'mp3monitoring.*']),
-    python_requires='>=3.8',
+    python_requires='>=3.9',
     install_requires=[
         'mutagen>=1.45.1',
         'packaging>=20.4',
