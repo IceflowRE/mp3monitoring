@@ -7,7 +7,7 @@ from mutagen import mp3
 from mp3monitoring.gui import pkg_data
 
 
-def is_mp3(file_path: Path):
+def is_mp3(file_path: Path) -> bool:
     """
     Return true if a file is an mp3.
     :param file_path: file to be checked
@@ -21,7 +21,7 @@ def is_mp3(file_path: Path):
     return False
 
 
-def create_start_menu_entry():
+def create_start_menu_entry() -> tuple[bool, str]:
     start_menu_dir = Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs"
     start_menu_entry = start_menu_dir / "MP3 Monitoring.lnk"
 
@@ -36,7 +36,7 @@ def create_start_menu_entry():
     return True, ""
 
 
-def edit_startup_link(create: bool = True) -> (bool, str):
+def edit_startup_link(create: bool = True) -> tuple[bool, str]:
     """
 
     :param create: Create or remove the link.

@@ -99,7 +99,7 @@ class Job:
                 return
 
     @property
-    def status(self):
+    def status(self) -> str:
         return self._status
 
     @status.setter
@@ -156,10 +156,10 @@ class Job:
     def is_stopping(self):
         return self._sleep_event.is_set()
 
-    def is_active(self):
+    def is_active(self) -> bool:
         return self._active
 
-    def tooltip(self):
+    def tooltip(self) -> str:
         if self.status == 'error':
             return "error: " + self._err_msg
         return self.status

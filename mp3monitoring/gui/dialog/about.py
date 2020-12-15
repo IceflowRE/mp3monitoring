@@ -46,6 +46,7 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         if not self._update_app_runner.succeed:
             show.information_dialog("Failed to update", self._update_app_runner.err_msg)
             return
+        self.update_now.hide()
         self.update_info.setText("Restart to finish the update.")
         show.information_dialog("Update succeed", "Restart the app to finish the update.")
 

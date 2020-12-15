@@ -17,14 +17,14 @@ class Settings:
         self.start_with_system: bool = False
 
     @classmethod
-    def from_dict(cls, file: Path, j_dict: dict):
+    def from_dict(cls, file: Path, j_dict: dict) -> 'Settings':
         settings = cls()
         settings.file = file
         settings.start_minimized = j_dict.get('start_minimized', settings.start_minimized)
         settings.start_with_system = j_dict.get('start_with_system', settings.start_with_system)
         return settings
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             'start_minimized': self.start_minimized,
             'start_with_system': self.start_with_system,
@@ -43,7 +43,7 @@ def load_old_config(file: Path) -> List[JobConfig]:
     return jobs
 
 
-def load_config(file: Path = Path.home().joinpath(".mp3monitoring/config.json")) -> (Settings, List[JobConfig]):
+def load_config(file: Path = Path.home().joinpath(".mp3monitoring/config.json")) -> tuple[Settings, List[JobConfig]]:
     load_old_config(file.parent.joinpath('data.sav'))
 
     if not file.exists():

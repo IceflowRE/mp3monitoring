@@ -78,7 +78,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 if QSystemTrayIcon.supportsMessages():
                     self.tray_icon.showMessage("MP3 Monitoring is running in background!", "Double click the tray icon to open and right click for menu.")
 
-    def closeEvent(self, event: QCloseEvent, close_immediately=False):
+    def closeEvent(self, event: QCloseEvent):
         event.ignore()
         self.exit()
 

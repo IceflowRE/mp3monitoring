@@ -41,7 +41,7 @@ class AddJobDialog(QDialog, Ui_AddJobDialog):
         selected_dir = QFileDialog.getExistingDirectory(self.parent(), 'Select a target directory', options=QFileDialog.ShowDirsOnly)
         self.target_dir.setText(selected_dir)
 
-    def get_config(self):
+    def get_config(self) -> tuple[JobConfig, bool]:
         return JobConfig(Path(self.source_dir.text()), Path(self.target_dir.text()), self.run_at_startup.isChecked(),
                          QTime(0, 0, 0).secsTo(self.sleep_time.time()), self.recursive_search.isChecked()), self.start_job
 

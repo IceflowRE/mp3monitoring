@@ -39,7 +39,7 @@ def check_for_app_updates() -> bool:
     return get_newest_app_version() > Version(static_data.VERSION)
 
 
-def update() -> (bool, str):
+def update() -> tuple[bool, str]:
     try:
         subprocess.run([sys.executable, '-m', 'pip', 'install', '--upgrade', 'mp3monitoring'], stdout=sys.stdout, stderr=sys.stderr, check=True)
     except subprocess.CalledProcessError as ex:
