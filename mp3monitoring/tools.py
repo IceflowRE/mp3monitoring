@@ -1,7 +1,6 @@
 import sys
 from pathlib import Path
 
-import pylnk3
 from mutagen import mp3
 
 from mp3monitoring.gui import pkg_data
@@ -22,6 +21,11 @@ def is_mp3(file_path: Path) -> bool:
 
 
 def create_start_menu_entry() -> tuple[bool, str]:
+    try:
+        import pylnk3
+    except ImportError:
+        return False, "pylnk3 is not installed.\nPlease report this error and/or install pylnk3."
+
     start_menu_dir = Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs"
     start_menu_entry = start_menu_dir / "MP3 Monitoring.lnk"
 
@@ -42,6 +46,11 @@ def edit_startup_link(create: bool = True) -> tuple[bool, str]:
     :param create: Create or remove the link.
     :return: Success and error message.
     """
+    try:
+        import pylnk3
+    except ImportError:
+        return False, "pylnk3 is not installed.\nPlease report this error and/or install pylnk3."
+
     startup_dir = Path.home() / "AppData" / "Roaming" / "Microsoft" / "Windows" / "Start Menu" / "Programs" / "Startup"
     startup_file = startup_dir / "MP3 Monitoring.lnk"
 
