@@ -5,6 +5,7 @@ from mp3monitoring.core.job import Job, JobConfig
 
 class Manager:
     """
+    Management object to manage multiple job objects.
     :ivar jobs: We could use a dictionary here, but it is easier to use a List and find a specific Job in it. Also it is not expected to have a lot of jobs.
     """
 
@@ -18,9 +19,15 @@ class Manager:
         self.jobs.append(job)
 
     def get_configurations(self) -> List[JobConfig]:
+        """
+        Get configurations from every job.
+        """
         return [job.config for job in self.jobs]
 
     def remove_by_index(self, index: int):
+        """
+        Removes and stops a job by it's index.
+        """
         job = self.jobs.pop(index)
         job.stop()
 

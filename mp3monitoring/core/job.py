@@ -12,12 +12,14 @@ from mp3monitoring.core import signal
 
 class JobConfig:
     """
+    Contains the configuration for a job.
 
-    :param source_dir: source directory
-    :param target_dir: target directory
-    :param run_at_startup: run at startup
-    :param sleep_time: pause in seconds between the scans
-    :param last_check: last modification time
+    :ivar source_dir: source directory
+    :ivar target_dir: target directory
+    :ivar run_at_startup: run at startup
+    :ivar sleep_time: pause in seconds between the scans
+    :ivar recursive: check the folder recursive
+    :ivar last_check: last modification time
     """
 
     def __init__(self, source_dir: Path, target_dir: Path, run_at_startup: bool = False, sleep_time: int = 10, recursive: bool = True, last_check: float = 0):
@@ -45,6 +47,14 @@ class JobConfig:
 
 
 class Job:
+    """
+    :ivar _sleep_event: Event which can be notified to cancel a sleep and stop the job.
+    :ivar _thread: Thread which monitors the folder.
+    :ivar _active: If the job is actively monitoring.
+    :ivar _status: Current status as string.
+    :ivar _err_msg: Error message if an error occurred.
+    """
+
     def __init__(self, config: JobConfig):
         self.config: JobConfig = config
 
@@ -61,6 +71,9 @@ class Job:
         self.status_changed.s_disconnect()
 
     def __run(self):
+        """
+        Run function of the thread.
+        """
         self._active = True
         while True:
             self.status = 'search'
@@ -160,6 +173,9 @@ class Job:
         return self._active
 
     def tooltip(self) -> str:
+        """
+        :return: Error if an error appeared otherwise status.
+        """
         if self.status == 'error':
             return "error: " + self._err_msg
         return self.status
