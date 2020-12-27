@@ -61,6 +61,10 @@ def main(argv=None):
         for job_cfg in args.job_list:
             manager.add(Job(JobConfig(Path(job_cfg[0]), Path(job_cfg[1]), True, int(job_cfg[2]))))
 
+    if not args.gui and len(manager.jobs) == 0:
+        print('No jobs given, will stop.')
+        return
+
     if args.reset_times:
         for job in manager.jobs:
             job.config.last_check = 0
