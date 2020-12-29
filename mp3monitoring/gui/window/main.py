@@ -153,10 +153,6 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.monitor_table_view.selectionModel().selectionChanged.connect(self.monitor_selection_changed)
 
     def handle_add_job(self):
-        """
-        Can load ONLY offline profiles at the moment.
-        :return:
-        """
         dialog = AddJobDialog(self)
         state = dialog.exec()
         if state == QDialog.Accepted:

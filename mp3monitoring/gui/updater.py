@@ -48,6 +48,9 @@ def update() -> tuple[bool, str]:
 
 
 class UpdateCheckThread(QThread):
+    """
+    Thread to check for an update.
+    """
     def __init__(self):
         super().__init__()
         self.check_succeed: bool = False
@@ -64,6 +67,9 @@ class UpdateCheckThread(QThread):
 
 
 class UpdateAppThread(QThread):
+    """
+    Thread to update the app.
+    """
     def __init__(self):
         super().__init__()
         self.succeed: bool = False

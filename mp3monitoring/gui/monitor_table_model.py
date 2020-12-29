@@ -7,6 +7,9 @@ from mp3monitoring.gui import pkg_data
 
 
 class IconDelegate(QStyledItemDelegate):
+    """
+    An icon inside a DataTableModel.
+    """
     def __init__(self, parent):
         super().__init__(parent)
         self._cur_symbol = str(pkg_data.STOPPED_SYMBOL)
@@ -37,6 +40,9 @@ class IconDelegate(QStyledItemDelegate):
 
 
 class DataTableModel(QAbstractTableModel):
+    """
+    Job DataTable.
+    """
     def __init__(self, manager: Manager, parent=None):
         super().__init__(parent)
         self.header_data = ['status', 'source', 'target', 'recursive', 'startup', 'interval (s)']

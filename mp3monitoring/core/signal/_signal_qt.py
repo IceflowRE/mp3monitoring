@@ -6,6 +6,7 @@ from mp3monitoring.core.signal._signal_no_qt import Signal as SignalNQ
 
 class Signal(SignalNQ, QObject):
     """
+    QSignal wrapper.
     Use those weird name because of https://bugreports.qt.io/browse/PYSIDE-1264.
     """
     _s: QSignal = QSignal(int)

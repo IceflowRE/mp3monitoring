@@ -39,10 +39,16 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         self._update_check_runner.start()
 
     def update_app(self):
+        """
+        Update the app.
+        """
         self.update_now.setDisabled(True)
         self._update_app_runner.start()
 
     def update_app_check(self):
+        """
+        Callback after updating the app and display further information.
+        """
         if not self._update_app_runner.succeed:
             show.information_dialog("Failed to update", self._update_app_runner.err_msg)
             return
@@ -51,6 +57,9 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         show.information_dialog("Update succeed", "Restart the app to finish the update.")
 
     def change_update_check(self):
+        """
+        Callback after the check for an update was finished.
+        """
         if not self._update_check_runner.check_succeed:
             self.update_status.setPixmap(QIcon(str(pkg_data.ERROR_SYMBOL)).pixmap(QSize(self.update_info.height() * 0.8, self.update_info.height() * 0.8)))
             self.update_info.setText(self._update_check_runner.err_msg)

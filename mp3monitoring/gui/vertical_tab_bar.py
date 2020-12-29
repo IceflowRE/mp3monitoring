@@ -4,6 +4,9 @@ from PySide2.QtWidgets import QStyle, QStyleOptionTab, QTabBar, QStylePainter, Q
 
 
 class VerticalTabBar(QTabBar):
+    """
+    Vertical tab bar.
+    """
     def paintEvent(self, event: QPaintEvent):
         painter = QStylePainter(self)
         option = QStyleOptionTab()
@@ -20,6 +23,9 @@ class VerticalTabBar(QTabBar):
 
 
 class VerticalTabWidget(QTabWidget):
+    """
+    Widget for the vertical tab bar.
+    """
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setTabBar(VerticalTabBar())

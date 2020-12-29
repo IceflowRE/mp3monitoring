@@ -4,6 +4,9 @@ from mp3monitoring.core.manager import Manager
 
 
 class StopThread(QThread):
+    """
+    Stopping all jobs in the manager.
+    """
     def __init__(self, manager: Manager):
         super().__init__()
         self._manager: Manager = manager

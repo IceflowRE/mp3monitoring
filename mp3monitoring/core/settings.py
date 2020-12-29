@@ -8,6 +8,13 @@ SETTINGS_VERSION = "1"
 
 
 class Settings:
+    """
+    :ivar file: configuration file path
+    :ivar ignore_config: ignore the configuration
+    :ivar start_minimized: start the gui minimized
+    :ivar start_with_system: if the program should be starting with system start
+    """
+
     def __init__(self):
         self.file: Path = Path.home().joinpath(".mp3monitoring/config.json")
 
@@ -32,6 +39,9 @@ class Settings:
 
 
 def load_old_config(file: Path) -> List[JobConfig]:
+    """
+    Load old configuration from previous versions.
+    """
     if not file.is_file():
         return []
     jobs: List[JobConfig] = []
