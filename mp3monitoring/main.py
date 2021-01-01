@@ -19,14 +19,15 @@ def arg_parse(argv):
     parser = ArgumentParser(prog=static_data.LONG_NAME, description=static_data.DESCRIPTION)
     parser.add_argument('-v', '--version', action='version', version=f"{static_data.NAME} {static_data.VERSION}")
 
-    parser.add_argument('-j', '--job', dest='job_list', nargs=3, action='append', metavar=('source', 'target', 'sleep'),
-                        help='Will add this job to the monitor list.')
+    parser.add_argument('-j', '--job', dest='job_list', nargs=4, action='append', metavar=('source', 'target', 'sleep', 'recursive'),
+                        help="Will add this job to the monitor list. | source: source directory | target: target directory | "
+                             "sleep: sleep time between scanning in seconds | recursive: ['True', 'False'] scan source folder recursively")
     parser.add_argument('--reset_times', dest='reset_times', default=False, action='store_true',
-                        help='Reset the latest check time from configuration.')
+                        help="Reset the latest check time from configuration.")
     parser.add_argument('--ignore_config', dest='ignore_config', default=False, action='store_true',
-                        help='Will not load or save the config file.')
+                        help="Will not load or save the config file.")
     parser.add_argument('--gui', dest='gui', default=False, action='store_true',
-                        help='Open the gui.')
+                        help="Open the gui.")
 
     args = parser.parse_args(argv)
     if args.reset_times and args.ignore_config:
@@ -59,7 +60,7 @@ def main(argv=None):
     # add other jobs
     if args.job_list is not None:
         for job_cfg in args.job_list:
-            manager.add(Job(JobConfig(Path(job_cfg[0]), Path(job_cfg[1]), True, int(job_cfg[2]))))
+            manager.add(Job(JobConfig(Path(job_cfg[0]), Path(job_cfg[1]), True, int(job_cfg[2]), bool(job_cfg[3]))))
 
     if not args.gui and len(manager.jobs) == 0:
         print('No jobs given, will stop.')
