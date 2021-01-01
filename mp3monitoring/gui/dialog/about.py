@@ -5,10 +5,10 @@ from pathlib import Path
 from PySide2.QtCore import Qt, QSize
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QDialog
+from mp3monitoring.gui.dialog import show
 
 from mp3monitoring import static_data
 from mp3monitoring.gui import pkg_data
-from mp3monitoring.gui.dialog import show
 from mp3monitoring.gui.ui.about_dialog import Ui_AboutDialog
 from mp3monitoring.gui.updater import UpdateCheckThread, UpdateAppThread
 
@@ -50,11 +50,11 @@ class AboutDialog(QDialog, Ui_AboutDialog):
         Callback after updating the app and display further information.
         """
         if not self._update_app_runner.succeed:
-            show.information_dialog("Failed to update", self._update_app_runner.err_msg)
+            show.information_message_box("Failed to update", self._update_app_runner.err_msg)
             return
         self.update_now.hide()
         self.update_info.setText("Restart to finish the update.")
-        show.information_dialog("Update succeed", "Restart the app to finish the update.")
+        show.information_message_box("Update succeed", "Restart the app to finish the update.")
 
     def change_update_check(self):
         """
@@ -74,3 +74,9 @@ class AboutDialog(QDialog, Ui_AboutDialog):
             self.update_status.setPixmap(QIcon(str(pkg_data.OK_SYMBOL)).pixmap(QSize(self.update_info.height() * 0.8, self.update_info.height() * 0.8)))
             self.update_info.setText("MP3 Monitoring is up to date.")
             self.update_now.hide()
+
+
+def show_about_dialog(parent=None):
+    dialog = AboutDialog(parent)
+    dialog.setAttribute(Qt.WA_DeleteOnClose, True)
+    dialog.open()

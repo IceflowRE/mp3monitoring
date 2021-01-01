@@ -1,11 +1,13 @@
 import platform
 
 from PySide2.QtCore import Qt
+from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import QDialog
 
 from mp3monitoring import tools
 from mp3monitoring.core.manager import Manager
 from mp3monitoring.core.settings import Settings, save_config
+from mp3monitoring.gui import pkg_data
 from mp3monitoring.gui.dialog import show
 from mp3monitoring.gui.ui.settings_dialog import Ui_SettingsDialog
 
@@ -36,9 +38,9 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
     def add_start_menu_entry(self):
         success, err = tools.create_start_menu_entry()
         if success:
-            show.information_dialog("Success", "Start menu entry successful created.")
+            show.information_message_box("Success", "Start menu entry successful created.")
         else:
-            show.information_dialog("Could not create a start menu entry", err)
+            show.information_message_box("Could not create a start menu entry", err)
 
     def apply(self):
         settings_changed = False
@@ -49,7 +51,7 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
                 self._settings.start_with_system = self.start_with_system.isChecked()
                 settings_changed = True
             else:
-                show.information_dialog("Settings change failed", err)
+                show.information_message_box("Settings change failed", err)
 
         if self._settings.start_minimized != self.start_minimized.isChecked():
             self._settings.start_minimized = self.start_minimized.isChecked()
@@ -61,3 +63,10 @@ class SettingsDialog(QDialog, Ui_SettingsDialog):
 
     def cancel(self):
         self.close()
+
+
+def show_settings_dialog(settings: Settings, manager: Manager, parent=None):
+    dialog = SettingsDialog(settings, manager, parent)
+    dialog.setWindowIcon(QIcon(str(pkg_data.SETTINGS_SYMBOL)))
+    dialog.setAttribute(Qt.WA_DeleteOnClose, True)
+    dialog.open()

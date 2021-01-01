@@ -8,8 +8,9 @@ from mp3monitoring.core.job import Job
 from mp3monitoring.core.manager import Manager
 from mp3monitoring.core.settings import save_config, Settings
 from mp3monitoring.gui import pkg_data
-from mp3monitoring.gui.dialog import show
+from mp3monitoring.gui.dialog.about import show_about_dialog
 from mp3monitoring.gui.dialog.add_job import AddJobDialog
+from mp3monitoring.gui.dialog.settings import show_settings_dialog
 from mp3monitoring.gui.monitor_table_model import DataTableModel, IconDelegate
 from mp3monitoring.gui.stop_thread import StopThread
 from mp3monitoring.gui.ui.main import Ui_MainWindow
@@ -47,9 +48,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.show()
 
     def setup_action_handles(self):
-        self.action_about.triggered.connect(partial(show.about_dialog, self))
+        self.action_about.triggered.connect(partial(show_about_dialog, self))
         self.action_exit.triggered.connect(self.exit)
-        self.action_settings.triggered.connect(partial(show.settings_dialog, self._settings, self._manager, self))
+        self.action_settings.triggered.connect(partial(show_settings_dialog, self._settings, self._manager, self))
 
         self.action_add_job.triggered.connect(self.handle_add_job)
         self.action_remove_job.triggered.connect(self.handle_remove_job)
