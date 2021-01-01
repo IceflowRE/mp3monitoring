@@ -12,7 +12,7 @@ Documentation
 
     user/main
     development/main
-    source_doc/main
+    apidoc/modules
 
 .. only:: html
 

@@ -3,10 +3,10 @@ from pathlib import Path
 
 import sphinx_rtd_theme
 
-sys.path.insert(0, str(Path('../mp3monitoring').resolve()))
+sys.path.insert(0, str(Path('../').resolve()))
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx_autodoc_typehints',
+    # 'sphinx_autodoc_typehints',  # disabled due to https://github.com/agronholm/sphinx-autodoc-typehints/issues/129
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
@@ -35,6 +35,4 @@ inkscape_converter_bin = r'inkscape'
 
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', None),
-    'urllib3': ('https://urllib3.readthedocs.io/en/latest/', None),
-    'packaging': ('https://packaging.pypa.io/en/latest/', None),
 }

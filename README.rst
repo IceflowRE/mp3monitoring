@@ -11,12 +11,6 @@ MP3 Monitoring
 
 Monitors folders and copies new mp3s to another one.
 
-----
-
-mp3monitoring is written with the main aspect on plugins. mp3monitoring itself can only manage the produced data from 3rd party plugins.
-
-mp3monitoring saves all downloaded files with their modifications time and and will only download updated or not already downloaded files.
-
 Find more information in the documentation at `Read the Docs <https://mp3monitoring.readthedocs.io/en/latest/index.html>`__.
 
 ----

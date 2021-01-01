@@ -21,26 +21,22 @@ Furthermore, there are additional arguments:
 
     show program's version number and exit
 
-.. option:: --list-plugins
+.. option:: --j, --job source target sleep
 
-    show plugin list and exit
+    Will add this job to the monitor list.
+    source: source directory
+    target: target directory
+    sleep: sleep time between scanning in seconds
+    recursive: ['True', 'False'] scan source folder recursively
 
-.. option:: -p name, --plugin name
+.. option:: --reset_times
 
-    plugin to execute
+    Reset the latest check time from configuration.
 
-.. option::-r path, --root path  main directory where all files will be created (default: ./)
+.. option::--ignore_config
 
-    main directory where all files will be created
+    Will not load or save the config file.
 
-.. option:: -o option [option ...], --option option [option ...]
+.. option:: --gui
 
-    options passed to the plugin, e.g. `-o username=South American coati -o password=Nasua Nasua`
-
-.. option:: --logfile path
-
-    log filepath relativ to the main dir (default: ./mp3monitoring.log)
-
-.. option:: -l {DEBUG,INFO,WARNING,ERROR,CRITICAL}, --log {DEBUG,INFO,WARNING,ERROR,CRITICAL}
-
-    set the logging level (default: INFO)
+   Open the gui.
