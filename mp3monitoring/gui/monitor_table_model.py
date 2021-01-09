@@ -23,10 +23,8 @@ class IconDelegate(QStyledItemDelegate):
             'stopping': pkg_data.WAIT_SYMBOL,
         }
 
-        if int(option.state) & QStyle.State_Enabled and int(option.state) & QStyle.State_Selected and int(option.state) & QStyle.State_Active:
+        if int(option.state) & QStyle.State_Enabled and int(option.state) & QStyle.State_Selected:
             brush = QBrush(option.palette.color(option.palette.Highlight))
-        elif int(option.state) & QStyle.State_Enabled and int(option.state) & QStyle.State_Selected:
-            brush = QBrush(option.palette.color(option.palette.Background))
         else:  # int(option.state) == QStyle.State_Enabled
             brush = QBrush(option.palette.color(option.palette.Base))
         painter.fillRect(option.rect, brush)
