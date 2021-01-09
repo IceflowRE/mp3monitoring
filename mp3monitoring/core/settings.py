@@ -54,12 +54,12 @@ def load_old_config(file: Path) -> List[JobConfig]:
 
 
 def load_config(file: Path = Path.home().joinpath(".mp3monitoring/config.json")) -> tuple[Settings, List[JobConfig]]:
-    # load config file from version <=1.0.3
-    load_old_config(Path.home() / 'MP3-Monitoring' / 'data.sav')
-
     if not file.exists():
         file.parent.mkdir(exist_ok=True, parents=True)
-        return Settings(), []
+        # load config file from version <=1.0.3
+        jobs = load_old_config(Path.home() / 'MP3-Monitoring' / 'data.sav')
+
+        return Settings(), jobs
 
     with file.open(encoding='utf-8') as reader:
         j_dict: dict = json.load(reader)
