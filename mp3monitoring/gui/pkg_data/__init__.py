@@ -12,6 +12,10 @@ with resources.path('mp3monitoring.gui.pkg_data.symbols', 'ok.svg') as p:
     OK_SYMBOL = Path(p)
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'search.svg') as p:
     SEARCH_SYMBOL = Path(p)
+with resources.path('mp3monitoring.gui.pkg_data.symbols', 'search_quad.svg') as p:
+    SEARCH_QUAD_SYMBOL = Path(p)
+with resources.path('mp3monitoring.gui.pkg_data.symbols', 'sleeping.svg') as p:
+    SLEEPING_SYMBOL = Path(p)
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'stopped.svg') as p:
     STOPPED_SYMBOL = Path(p)
 with resources.path('mp3monitoring.gui.pkg_data.symbols', 'wait.svg') as p:

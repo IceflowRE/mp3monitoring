@@ -76,7 +76,7 @@ class Job:
         """
         self._active = True
         while True:
-            self.status = 'search'
+            self.status = 'searching'
             cur_check: float = time.time()
             mp3_files: List[Path] = []
             if self.config.recursive:
@@ -103,7 +103,7 @@ class Job:
 
             self.config.last_check = cur_check
             if not self._sleep_event.is_set():
-                self.status = 'ok'
+                self.status = 'sleeping'
             if self._sleep_event.wait(self.config.sleep_time):
                 self._sleep_event.clear()
                 self._active = False

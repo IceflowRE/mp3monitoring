@@ -16,12 +16,11 @@ class IconDelegate(QStyledItemDelegate):
 
     def paint(self, painter, option, index):
         str_to_symbol = {
-            "error": pkg_data.ERROR_SYMBOL,
-            "ok": pkg_data.OK_SYMBOL,
-            "search": pkg_data.SEARCH_SYMBOL,
-            "stopped": pkg_data.STOPPED_SYMBOL,
-            "wait": pkg_data.WAIT_SYMBOL,
-            "stopping": pkg_data.WAIT_SYMBOL,
+            'error': pkg_data.ERROR_SYMBOL,
+            'sleeping': pkg_data.SLEEPING_SYMBOL,
+            'searching': pkg_data.SEARCH_QUAD_SYMBOL,
+            'stopped': pkg_data.STOPPED_SYMBOL,
+            'stopping': pkg_data.WAIT_SYMBOL,
         }
 
         if int(option.state) & QStyle.State_Enabled and int(option.state) & QStyle.State_Selected and int(option.state) & QStyle.State_Active:
