@@ -68,7 +68,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     def setup_tool_bar(self):
         # disable context menu for the toolbar
         self.tool_bar.toggleViewAction().setEnabled(False)
-        icon_size = self.tool_bar.height()
+        icon_size = self.tool_bar.height() * 0.8
         self.tool_bar.setIconSize(QSize(icon_size, icon_size))
 
     def changeEvent(self, event):
