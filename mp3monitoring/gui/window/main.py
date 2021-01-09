@@ -163,6 +163,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             if start:
                 job.start()
             self.monitor_table_view.model().modelReset.emit()
+            self.update_job_actions()
 
     def handle_remove_job(self):
         del self._manager.jobs[self.monitor_table_view.selectionModel().currentIndex().row()]
@@ -171,6 +172,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
     def handle_start_job(self):
         self._manager.jobs[self.monitor_table_view.selectionModel().currentIndex().row()].start()
+        self.monitor_table_view.model().modelReset.emit()
+        self.update_job_actions()
 
     def handle_stop_job(self):
         self._manager.jobs[self.monitor_table_view.selectionModel().currentIndex().row()].stop(False)
+        self.monitor_table_view.model().modelReset.emit()
+        self.update_job_actions()
