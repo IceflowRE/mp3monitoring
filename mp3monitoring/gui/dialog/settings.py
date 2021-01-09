@@ -1,8 +1,8 @@
 import platform
 
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QDialog
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QDialog
 
 from mp3monitoring import tools
 from mp3monitoring.core.manager import Manager

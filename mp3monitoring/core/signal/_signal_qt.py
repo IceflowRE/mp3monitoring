@@ -1,5 +1,5 @@
-from PySide2.QtCore import QObject
-from PySide2.QtCore import Signal as QSignal
+from PySide6.QtCore import QObject
+from PySide6.QtCore import Signal as QSignal
 
 from mp3monitoring.core.signal._signal_no_qt import Signal as SignalNQ
 

@@ -13,10 +13,10 @@ def gen_logo_ico():
                    stderr=sys.stderr)
 
 
-def ui_to_py(pyside2_uic: str = "pyside2-uic"):
+def ui_to_py(pyside6_uic: str = "pyside6-uic"):
     output_dir = Path("./mp3monitoring/gui/ui")
     for ui_file in Path("./gui").glob("*.ui"):
-        subprocess.run([pyside2_uic, str(ui_file), "-o", output_dir.joinpath(ui_file.stem + '.py')], stdout=sys.stdout, stderr=sys.stderr)
+        subprocess.run([pyside6_uic, str(ui_file), "-o", output_dir.joinpath(ui_file.stem + '.py')], stdout=sys.stdout, stderr=sys.stderr)
 
 
 if __name__ == '__main__':
@@ -24,8 +24,8 @@ if __name__ == '__main__':
 
     subparsers = parser.add_subparsers(dest="tool", help='')
 
-    parser_uic = subparsers.add_parser('uic', help='invoke pyside2-uic and create python files')
-    parser_uic.add_argument('--exec', dest='uic_executable', default="pyside2-uic", type=str, metavar='uic executable',
+    parser_uic = subparsers.add_parser('uic', help='invoke pyside6-uic and create python files')
+    parser_uic.add_argument('--exec', dest='uic_executable', default="pyside6-uic", type=str, metavar='uic executable',
                             help='pyside-uic executable path/name')
     parser_ico = subparsers.add_parser('ico', help='generate an ico from the logo svg')
 

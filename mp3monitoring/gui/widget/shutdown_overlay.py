@@ -1,5 +1,5 @@
-from PySide2.QtGui import QColor, QPainter
-from PySide2.QtWidgets import QWidget
+from PySide6.QtGui import QColor, QPainter
+from PySide6.QtWidgets import QWidget
 
 from mp3monitoring.gui.ui.shutdown_overlay import Ui_ShutdownOverlay
 

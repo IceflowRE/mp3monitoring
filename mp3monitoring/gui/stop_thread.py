@@ -1,4 +1,4 @@
-from PySide2.QtCore import QThread
+from PySide6.QtCore import QThread
 
 from mp3monitoring.core.manager import Manager
 

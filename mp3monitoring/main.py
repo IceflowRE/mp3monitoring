@@ -89,9 +89,9 @@ def main(argv=None):
     else:
         from mp3monitoring.gui.window.main import MainWindow
         try:
-            from PySide2.QtWidgets import QApplication
+            from PySide6.QtWidgets import QApplication
         except ImportError:
-            print('PySide2 is not installed, you can not use the gui.')
+            print('PySide6 is not installed, you can not use the gui.')
             return
         app: QApplication = QApplication([])
         MainWindow(app, settings, manager)  # will call show in it's constructor

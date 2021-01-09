@@ -7,7 +7,7 @@ import sys
 
 import certifi
 import urllib3
-from PySide2.QtCore import QThread
+from PySide6.QtCore import QThread
 from packaging.version import Version
 
 from mp3monitoring import static_data

@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from PySide2.QtCore import QTime, Qt
-from PySide2.QtWidgets import QFileDialog, QDialog
+from PySide6.QtCore import QTime, Qt
+from PySide6.QtWidgets import QFileDialog, QDialog
 
 from mp3monitoring.core.job import JobConfig
 from mp3monitoring.gui.ui.add_job_dialog import Ui_AddJobDialog

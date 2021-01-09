@@ -1,6 +1,6 @@
-from PySide2.QtCore import QAbstractTableModel, Qt, QSize, QRect
-from PySide2.QtGui import QIcon, QBrush
-from PySide2.QtWidgets import QStyledItemDelegate, QStyle
+from PySide6.QtCore import QAbstractTableModel, Qt, QSize, QRect
+from PySide6.QtGui import QIcon, QBrush
+from PySide6.QtWidgets import QStyledItemDelegate, QStyle
 
 from mp3monitoring.core.manager import Manager
 from mp3monitoring.gui import pkg_data
