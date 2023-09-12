@@ -58,7 +58,7 @@ You should have received a copy of the GNU General Public License along with thi
 
 .. Badges.
 
-.. |maintained| image:: https://img.shields.io/badge/maintained-yes-brightgreen.svg
+.. |maintained| image:: https://img.shields.io/badge/maintained-no-red.svg
 
 .. |programming language| image:: https://img.shields.io/badge/language-Python_3.8-orange.svg
    :target: https://www.python.org/
